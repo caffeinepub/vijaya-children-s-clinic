@@ -1,0 +1,50 @@
+{
+  "kind": "feature_evidence_report",
+  "features": [
+    {
+      "featureId": "feature-replace-the-current-site-logo-image-used-throughout-the-app-with-the-newly-uploaded-logo-image-keeping-the-logo-exactly-as-is-with-its-white-background-no-transparency-and-ensure-it-renders-crisply-at-common-breakpoints",
+      "featureTitle": "Replace the current site logo image used throughout the app with the newly uploaded logo image, keeping the logo exactly as-is with its white background (no transparency), and ensure it renders crisply at common breakpoints.",
+      "files": [
+        "frontend/src/components/SiteHeader.tsx",
+        "frontend/src/pages/LandingPage.tsx"
+      ],
+      "components": [
+        "authorization@4.0.0",
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0"
+      ],
+      "testIds": [
+        "REQ-12"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-update-the-global-visual-theme-tailwind-css-variables-and-any-hard-coded-color-usages-so-the-site-color-palette-matches-the-newly-uploaded-logo-s-blue-green-colors-and-apply-consistently-across-key-pages-landing-book-appointment-staff",
+      "featureTitle": "Update the global visual theme (Tailwind/CSS variables and any hard-coded color usages) so the site color palette matches the newly uploaded logo’s blue–green colors, and apply consistently across key pages (Landing, Book Appointment, Staff).",
+      "files": [
+        "frontend/src/components/ClinicDetailsSection.tsx",
+        "frontend/src/components/SiteFooter.tsx",
+        "frontend/src/index.css",
+        "frontend/src/pages/BookAppointmentPage.tsx",
+        "frontend/src/pages/BookingConfirmationPage.tsx",
+        "frontend/src/pages/LandingPage.tsx",
+        "frontend/src/pages/StaffAppointmentsPage.tsx"
+      ],
+      "components": [
+        "authorization@4.0.0",
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0"
+      ],
+      "testIds": [
+        "REQ-13"
+      ],
+      "confidence": "high"
+    }
+  ]
+}

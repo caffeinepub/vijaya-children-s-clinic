@@ -1,2 +1,3 @@
-# vijaya-children-s-clinic
-Exported from Caffeine project: Vijaya Children's Clinic
+## 
+
+To run app build and run docker image: `docker build -t app . docker run -it --network host app`

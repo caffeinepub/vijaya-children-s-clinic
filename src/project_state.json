@@ -1,0 +1,142 @@
+{
+  "schemaVersion": "1.0.0",
+  "projectStateVersion": 7,
+  "summary": "Website for Vijaya Children's Clinic to allow patients/parents to book paediatric clinic appointments online.",
+  "architectural_notes": [
+    "Visual theme should match the provided logo/banner exactly (overrides prior color palette preferences).",
+    "Use the newly uploaded logo asset as-is (including white background) for header/hero branding; update the site theme colors to match this new logo’s palette."
+  ],
+  "known_issues": [],
+  "isFixRequest": false,
+  "imageRequirements": "## Edit Images\n- Replace the existing generated logo with the newly uploaded logo, preserving the white background exactly (vijaya-children-clinic-logo.dim_512x512.png > vijaya-children-clinic-logo.dim_512x512.png)",
+  "existing_features": [
+    {
+      "id": "feature-create-a-public-facing-clinic-website-for-vijaya-children-s-clinic-with-a-clear-landing-page-that-prominently-shows-the-clinic-name-and-a-primary-call-to-action-to-book-an-appointment",
+      "title": "Create a public-facing clinic website for “Vijaya Children's Clinic” with a clear landing page that prominently shows the clinic name and a primary call-to-action to book an appointment.",
+      "reqIds": [
+        "REQ-1"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-implement-an-appointment-booking-flow-that-allows-parents-patients-to-submit-an-appointment-request-including-parent-guardian-name-child-name-child-age-phone-number-optional-email-preferred-date-preferred-time-from-a-selectable-set-of-slots-and-a-free-text-reason-notes-field",
+      "title": "Implement an appointment booking flow that allows parents/patients to submit an appointment request including: parent/guardian name, child name, child age, phone number, optional email, preferred date, preferred time (from a selectable set of slots), and a free-text reason/notes field.",
+      "reqIds": [
+        "REQ-2"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-add-a-simple-clinic-staff-page-to-view-submitted-appointment-requests-read-only-list-with-key-details-and-submission-time-protected-behind-internet-identity-login",
+      "title": "Add a simple clinic staff page to view submitted appointment requests (read-only list with key details and submission time), protected behind Internet Identity login.",
+      "reqIds": [
+        "REQ-4"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-apply-a-cohesive-child-friendly-visual-theme-across-the-site-color-palette-typography-spacing-and-components-suitable-for-a-paediatric-clinic-avoid-a-blue-purple-primary-palette",
+      "title": "Apply a cohesive, child-friendly visual theme across the site (color palette, typography, spacing, and components) suitable for a paediatric clinic; avoid a blue/purple primary palette.",
+      "reqIds": [
+        "REQ-5"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-add-required-generated-images-as-static-assets-under-frontend-public-assets-generated-and-use-them-in-the-ui-where-appropriate-e-g-header-hero-branding-without-routing-images-through-the-backend",
+      "title": "Add required generated images as static assets under frontend/public/assets/generated and use them in the UI where appropriate (e.g., header/hero/branding) without routing images through the backend.",
+      "reqIds": [
+        "REQ-6"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-apply-the-uploaded-banner-design-as-a-full-page-background-style-across-the-entire-website-all-routes-including-a-responsive-treatment-for-desktop-and-mobile-and-ensure-foreground-content-remains-readable-e-g-via-overlay-blur-tint-as-needed",
+      "title": "Apply the uploaded banner design as a full-page background style across the entire website (all routes), including a responsive treatment for desktop and mobile, and ensure foreground content remains readable (e.g., via overlay/blur/tint as needed).",
+      "reqIds": [
+        "REQ-7"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-replace-the-site-logo-used-in-the-header-and-landing-hero-with-the-uploaded-logo-and-ensure-it-is-optimized-for-web-transparent-background-if-appropriate-crisp-and-scales-well-in-the-header-across-breakpoints",
+      "title": "Replace the site logo used in the header and landing hero with the uploaded logo, and ensure it is optimized for web (transparent background if appropriate), crisp, and scales well in the header across breakpoints.",
+      "reqIds": [
+        "REQ-8"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-update-the-global-visual-theme-tailwind-css-variables-and-component-usage-so-the-site-color-palette-matches-the-uploaded-logo-banner-colors-exactly-blue-green-oriented-palette-and-accents-as-shown-replacing-the-current-warm-coral-theme",
+      "title": "Update the global visual theme (Tailwind/CSS variables and component usage) so the site color palette matches the uploaded logo/banner colors exactly (blue/green-oriented palette and accents as shown), replacing the current warm/coral theme.",
+      "reqIds": [
+        "REQ-9"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-replace-all-public-facing-clinic-text-content-across-the-site-to-match-the-exact-information-shown-in-the-uploaded-banner-including-doctor-details-services-phone-number-clinic-timings-address-and-the-tamil-tagline-as-shown-in-the-banner",
+      "title": "Replace all public-facing clinic text content across the site to match the exact information shown in the uploaded banner, including doctor details, services, phone number, clinic timings, address, and the Tamil tagline as shown in the banner.",
+      "reqIds": [
+        "REQ-10"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-add-a-dedicated-clinic-details-section-on-the-landing-page-and-or-footer-that-presents-the-banner-s-services-and-contact-details-in-a-structured-accessible-layout-services-list-appointment-phone-number-with-click-to-call-clinic-timings-address-and-an-optional-qr-image-if-extracted-from-the-banner",
+      "title": "Add a dedicated clinic details section (on the landing page and/or footer) that presents the banner’s services and contact details in a structured, accessible layout (services list, appointment phone number with click-to-call, clinic timings, address, and an optional QR image if extracted from the banner).",
+      "reqIds": [
+        "REQ-11"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-replace-the-current-site-logo-image-used-throughout-the-app-with-the-newly-uploaded-logo-image-keeping-the-logo-exactly-as-is-with-its-white-background-no-transparency-and-ensure-it-renders-crisply-at-common-breakpoints",
+      "title": "Replace the current site logo image used throughout the app with the newly uploaded logo image, keeping the logo exactly as-is with its white background (no transparency), and ensure it renders crisply at common breakpoints.",
+      "reqIds": [
+        "REQ-12"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-update-the-global-visual-theme-tailwind-css-variables-and-any-hard-coded-color-usages-so-the-site-color-palette-matches-the-newly-uploaded-logo-s-blue-green-colors-and-apply-consistently-across-key-pages-landing-book-appointment-staff",
+      "title": "Update the global visual theme (Tailwind/CSS variables and any hard-coded color usages) so the site color palette matches the newly uploaded logo’s blue–green colors, and apply consistently across key pages (Landing, Book Appointment, Staff).",
+      "reqIds": [
+        "REQ-13"
+      ],
+      "version": 1
+    }
+  ],
+  "new_feature_requests": [
+    {
+      "id": "AR-1",
+      "summary": "Create a website for Vijaya Children's Clinic with online appointment booking functionality.",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-4",
+      "summary": "Persist appointment requests in the Motoko backend and expose API methods to create a booking and to list bookings for clinic staff review.",
+      "reqIds": [
+        "REQ-3"
+      ],
+      "status": "pending"
+    },
+    {
+      "id": "AR-5",
+      "summary": "Update the website to use the provided banner as a full-page background, replace the site logo with the uploaded logo, shift the entire color theme to exactly match the logo/banner colors, and replace all website text content (timings/doctor/services/contact/address) with the exact information shown in the banner.",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-6",
+      "summary": "Replace the current site logo everywhere with the newly uploaded logo (keep white background as-is) and update the global site theme to match the new logo’s blue–green palette.",
+      "reqIds": [],
+      "status": "in_progress"
+    }
+  ],
+  "gameProjectType": "none",
+  "projectName": "Vijaya Children's Clinic",
+  "clarification_mode": "instant",
+  "clarification_rounds": 0
+}

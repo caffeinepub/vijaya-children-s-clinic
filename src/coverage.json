@@ -1,0 +1,72 @@
+{
+  "kind": "coverage_report",
+  "version": "1.0",
+  "generatedAt": "2026-02-16T07:46:41.715Z",
+  "sources": {
+    "buildRequest": true,
+    "implementationPlan": true
+  },
+  "requirements": {
+    "total": 2,
+    "implemented": 2,
+    "items": [
+      {
+        "id": "REQ-12",
+        "summary": "Replace the current site logo image used throughout the app with the newly uploaded logo image, keeping the logo exactly as-is with its white background (no transparency), and ensure it renders crisply at common breakpoints.",
+        "status": "implemented",
+        "plannedFiles": [
+          "frontend/public/assets/generated/vijaya-children-clinic-logo.dim_512x512.png",
+          "frontend/src/components/SiteHeader.tsx",
+          "frontend/src/pages/LandingPage.tsx"
+        ],
+        "matchedFiles": [
+          "frontend/public/assets/generated/vijaya-children-clinic-logo.dim_512x512.png",
+          "frontend/src/components/SiteHeader.tsx",
+          "frontend/src/pages/LandingPage.tsx"
+        ]
+      },
+      {
+        "id": "REQ-13",
+        "summary": "Update the global visual theme (Tailwind/CSS variables and any hard-coded color usages) so the site color palette matches the newly uploaded logo’s blue–green colors, and apply consistently across key pages (Landing, Book Appointment, Staff).",
+        "status": "implemented",
+        "plannedFiles": [
+          "frontend/src/index.css",
+          "frontend/src/pages/LandingPage.tsx",
+          "frontend/src/pages/BookAppointmentPage.tsx",
+          "frontend/src/pages/StaffAppointmentsPage.tsx",
+          "frontend/src/components/ClinicDetailsSection.tsx",
+          "frontend/src/components/SiteFooter.tsx",
+          "frontend/src/pages/BookingConfirmationPage.tsx"
+        ],
+        "matchedFiles": [
+          "frontend/src/index.css",
+          "frontend/src/pages/LandingPage.tsx",
+          "frontend/src/pages/BookAppointmentPage.tsx",
+          "frontend/src/pages/StaffAppointmentsPage.tsx",
+          "frontend/src/components/ClinicDetailsSection.tsx",
+          "frontend/src/components/SiteFooter.tsx",
+          "frontend/src/pages/BookingConfirmationPage.tsx"
+        ]
+      }
+    ]
+  },
+  "changedFiles": [
+    "build-request.json",
+    "feature_evidence.json",
+    "frontend-file-summaries.txt",
+    "frontend-implementation-plan.json",
+    "frontend/public/assets/generated/vijaya-children-clinic-logo.dim_512x512.png",
+    "frontend/src/components/ClinicDetailsSection.tsx",
+    "frontend/src/components/SiteFooter.tsx",
+    "frontend/src/components/SiteHeader.tsx",
+    "frontend/src/index.css",
+    "frontend/src/pages/BookAppointmentPage.tsx",
+    "frontend/src/pages/BookingConfirmationPage.tsx",
+    "frontend/src/pages/LandingPage.tsx",
+    "frontend/src/pages/StaffAppointmentsPage.tsx",
+    "project_state.json",
+    "scratch/component-selection.json",
+    "spec.md",
+    "spec_vs_diff_report.json"
+  ]
+}

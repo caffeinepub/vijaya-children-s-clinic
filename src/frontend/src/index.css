@@ -1,0 +1,138 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+    :root {
+        --radius: 0.75rem;
+        
+        /* Updated Blue/Green palette matching new Vijaya Children's Clinic logo */
+        --background: 0.99 0 0;
+        --foreground: 0.2 0 0;
+        
+        --card: 1 0.01 220 / 0.95;
+        --card-foreground: 0.2 0 0;
+        
+        --popover: 1 0.01 220 / 0.95;
+        --popover-foreground: 0.2 0 0;
+        
+        /* Primary: Deep rich blue from new logo */
+        --primary: 0.50 0.18 240;
+        --primary-foreground: 0.99 0 0;
+        
+        /* Secondary: Vibrant lime-green from new logo */
+        --secondary: 0.72 0.20 135;
+        --secondary-foreground: 0.15 0.02 240;
+        
+        --muted: 0.96 0.02 220;
+        --muted-foreground: 0.5 0.02 220;
+        
+        /* Accent: Bright cyan-blue from logo accents */
+        --accent: 0.68 0.16 220;
+        --accent-foreground: 0.99 0 0;
+        
+        --destructive: 0.577 0.245 27.325;
+        --destructive-foreground: 0.99 0 0;
+        
+        --border: 0.92 0.02 220;
+        --input: 0.92 0.02 220;
+        --ring: 0.50 0.18 240;
+        
+        /* Custom blue scale from new logo */
+        --blue-50: 0.96 0.04 240;
+        --blue-100: 0.90 0.08 240;
+        --blue-200: 0.82 0.12 240;
+        --blue-500: 0.55 0.16 240;
+        --blue-600: 0.48 0.18 240;
+        --blue-700: 0.40 0.16 240;
+        --blue-900: 0.28 0.12 240;
+        
+        /* Custom green scale from new logo */
+        --green-50: 0.96 0.06 135;
+        --green-100: 0.90 0.10 135;
+        --green-200: 0.82 0.14 135;
+        --green-500: 0.68 0.18 135;
+        --green-600: 0.60 0.20 135;
+        --green-700: 0.50 0.18 135;
+        --green-900: 0.35 0.14 135;
+    }
+
+    .dark {
+        --background: 0.18 0.02 240;
+        --foreground: 0.96 0.01 220;
+        
+        --card: 0.22 0.02 240 / 0.95;
+        --card-foreground: 0.96 0.01 220;
+        
+        --popover: 0.20 0.02 240 / 0.95;
+        --popover-foreground: 0.96 0.01 220;
+        
+        /* Primary: Lighter blue for dark mode */
+        --primary: 0.65 0.16 240;
+        --primary-foreground: 0.15 0.02 240;
+        
+        --secondary: 0.75 0.18 135;
+        --secondary-foreground: 0.15 0.02 240;
+        
+        --muted: 0.28 0.03 240;
+        --muted-foreground: 0.65 0.03 220;
+        
+        --accent: 0.55 0.14 220;
+        --accent-foreground: 0.96 0.01 220;
+        
+        --destructive: 0.65 0.20 25;
+        --destructive-foreground: 0.96 0.01 220;
+        
+        --border: 0.30 0.03 240;
+        --input: 0.30 0.03 240;
+        --ring: 0.65 0.16 240;
+        
+        /* Custom colors for dark mode */
+        --blue-50: 0.25 0.04 240;
+        --blue-100: 0.32 0.06 240;
+        --blue-200: 0.40 0.08 240;
+        --blue-500: 0.58 0.14 240;
+        --blue-600: 0.68 0.16 240;
+        --blue-700: 0.75 0.16 240;
+        --blue-900: 0.85 0.14 240;
+        
+        --green-50: 0.28 0.06 135;
+        --green-100: 0.35 0.08 135;
+        --green-200: 0.45 0.10 135;
+        --green-500: 0.65 0.16 135;
+        --green-600: 0.72 0.18 135;
+        --green-700: 0.80 0.18 135;
+        --green-900: 0.88 0.16 135;
+    }
+
+    * {
+        @apply border-border;
+    }
+    
+    body {
+        @apply bg-background text-foreground;
+        font-feature-settings: "rlig" 1, "calt" 1;
+        background-image: url('/assets/generated/vijaya-banner-background.dim_1920x1080.png');
+        background-size: cover;
+        background-position: center;
+        background-attachment: fixed;
+        background-repeat: no-repeat;
+    }
+    
+    body::before {
+        content: '';
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: oklch(var(--background) / 0.85);
+        z-index: -1;
+    }
+}
+
+@layer utilities {
+    .blue-green-gradient {
+        background: linear-gradient(135deg, oklch(var(--blue-100)), oklch(var(--green-100)));
+    }
+}

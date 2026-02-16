@@ -1,0 +1,80 @@
+{
+  "kind": "implementation_plan",
+  "version": "1.0",
+  "title": "Replace logo asset and align UI theme with new blue–green branding",
+  "requirements": [
+    {
+      "id": "REQ-12",
+      "summary": "Replace the app’s logo everywhere with the newly uploaded white-background logo and ensure crisp rendering across breakpoints.",
+      "acceptanceCriteria": [
+        "The header logo (<img> in SiteHeader) displays the newly uploaded logo with its original white background intact.",
+        "The landing page hero logo displays the newly uploaded logo with its original white background intact.",
+        "No instances of the previous logo remain anywhere in the UI (header, hero, and any other branding locations).",
+        "Logo remains sharp (no visible blur/pixelation) and maintains correct aspect ratio on mobile and desktop."
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/public/assets/generated/vijaya-children-clinic-logo.dim_512x512.png",
+          "operation": "modify",
+          "description": "Replace the existing generated logo file with the newly uploaded logo image, preserving the white background exactly (no transparency) while keeping the same filename so all existing references continue to work."
+        },
+        {
+          "path": "frontend/src/components/SiteHeader.tsx",
+          "operation": "modify",
+          "description": "Ensure the header logo <img> uses the updated generated logo asset and renders crisply by tightening responsive sizing rules (maintain aspect ratio; avoid stretching) while keeping the logo’s white background visible."
+        },
+        {
+          "path": "frontend/src/pages/LandingPage.tsx",
+          "operation": "modify",
+          "description": "Ensure the hero logo <img> uses the updated generated logo asset and renders crisply at mobile/desktop breakpoints with correct aspect ratio and without introducing transparency or background removal."
+        }
+      ]
+    },
+    {
+      "id": "REQ-13",
+      "summary": "Update global theme tokens and replace conflicting hard-coded blues/greens so key pages consistently match the new logo’s blue–green palette.",
+      "acceptanceCriteria": [
+        "Global theme tokens in frontend/src/index.css are updated to reflect the new logo’s blue/green palette (primary/secondary/accent/ring and derived custom scales as needed).",
+        "Key UI elements (buttons, headings, badges, feature icons, gradients) visually align with the updated palette across Landing, Book Appointment, and Staff pages.",
+        "Hard-coded blues/greens that materially conflict with the updated palette are replaced with theme tokens (e.g., using text-primary, bg-primary, etc.) so future palette changes propagate consistently."
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/index.css",
+          "operation": "modify",
+          "description": "Update the global CSS variables (primary/secondary/accent/ring and any custom blue/green scales) to match the newly uploaded logo’s blue–green colors; ensure derived tokens used by Tailwind/shadcn (background/foreground/card/muted) remain legible."
+        },
+        {
+          "path": "frontend/src/pages/LandingPage.tsx",
+          "operation": "modify",
+          "description": "Replace hard-coded blue/green utility classes (e.g., hero gradients, headings, feature icon chips) with theme token classes (primary/secondary/accent/muted) so the Landing page aligns with the updated palette."
+        },
+        {
+          "path": "frontend/src/pages/BookAppointmentPage.tsx",
+          "operation": "modify",
+          "description": "Update any hard-coded blue/green styling (e.g., callout bar, highlights) to use theme tokens so the Book Appointment page matches the new palette consistently."
+        },
+        {
+          "path": "frontend/src/pages/StaffAppointmentsPage.tsx",
+          "operation": "modify",
+          "description": "Update any hard-coded blue/green styling (e.g., loading spinner color, portal accents) to use theme tokens for consistent Staff page branding."
+        },
+        {
+          "path": "frontend/src/components/ClinicDetailsSection.tsx",
+          "operation": "modify",
+          "description": "Replace conflicting hard-coded blue/green usages (section gradient, headings, checkmarks/icons) with theme token classes so the shared Landing details section stays aligned with the updated palette."
+        },
+        {
+          "path": "frontend/src/components/SiteFooter.tsx",
+          "operation": "modify",
+          "description": "Update footer hard-coded blues/greens to use theme token classes for consistent branding across the app without changing clinic content."
+        },
+        {
+          "path": "frontend/src/pages/BookingConfirmationPage.tsx",
+          "operation": "modify",
+          "description": "Replace any materially conflicting hard-coded blue/green backgrounds/headings with theme tokens so confirmation styling remains consistent with the updated palette."
+        }
+      ]
+    }
+  ]
+}
