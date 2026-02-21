@@ -8,6 +8,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { Calendar } from '@/components/ui/calendar';
 import { useCreateAppointment } from '../hooks/useQueries';
 import { Loader2, Phone } from 'lucide-react';
+import { AppointmentStatus } from '../backend';
 
 const TIME_SLOTS = [
   '07:00 PM',
@@ -78,6 +79,7 @@ export default function BookAppointmentPage() {
         preferredTime: selectedTime,
         reason: formData.reason,
         submissionTime: BigInt(Date.now() * 1_000_000),
+        status: AppointmentStatus.pending,
       });
 
       navigate({ to: '/confirmation' });
@@ -94,7 +96,7 @@ export default function BookAppointmentPage() {
         <p className="text-lg text-muted-foreground mb-4">
           Fill in the details below and we'll get back to you to confirm your appointment.
         </p>
-        <div className="inline-flex items-center gap-2 bg-accent/20 text-primary px-4 py-2 rounded-lg">
+        <div className="inline-flex items-center gap-2 bg-gradient-to-r from-vijaya-cyan-100 to-vijaya-green-100 text-primary px-4 py-2 rounded-lg shadow-md">
           <Phone className="w-5 h-5" />
           <span className="font-semibold">
             Call us:{' '}
@@ -109,9 +111,9 @@ export default function BookAppointmentPage() {
       <form onSubmit={handleSubmit}>
         <div className="space-y-6">
           {/* Parent & Child Information */}
-          <Card className="bg-card/90 backdrop-blur">
+          <Card className="bg-card/90 backdrop-blur border-2">
             <CardHeader>
-              <CardTitle>Parent & Child Information</CardTitle>
+              <CardTitle className="text-primary">Parent & Child Information</CardTitle>
               <CardDescription>Please provide your contact details and your child's information.</CardDescription>
             </CardHeader>
             <CardContent className="space-y-4">
@@ -192,10 +194,12 @@ export default function BookAppointmentPage() {
           </Card>
 
           {/* Date & Time Selection */}
-          <Card className="bg-card/90 backdrop-blur">
+          <Card className="bg-card/90 backdrop-blur border-2">
             <CardHeader>
-              <CardTitle>Preferred Date & Time</CardTitle>
-              <CardDescription>Select your preferred appointment date and time slot (Mon to Sat, 7 PM to 9 PM).</CardDescription>
+              <CardTitle className="text-primary">Preferred Date & Time</CardTitle>
+              <CardDescription>
+                Select your preferred appointment date and time slot (Mon to Sat, 7 PM to 9 PM).
+              </CardDescription>
             </CardHeader>
             <CardContent className="space-y-6">
               <div className="space-y-2">
@@ -245,9 +249,9 @@ export default function BookAppointmentPage() {
           </Card>
 
           {/* Reason for Visit */}
-          <Card className="bg-card/90 backdrop-blur">
+          <Card className="bg-card/90 backdrop-blur border-2">
             <CardHeader>
-              <CardTitle>Reason for Visit</CardTitle>
+              <CardTitle className="text-primary">Reason for Visit</CardTitle>
               <CardDescription>Please describe the reason for your appointment (optional).</CardDescription>
             </CardHeader>
             <CardContent>
@@ -255,27 +259,28 @@ export default function BookAppointmentPage() {
                 id="reason"
                 value={formData.reason}
                 onChange={(e) => handleInputChange('reason', e.target.value)}
-                placeholder="E.g., routine checkup, vaccination, fever, etc."
+                placeholder="E.g., Routine checkup, vaccination, fever, etc."
                 rows={4}
               />
             </CardContent>
           </Card>
 
-          {errors.submit && (
-            <div className="p-4 bg-destructive/10 border border-destructive rounded-lg">
-              <p className="text-sm text-destructive">{errors.submit}</p>
-            </div>
-          )}
-
           {/* Submit Button */}
-          <div className="flex gap-4 justify-end">
-            <Button type="button" variant="outline" onClick={() => navigate({ to: '/' })}>
-              Cancel
-            </Button>
-            <Button type="submit" size="lg" disabled={createAppointment.isPending}>
+          <div className="flex flex-col gap-3">
+            {errors.submit && (
+              <div className="bg-destructive/10 border border-destructive text-destructive px-4 py-3 rounded-md">
+                {errors.submit}
+              </div>
+            )}
+            <Button
+              type="submit"
+              size="lg"
+              className="w-full text-lg py-6 bg-primary hover:bg-primary/90"
+              disabled={createAppointment.isPending}
+            >
               {createAppointment.isPending ? (
                 <>
-                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                  <Loader2 className="mr-2 h-5 w-5 animate-spin" />
                   Submitting...
                 </>
               ) : (

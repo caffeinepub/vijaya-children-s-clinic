@@ -1,78 +1,137 @@
 {
   "kind": "implementation_plan",
   "version": "1.0",
-  "title": "Replace logo asset and align UI theme with new blue–green branding",
+  "title": "Update public front page with Vijaya Children's Clinic branding from uploaded images",
   "requirements": [
     {
-      "id": "REQ-12",
-      "summary": "Replace the app’s logo everywhere with the newly uploaded white-background logo and ensure crisp rendering across breakpoints.",
+      "id": "REQ-1",
+      "summary": "Extract and use the Vijaya Children's Clinic logo from IMG-20260221-WA0006.jpg as the website logo throughout the application, replacing any existing placeholder logos",
       "acceptanceCriteria": [
-        "The header logo (<img> in SiteHeader) displays the newly uploaded logo with its original white background intact.",
-        "The landing page hero logo displays the newly uploaded logo with its original white background intact.",
-        "No instances of the previous logo remain anywhere in the UI (header, hero, and any other branding locations).",
-        "Logo remains sharp (no visible blur/pixelation) and maintains correct aspect ratio on mobile and desktop."
+        "The clinic logo (cyan/green heart with figures design) is extracted from the uploaded image",
+        "The logo is displayed in the site header",
+        "The logo appears on the landing page hero section",
+        "The logo maintains proper aspect ratio and quality"
       ],
       "file_operations": [
         {
-          "path": "frontend/public/assets/generated/vijaya-children-clinic-logo.dim_512x512.png",
-          "operation": "modify",
-          "description": "Replace the existing generated logo file with the newly uploaded logo image, preserving the white background exactly (no transparency) while keeping the same filename so all existing references continue to work."
-        },
-        {
           "path": "frontend/src/components/SiteHeader.tsx",
           "operation": "modify",
-          "description": "Ensure the header logo <img> uses the updated generated logo asset and renders crisply by tightening responsive sizing rules (maintain aspect ratio; avoid stretching) while keeping the logo’s white background visible."
+          "description": "Replace the existing logo placeholder with the generated Vijaya Children's Clinic logo image located at frontend/public/assets/generated/vijaya-logo.dim_200x200.png. Update the img src attribute to reference this asset file. Ensure the logo maintains proper aspect ratio and displays clearly in both desktop and mobile navigation states."
         },
         {
           "path": "frontend/src/pages/LandingPage.tsx",
           "operation": "modify",
-          "description": "Ensure the hero logo <img> uses the updated generated logo asset and renders crisply at mobile/desktop breakpoints with correct aspect ratio and without introducing transparency or background removal."
+          "description": "Update the hero section to display the Vijaya Children's Clinic logo from frontend/public/assets/generated/vijaya-logo.dim_200x200.png prominently above or alongside the doctor's credentials. Ensure the logo is centered and sized appropriately for the hero section layout. Verify the component's usage instructions before implementing."
         }
       ]
     },
     {
-      "id": "REQ-13",
-      "summary": "Update global theme tokens and replace conflicting hard-coded blues/greens so key pages consistently match the new logo’s blue–green palette.",
+      "id": "REQ-2",
+      "summary": "Apply the color scheme from the uploaded images throughout the public-facing sections: use cyan (#00BCD4), green (#4CAF50), and blue (#2196F3) gradients matching the clinic's branding materials",
       "acceptanceCriteria": [
-        "Global theme tokens in frontend/src/index.css are updated to reflect the new logo’s blue/green palette (primary/secondary/accent/ring and derived custom scales as needed).",
-        "Key UI elements (buttons, headings, badges, feature icons, gradients) visually align with the updated palette across Landing, Book Appointment, and Staff pages.",
-        "Hard-coded blues/greens that materially conflict with the updated palette are replaced with theme tokens (e.g., using text-primary, bg-primary, etc.) so future palette changes propagate consistently."
+        "Primary colors match the cyan/green/blue palette from the uploaded branding images",
+        "Gradients are applied to hero sections and backgrounds consistent with the clinic's visual identity",
+        "Color updates are limited to public-facing pages only",
+        "Staff portal retains its existing color scheme"
       ],
       "file_operations": [
         {
           "path": "frontend/src/index.css",
           "operation": "modify",
-          "description": "Update the global CSS variables (primary/secondary/accent/ring and any custom blue/green scales) to match the newly uploaded logo’s blue–green colors; ensure derived tokens used by Tailwind/shadcn (background/foreground/card/muted) remain legible."
+          "description": "Update the global CSS custom properties to define the clinic branding colors: cyan (#00BCD4), green (#4CAF50), and blue (#2196F3). Add gradient definitions for hero sections and backgrounds that combine these colors in a way consistent with the uploaded branding images. Scope these styles to public-facing pages only by using appropriate CSS selectors or class names, ensuring the staff portal retains its existing color scheme. Maintain the existing dark mode and Tailwind configuration structure."
+        },
+        {
+          "path": "frontend/tailwind.config.js",
+          "operation": "modify",
+          "description": "Extend the Tailwind color palette to include the clinic branding colors as named tokens: vijaya-cyan (#00BCD4), vijaya-green (#4CAF50), and vijaya-blue (#2196F3). Add gradient color stop configurations for these colors. Ensure these additions do not override existing configurations and are available for use in public-facing components."
         },
         {
           "path": "frontend/src/pages/LandingPage.tsx",
           "operation": "modify",
-          "description": "Replace hard-coded blue/green utility classes (e.g., hero gradients, headings, feature icon chips) with theme token classes (primary/secondary/accent/muted) so the Landing page aligns with the updated palette."
+          "description": "Apply the cyan/green/blue gradient color scheme to the hero section background and call-to-action buttons using the newly defined Tailwind color tokens or CSS custom properties. Update text colors and accent elements to match the clinic's branding. Ensure visual consistency with the uploaded images while maintaining accessibility standards for contrast."
         },
         {
           "path": "frontend/src/pages/BookAppointmentPage.tsx",
           "operation": "modify",
-          "description": "Update any hard-coded blue/green styling (e.g., callout bar, highlights) to use theme tokens so the Book Appointment page matches the new palette consistently."
-        },
-        {
-          "path": "frontend/src/pages/StaffAppointmentsPage.tsx",
-          "operation": "modify",
-          "description": "Update any hard-coded blue/green styling (e.g., loading spinner color, portal accents) to use theme tokens for consistent Staff page branding."
-        },
-        {
-          "path": "frontend/src/components/ClinicDetailsSection.tsx",
-          "operation": "modify",
-          "description": "Replace conflicting hard-coded blue/green usages (section gradient, headings, checkmarks/icons) with theme token classes so the shared Landing details section stays aligned with the updated palette."
-        },
-        {
-          "path": "frontend/src/components/SiteFooter.tsx",
-          "operation": "modify",
-          "description": "Update footer hard-coded blues/greens to use theme token classes for consistent branding across the app without changing clinic content."
+          "description": "Apply the clinic branding colors to form elements, buttons, and page accents. Use the vijaya-cyan, vijaya-green, and vijaya-blue color tokens for primary actions, headings, and visual elements. Keep the layout and functionality unchanged."
         },
         {
           "path": "frontend/src/pages/BookingConfirmationPage.tsx",
           "operation": "modify",
-          "description": "Replace any materially conflicting hard-coded blue/green backgrounds/headings with theme tokens so confirmation styling remains consistent with the updated palette."
+          "description": "Update the confirmation page styling to use the clinic branding colors for success messaging, icons, and call-to-action elements. Ensure color consistency with the updated landing and booking pages."
+        },
+        {
+          "path": "frontend/src/components/SiteFooter.tsx",
+          "operation": "modify",
+          "description": "Apply the clinic branding colors to footer backgrounds, section dividers, and link hover states using the vijaya-cyan, vijaya-green, and vijaya-blue color tokens. Maintain the existing three-column layout and content."
+        }
+      ]
+    },
+    {
+      "id": "REQ-3",
+      "summary": "Update the landing page to prominently display all clinic information visible in IMG-20260221-WA0006.jpg: doctor's name (Dr. K. Manicka Vinayagar M.B.B.S, M.D), credentials (Consultant Paediatrician - New Born and Child Specialist), registration number (Reg.No: 152853), services with icons (Newborn Care, Vaccination, Fever, Nebulization, Growth Monitoring), contact number (93637 16343), clinic timings (Mon to Sat 7 PM to 9 PM, Sundays on appointment), and address (No.1, 1st street, Balaji Nagar, Anakaputhur, Chennai - 600 070)",
+      "acceptanceCriteria": [
+        "Doctor's full credentials are displayed with proper formatting",
+        "All five services are shown with colorful circular icons matching the uploaded image design",
+        "Contact information is prominently displayed and easily accessible",
+        "Clinic timings are clearly visible",
+        "Complete address is displayed",
+        "Layout matches the professional medical clinic aesthetic from the branding images"
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/pages/LandingPage.tsx",
+          "operation": "modify",
+          "description": "Update the hero section to display the complete doctor credentials: Dr. K. Manicka Vinayagar M.B.B.S, M.D, Consultant Paediatrician - New Born and Child Specialist, and Reg.No: 152853. Format these details with appropriate hierarchy and typography. Reference the generated service icons located at frontend/public/assets/generated/service-newborn.dim_120x120.png, frontend/public/assets/generated/service-vaccination.dim_120x120.png, frontend/public/assets/generated/service-fever.dim_120x120.png, frontend/public/assets/generated/service-nebulization.dim_120x120.png, and frontend/public/assets/generated/service-growth.dim_120x120.png. Display these service icons in circular containers with their respective labels below. Ensure the layout matches the professional medical clinic aesthetic from the branding images."
+        },
+        {
+          "path": "frontend/src/components/ClinicDetailsSection.tsx",
+          "operation": "modify",
+          "description": "Update the clinic timings to read 'Mon to Sat | 7 PM to 9 PM' and add 'Sundays on appointment'. Update the contact phone number to 93637 16343. Update the address to 'No.1, 1st street, Balaji Nagar, Anakaputhur, Chennai - 600 070'. Ensure all information is prominently displayed in the existing two-column card layout. Update the services list to exactly match the five services: Newborn Care, Vaccination, Fever, Nebulization, and Growth Monitoring. Verify the component's usage instructions before implementing."
+        }
+      ]
+    },
+    {
+      "id": "REQ-4",
+      "summary": "Display the Tamil tagline 'குழந்தை நலனே எங்கள் முதன்மை' (Child welfare is our priority) and English tagline 'Growing Healthy Futures' on the landing page as shown in the uploaded branding images",
+      "acceptanceCriteria": [
+        "Tamil tagline is displayed with proper Unicode rendering",
+        "English tagline 'Growing Healthy Futures' is prominently shown",
+        "Both taglines use appropriate typography matching the clinic's gentle, caring brand identity"
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/pages/LandingPage.tsx",
+          "operation": "modify",
+          "description": "Add the Tamil tagline 'குழந்தை நலனே எங்கள் முதன்மை' and English tagline 'Growing Healthy Futures' to the hero section, positioned near the clinic logo and doctor credentials. Use appropriate font sizing and styling to create visual hierarchy, with the English tagline more prominent and the Tamil tagline as a supporting element. Ensure proper Unicode rendering for Tamil text. Apply typography that conveys a gentle, caring brand identity consistent with the uploaded branding images."
+        }
+      ]
+    },
+    {
+      "id": "REQ-5",
+      "summary": "Preserve all existing staff portal functionality including appointment management, authentication, date filtering, search capabilities, and status updates while applying the branding updates only to public-facing pages",
+      "acceptanceCriteria": [
+        "Staff login and authentication continues to work without modification",
+        "Appointment list, filtering, and search remain functional",
+        "Appointment status updates work as before",
+        "Role-based access control is preserved",
+        "No backend changes are made to appointment or user profile logic"
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/pages/StaffAppointmentsPage.tsx",
+          "operation": "modify",
+          "description": "Verify that no branding color changes are applied to the staff portal page. Ensure all existing functionality remains intact: authentication checks, role-based access control using the authorization component, appointment list display, date filtering, search capabilities, and appointment status updates. Add a comment noting that this page intentionally retains its original styling to differentiate it from public-facing pages. Verify the authorization component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/components/LoginButton.tsx",
+          "operation": "modify",
+          "description": "Ensure the login button continues to use the Internet Identity authentication flow without modification. Verify that login state management, loading indicators, and query cache clearing on logout remain functional. No visual styling changes should be applied unless the button appears on public-facing pages, in which case apply branding colors only to the public-facing instance. Verify the authorization component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/components/ProfileSetupModal.tsx",
+          "operation": "modify",
+          "description": "Ensure the profile setup modal continues to function correctly for authenticated users without a profile. Verify that form validation and submission handling using the authorization component remain intact. No visual changes should be applied to preserve staff portal consistency. Verify the authorization component's usage instructions before implementing."
         }
       ]
     }

@@ -12,8 +12,8 @@ export default function SiteFooter() {
         <div className="grid md:grid-cols-3 gap-8 mb-8">
           <div>
             <h3 className="font-semibold text-lg mb-3 text-primary">Vijaya Children's Clinic</h3>
-            <p className="text-sm text-muted-foreground mb-2">
-              DR. K. MANICKAVINAYAGAR M.B.B.S, M.D.
+            <p className="text-sm text-foreground mb-2 font-medium">
+              Dr. K. Manicka Vinayagar M.B.B.S, M.D
             </p>
             <p className="text-sm text-muted-foreground mb-2">
               Consultant Paediatrician - New Born and Child Specialist
@@ -29,13 +29,14 @@ export default function SiteFooter() {
             <h3 className="font-semibold text-lg mb-3 text-primary">Contact</h3>
             <ul className="space-y-2 text-sm text-muted-foreground">
               <li>
-                <a href="tel:9363716343" className="hover:text-primary transition-colors">
+                <a href="tel:9363716343" className="hover:text-primary transition-colors font-medium">
                   📞 93637 16343
                 </a>
               </li>
               <li>
                 <strong>Timings:</strong> Mon to Sat | 7 PM to 9 PM
               </li>
+              <li className="text-xs">Sundays on appointment</li>
               <li>
                 No.1, 1st street, Balaji Nagar,<br />
                 Anakaputhur, Chennai - 600 070
@@ -47,9 +48,9 @@ export default function SiteFooter() {
             <ul className="space-y-2 text-sm text-muted-foreground">
               <li>• Newborn Care</li>
               <li>• Vaccination</li>
-              <li>• Fever / Infection</li>
+              <li>• Fever</li>
               <li>• Nebulization</li>
-              <li>• Dentailsation</li>
+              <li>• Growth Monitoring</li>
             </ul>
           </div>
         </div>

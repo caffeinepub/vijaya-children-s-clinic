@@ -26,7 +26,7 @@ export default function SiteHeader() {
             className="flex items-center gap-3 hover:opacity-80 transition-opacity"
           >
             <img
-              src="/assets/generated/vijaya-children-clinic-logo.dim_512x512.png"
+              src="/assets/generated/vijaya-logo.dim_200x200.png"
               alt="Vijaya Children's Clinic"
               className="h-12 w-auto object-contain"
             />

@@ -8,6 +8,7 @@ export interface None {
 }
 export type Option<T> = Some<T> | None;
 export interface AppointmentRequest {
+    status: AppointmentStatus;
     email?: string;
     childAge: bigint;
     preferredDate: bigint;
@@ -20,6 +21,12 @@ export interface AppointmentRequest {
 }
 export interface UserProfile {
     name: string;
+}
+export enum AppointmentStatus {
+    cancelled = "cancelled",
+    pending = "pending",
+    completed = "completed",
+    confirmed = "confirmed"
 }
 export enum UserRole {
     admin = "admin",
@@ -35,4 +42,5 @@ export interface backendInterface {
     isCallerAdmin(): Promise<boolean>;
     listAppointments(): Promise<Array<AppointmentRequest>>;
     saveCallerUserProfile(profile: UserProfile): Promise<void>;
+    updateAppointmentStatus(index: bigint, newStatus: AppointmentStatus): Promise<void>;
 }

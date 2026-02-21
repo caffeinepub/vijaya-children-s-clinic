@@ -1,4 +1,6 @@
 import { createRouter, createRoute, createRootRoute, RouterProvider, Outlet } from '@tanstack/react-router';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { Toaster } from '@/components/ui/sonner';
 import LandingPage from './pages/LandingPage';
 import BookAppointmentPage from './pages/BookAppointmentPage';
 import BookingConfirmationPage from './pages/BookingConfirmationPage';
@@ -6,6 +8,8 @@ import StaffAppointmentsPage from './pages/StaffAppointmentsPage';
 import SiteHeader from './components/SiteHeader';
 import SiteFooter from './components/SiteFooter';
 import ProfileSetupModal from './components/ProfileSetupModal';
+
+const queryClient = new QueryClient();
 
 function RootLayout() {
   return (
@@ -16,6 +20,7 @@ function RootLayout() {
       </main>
       <SiteFooter />
       <ProfileSetupModal />
+      <Toaster />
     </div>
   );
 }
@@ -59,5 +64,9 @@ declare module '@tanstack/react-router' {
 }
 
 export default function App() {
-  return <RouterProvider router={router} />;
+  return (
+    <QueryClientProvider client={queryClient}>
+      <RouterProvider router={router} />
+    </QueryClientProvider>
+  );
 }

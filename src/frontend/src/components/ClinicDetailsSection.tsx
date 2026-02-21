@@ -5,62 +5,46 @@ export default function ClinicDetailsSection() {
   const services = [
     'Newborn Care',
     'Vaccination',
-    'Fever / Infection',
+    'Fever',
     'Nebulization',
-    'Dentailsation',
-  ];
-
-  const additionalServices = [
-    'Vaccination',
-    'Nebulisation',
     'Growth Monitoring',
-    'Nutrition Advice',
   ];
 
   return (
-    <section className="py-16 md:py-24 bg-gradient-to-br from-green-50 to-blue-50">
+    <section className="py-16 md:py-24 bg-gradient-to-br from-vijaya-green-50 to-vijaya-blue-50">
       <div className="container mx-auto px-4">
         <div className="text-center mb-12">
           <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">
-            Our Services & Contact
+            Visit Us
           </h2>
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-            Comprehensive pediatric care for your child's health and development
+            Get in touch with us for appointments and inquiries
           </p>
         </div>
 
         <div className="grid md:grid-cols-2 gap-6 max-w-5xl mx-auto">
           {/* Services Card */}
-          <Card className="border-2 bg-card/90 backdrop-blur">
+          <Card className="border-2 bg-card/90 backdrop-blur shadow-lg">
             <CardHeader>
               <CardTitle className="flex items-center gap-2 text-primary">
                 <Stethoscope className="w-6 h-6" />
                 Our Services
               </CardTitle>
             </CardHeader>
-            <CardContent className="space-y-4">
-              <div>
-                <h4 className="font-semibold text-sm text-muted-foreground mb-2">Primary Services:</h4>
-                <ul className="space-y-2">
-                  {services.map((service, index) => (
-                    <li key={index} className="flex items-start">
-                      <span className="text-secondary mr-2">✓</span>
-                      <span className="text-foreground">{service}</span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-              <div className="pt-2 border-t">
-                <h4 className="font-semibold text-sm text-muted-foreground mb-2">Additional Care:</h4>
-                <p className="text-sm text-muted-foreground">
-                  {additionalServices.join(' | ')}
-                </p>
-              </div>
+            <CardContent className="space-y-3">
+              <ul className="space-y-2">
+                {services.map((service, index) => (
+                  <li key={index} className="flex items-start">
+                    <span className="text-secondary mr-2 font-bold">✓</span>
+                    <span className="text-foreground font-medium">{service}</span>
+                  </li>
+                ))}
+              </ul>
             </CardContent>
           </Card>
 
           {/* Contact Card */}
-          <Card className="border-2 bg-card/90 backdrop-blur">
+          <Card className="border-2 bg-card/90 backdrop-blur shadow-lg">
             <CardHeader>
               <CardTitle className="flex items-center gap-2 text-primary">
                 <Phone className="w-6 h-6" />
@@ -87,6 +71,7 @@ export default function ClinicDetailsSection() {
                   <div>
                     <p className="text-sm text-muted-foreground">Clinic Timings</p>
                     <p className="font-semibold text-foreground">Mon to Sat | 7 PM to 9 PM</p>
+                    <p className="text-sm text-muted-foreground">Sundays on appointment</p>
                   </div>
                 </div>
 

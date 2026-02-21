@@ -1,12 +1,13 @@
 # Specification
 
 ## Summary
-**Goal:** Replace the app’s branding logo with the newly uploaded white-background logo and update the site color theme to match the logo’s blue–green palette.
+**Goal:** Update the public-facing website with Vijaya Children's Clinic branding from uploaded images while preserving all staff portal functionality.
 
 **Planned changes:**
-- Swap all existing logo usages (e.g., SiteHeader logo and landing hero logo) to use the newly uploaded logo image, preserving its original white background and aspect ratio.
-- Ensure the logo renders crisply at common responsive breakpoints (mobile and desktop) without blur or pixelation.
-- Update global theme tokens (CSS variables/Tailwind theme usage) in `frontend/src/index.css` to align with the new logo’s blue/green colors.
-- Replace materially conflicting hard-coded blues/greens with theme tokens so the updated palette applies consistently across Landing, Book Appointment, and Staff pages.
+- Extract and implement the Vijaya Children's Clinic logo (cyan/green heart with figures) from uploaded images throughout the public website
+- Apply cyan (#00BCD4), green (#4CAF50), and blue (#2196F3) color scheme to public-facing pages only
+- Update landing page with complete clinic information: doctor's credentials (Dr. K. Manicka Vinayagar M.B.B.S, M.D, Reg.No: 152853), services with icons (Newborn Care, Vaccination, Fever, Nebulization, Growth Monitoring), contact number (93637 16343), timings (Mon-Sat 7 PM-9 PM, Sundays by appointment), and address (No.1, 1st street, Balaji Nagar, Anakaputhur, Chennai - 600 070)
+- Display Tamil tagline 'குழந்தை நலனே எங்கள் முதன்மை' and English tagline 'Growing Healthy Futures'
+- Preserve all existing staff portal functionality including authentication, appointment management, filtering, search, and status updates
 
-**User-visible outcome:** The site displays the new Vijaya Children’s Clinic logo everywhere with its white background intact, and the UI colors across key pages match the logo’s blue–green branding consistently.
+**User-visible outcome:** The public website will display professional Vijaya Children's Clinic branding with complete clinic information, while staff can continue using the portal without any changes to functionality.

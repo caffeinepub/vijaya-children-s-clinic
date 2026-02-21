@@ -1,72 +1,131 @@
 {
   "kind": "build_request",
-  "title": "Replace site logo with newly uploaded white-background logo and match theme colors",
+  "title": "Update public front page with Vijaya Children's Clinic branding from uploaded images",
+  "projectName": "Vijaya Children's Clinic",
   "priority": "normal",
   "requirements": [
     {
-      "id": "REQ-12",
-      "text": "Replace the current site logo image used throughout the app with the newly uploaded logo image, keeping the logo exactly as-is with its white background (no transparency), and ensure it renders crisply at common breakpoints.",
+      "id": "REQ-1",
+      "text": "Extract and use the Vijaya Children's Clinic logo from IMG-20260221-WA0006.jpg as the website logo throughout the application, replacing any existing placeholder logos",
       "target": "frontend",
       "source": {
         "messageIds": [
-          "msg-1"
+          "msg-6"
         ],
         "quotes": [
-          "Pls change the existing logo with this logo",
-          "Use white background",
-          "Apply the changes",
-          "Please apply changes"
+          "Change the logo of the website with the above image"
         ]
       },
       "acceptanceCriteria": [
-        "The header logo (<img> in SiteHeader) displays the newly uploaded logo with its original white background intact.",
-        "The landing page hero logo displays the newly uploaded logo with its original white background intact.",
-        "No instances of the previous logo remain anywhere in the UI (header, hero, and any other branding locations).",
-        "Logo remains sharp (no visible blur/pixelation) and maintains correct aspect ratio on mobile and desktop."
+        "The clinic logo (cyan/green heart with figures design) is extracted from the uploaded image",
+        "The logo is displayed in the site header",
+        "The logo appears on the landing page hero section",
+        "The logo maintains proper aspect ratio and quality"
       ]
     },
     {
-      "id": "REQ-13",
-      "text": "Update the global visual theme (Tailwind/CSS variables and any hard-coded color usages) so the site color palette matches the newly uploaded logo’s blue–green colors, and apply consistently across key pages (Landing, Book Appointment, Staff).",
+      "id": "REQ-2",
+      "text": "Apply the color scheme from the uploaded images throughout the public-facing sections: use cyan (#00BCD4), green (#4CAF50), and blue (#2196F3) gradients matching the clinic's branding materials",
       "target": "frontend",
       "source": {
         "messageIds": [
-          "msg-1"
+          "msg-6"
         ],
         "quotes": [
-          "Match the theme with this new logo"
+          "also the colour of the website"
         ]
       },
       "acceptanceCriteria": [
-        "Global theme tokens in frontend/src/index.css are updated to reflect the new logo’s blue/green palette (primary/secondary/accent/ring and derived custom scales as needed).",
-        "Key UI elements (buttons, headings, badges, feature icons, gradients) visually align with the updated palette across Landing, Book Appointment, and Staff pages.",
-        "Hard-coded blues/greens that materially conflict with the updated palette are replaced with theme tokens (e.g., using text-primary, bg-primary, etc.) so future palette changes propagate consistently."
+        "Primary colors match the cyan/green/blue palette from the uploaded branding images",
+        "Gradients are applied to hero sections and backgrounds consistent with the clinic's visual identity",
+        "Color updates are limited to public-facing pages only",
+        "Staff portal retains its existing color scheme"
+      ]
+    },
+    {
+      "id": "REQ-3",
+      "text": "Update the landing page to prominently display all clinic information visible in IMG-20260221-WA0006.jpg: doctor's name (Dr. K. Manicka Vinayagar M.B.B.S, M.D), credentials (Consultant Paediatrician - New Born and Child Specialist), registration number (Reg.No: 152853), services with icons (Newborn Care, Vaccination, Fever, Nebulization, Growth Monitoring), contact number (93637 16343), clinic timings (Mon to Sat 7 PM to 9 PM, Sundays on appointment), and address (No.1, 1st street, Balaji Nagar, Anakaputhur, Chennai - 600 070)",
+      "target": "frontend",
+      "source": {
+        "messageIds": [
+          "msg-6",
+          "msg-10"
+        ],
+        "quotes": [
+          "Based on this two images above, Use the details to complete the website",
+          "Keep the staff portal. Needed changes in the front page that is the public facing section."
+        ]
+      },
+      "acceptanceCriteria": [
+        "Doctor's full credentials are displayed with proper formatting",
+        "All five services are shown with colorful circular icons matching the uploaded image design",
+        "Contact information is prominently displayed and easily accessible",
+        "Clinic timings are clearly visible",
+        "Complete address is displayed",
+        "Layout matches the professional medical clinic aesthetic from the branding images"
+      ]
+    },
+    {
+      "id": "REQ-4",
+      "text": "Display the Tamil tagline 'குழந்தை நலனே எங்கள் முதன்மை' (Child welfare is our priority) and English tagline 'Growing Healthy Futures' on the landing page as shown in the uploaded branding images",
+      "target": "frontend",
+      "source": {
+        "messageIds": [
+          "msg-6"
+        ],
+        "quotes": [
+          "Based on this two images above, Use the details to complete the website"
+        ]
+      },
+      "acceptanceCriteria": [
+        "Tamil tagline is displayed with proper Unicode rendering",
+        "English tagline 'Growing Healthy Futures' is prominently shown",
+        "Both taglines use appropriate typography matching the clinic's gentle, caring brand identity"
+      ]
+    },
+    {
+      "id": "REQ-5",
+      "text": "Preserve all existing staff portal functionality including appointment management, authentication, date filtering, search capabilities, and status updates while applying the branding updates only to public-facing pages",
+      "target": "both",
+      "source": {
+        "messageIds": [
+          "msg-10"
+        ],
+        "quotes": [
+          "Keep the staff portal. Needed changes in the front page that is the public facing section."
+        ]
+      },
+      "acceptanceCriteria": [
+        "Staff login and authentication continues to work without modification",
+        "Appointment list, filtering, and search remain functional",
+        "Appointment status updates work as before",
+        "Role-based access control is preserved",
+        "No backend changes are made to appointment or user profile logic"
       ]
     }
   ],
   "constraints": [
-    "Frontend immutable paths must not be edited: frontend/src/hooks/useInternetIdentity.ts, frontend/src/hooks/useInternetIdentity.tsx, frontend/src/hooks/useActor.ts, frontend/src/main.tsx, frontend/src/components/ui.",
-    "Keep the backend unchanged (no Motoko canister interface/state/schema changes) for this request.",
-    "Use English for any user-facing text introduced or modified as part of these changes."
+    "Do not modify backend logic or data models",
+    "Do not change the staff portal's existing functionality or authentication flow",
+    "Preserve all existing appointment management features",
+    "Apply branding updates only to public-facing sections (landing page, booking page, footer)"
   ],
   "nonGoals": [
-    "Do not add new features such as a calendar/availability system or new appointment workflow steps.",
-    "Do not change clinic details content (doctor details, phone, timings, address, services) unless required for the logo/theme update."
+    "Adding new appointment management features",
+    "Modifying the backend Motoko actor",
+    "Changing the staff portal's user interface or color scheme",
+    "Adding new pages or sections beyond updating existing public pages",
+    "Implementing additional authentication methods"
   ],
   "imageRequirements": {
-    "required": [],
-    "edits": [
-      "Replace the existing generated logo with the newly uploaded logo, preserving the white background exactly (vijaya-children-clinic-logo.dim_512x512.png > vijaya-children-clinic-logo.dim_512x512.png)"
-    ]
-  },
-  "userProfileUpdate": {
-    "goalsToAdd": [],
-    "goalsToRemove": [],
-    "preferencesToAdd": [],
-    "preferencesToRemove": [],
-    "miscToAdd": [],
-    "miscToRemove": [],
-    "fieldsToSet": {},
-    "fieldsToDelete": []
+    "required": [
+      "Vijaya Children's Clinic logo with cyan and green heart design containing two figures and stars, extracted from the uploaded branding image (vijaya-logo.dim_200x200.png)",
+      "Newborn care icon - circular illustration of a baby in cyan color on white background (service-newborn.dim_120x120.png)",
+      "Vaccination icon - circular illustration of a syringe with sparkles in orange color on white background (service-vaccination.dim_120x120.png)",
+      "Fever icon - circular illustration of a child with thermometer in green color on white background (service-fever.dim_120x120.png)",
+      "Nebulization icon - circular illustration of nebulizer equipment in cyan color on white background (service-nebulization.dim_120x120.png)",
+      "Growth monitoring icon - circular illustration of a child with growth chart in pink color on white background (service-growth.dim_120x120.png)"
+    ],
+    "edits": []
   }
 }

@@ -30,34 +30,57 @@ export default function LandingPage() {
     },
   ];
 
+  const services = [
+    {
+      name: 'Newborn Care',
+      icon: '/assets/generated/service-newborn.dim_120x120.png',
+    },
+    {
+      name: 'Vaccination',
+      icon: '/assets/generated/service-vaccination.dim_120x120.png',
+    },
+    {
+      name: 'Fever',
+      icon: '/assets/generated/service-fever.dim_120x120.png',
+    },
+    {
+      name: 'Nebulization',
+      icon: '/assets/generated/service-nebulization.dim_120x120.png',
+    },
+    {
+      name: 'Growth Monitoring',
+      icon: '/assets/generated/service-growth.dim_120x120.png',
+    },
+  ];
+
   return (
     <div className="w-full">
       {/* Hero Section */}
-      <section className="relative bg-gradient-to-br from-blue-50 via-blue-100 to-green-100 overflow-hidden">
+      <section className="relative vijaya-gradient overflow-hidden">
         <div className="container mx-auto px-4 py-16 md:py-24">
           <div className="grid md:grid-cols-2 gap-12 items-center">
             <div className="space-y-6">
               <div className="inline-block">
                 <img
-                  src="/assets/generated/vijaya-children-clinic-logo.dim_512x512.png"
+                  src="/assets/generated/vijaya-logo.dim_200x200.png"
                   alt="Vijaya Children's Clinic Logo"
-                  className="h-28 w-auto object-contain"
+                  className="h-32 w-auto object-contain"
                 />
               </div>
               <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-primary leading-tight">
                 Vijaya Children's Clinic
               </h1>
-              <p className="text-xl text-secondary font-medium italic">
+              <p className="text-2xl text-secondary font-semibold italic">
                 Growing Healthy Futures
               </p>
-              <p className="text-lg text-secondary font-medium">
+              <p className="text-lg text-primary/80 font-medium">
                 குழந்தை நலனே எங்கள் முதன்மை
               </p>
-              <div className="bg-card/80 backdrop-blur p-6 rounded-lg space-y-2">
-                <p className="text-lg font-semibold text-primary">
-                  DR. K. MANICKAVINAYAGAR M.B.B.S, M.D.
+              <div className="bg-card/90 backdrop-blur p-6 rounded-lg space-y-2 shadow-lg">
+                <p className="text-xl font-bold text-primary">
+                  Dr. K. Manicka Vinayagar M.B.B.S, M.D
                 </p>
-                <p className="text-base text-muted-foreground">
+                <p className="text-base text-foreground font-medium">
                   Consultant Paediatrician - New Born and Child Specialist
                 </p>
                 <p className="text-sm text-muted-foreground">
@@ -67,7 +90,7 @@ export default function LandingPage() {
               <div className="flex flex-col sm:flex-row gap-4 pt-4">
                 <Button
                   size="lg"
-                  className="text-lg px-8 py-6 shadow-lg hover:shadow-xl transition-all"
+                  className="text-lg px-8 py-6 shadow-lg hover:shadow-xl transition-all bg-primary hover:bg-primary/90"
                   onClick={() => navigate({ to: '/book' })}
                 >
                   Book Appointment
@@ -75,7 +98,7 @@ export default function LandingPage() {
                 <Button
                   size="lg"
                   variant="outline"
-                  className="text-lg px-8 py-6"
+                  className="text-lg px-8 py-6 border-2 border-primary text-primary hover:bg-primary/10"
                   onClick={() => navigate({ to: '/staff' })}
                 >
                   Staff Portal
@@ -89,6 +112,38 @@ export default function LandingPage() {
                 className="w-full h-auto rounded-3xl shadow-2xl"
               />
             </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Services Section */}
+      <section className="py-16 md:py-24 bg-gradient-to-br from-vijaya-cyan-50 to-vijaya-green-50">
+        <div className="container mx-auto px-4">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">
+              Our Services
+            </h2>
+            <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+              Comprehensive pediatric care for your child's health and development
+            </p>
+          </div>
+          <div className="flex flex-wrap justify-center gap-8 max-w-4xl mx-auto">
+            {services.map((service, index) => (
+              <div key={index} className="flex flex-col items-center space-y-3 w-32">
+                <div className="w-24 h-24 rounded-full bg-gradient-to-br from-vijaya-blue-100 to-vijaya-green-100 p-1 shadow-lg">
+                  <div className="w-full h-full rounded-full bg-white flex items-center justify-center overflow-hidden">
+                    <img
+                      src={service.icon}
+                      alt={service.name}
+                      className="w-16 h-16 object-contain"
+                    />
+                  </div>
+                </div>
+                <p className="text-center font-semibold text-foreground text-sm">
+                  {service.name}
+                </p>
+              </div>
+            ))}
           </div>
         </div>
       </section>
@@ -108,7 +163,7 @@ export default function LandingPage() {
             {features.map((feature, index) => (
               <Card key={index} className="border-2 hover:shadow-lg transition-shadow bg-card/90 backdrop-blur">
                 <CardContent className="pt-6 text-center space-y-4">
-                  <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-accent/20">
+                  <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-gradient-to-br from-vijaya-blue-100 to-vijaya-cyan-100">
                     <feature.icon className="w-8 h-8 text-primary" />
                   </div>
                   <h3 className="text-xl font-semibold text-foreground">{feature.title}</h3>
@@ -124,7 +179,7 @@ export default function LandingPage() {
       <ClinicDetailsSection />
 
       {/* CTA Section */}
-      <section className="py-16 md:py-24 bg-gradient-to-br from-blue-100 to-green-100">
+      <section className="py-16 md:py-24 vijaya-gradient-reverse">
         <div className="container mx-auto px-4 text-center">
           <h2 className="text-3xl md:text-4xl font-bold text-primary mb-6">
             Ready to Schedule Your Visit?
@@ -138,7 +193,7 @@ export default function LandingPage() {
           </p>
           <Button
             size="lg"
-            className="text-lg px-10 py-6 shadow-lg hover:shadow-xl transition-all"
+            className="text-lg px-10 py-6 shadow-lg hover:shadow-xl transition-all bg-primary hover:bg-primary/90"
             onClick={() => navigate({ to: '/book' })}
           >
             Book Your Appointment Now

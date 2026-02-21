@@ -1,69 +1,112 @@
 {
   "kind": "coverage_report",
   "version": "1.0",
-  "generatedAt": "2026-02-16T07:46:41.715Z",
+  "generatedAt": "2026-02-21T17:24:26.066Z",
   "sources": {
     "buildRequest": true,
     "implementationPlan": true
   },
   "requirements": {
-    "total": 2,
-    "implemented": 2,
+    "total": 5,
+    "implemented": 4,
     "items": [
       {
-        "id": "REQ-12",
-        "summary": "Replace the current site logo image used throughout the app with the newly uploaded logo image, keeping the logo exactly as-is with its white background (no transparency), and ensure it renders crisply at common breakpoints.",
+        "id": "REQ-1",
+        "summary": "Extract and use the Vijaya Children's Clinic logo from IMG-20260221-WA0006.jpg as the website logo throughout the application, replacing any existing placeholder logos",
         "status": "implemented",
         "plannedFiles": [
-          "frontend/public/assets/generated/vijaya-children-clinic-logo.dim_512x512.png",
           "frontend/src/components/SiteHeader.tsx",
           "frontend/src/pages/LandingPage.tsx"
         ],
         "matchedFiles": [
-          "frontend/public/assets/generated/vijaya-children-clinic-logo.dim_512x512.png",
           "frontend/src/components/SiteHeader.tsx",
           "frontend/src/pages/LandingPage.tsx"
         ]
       },
       {
-        "id": "REQ-13",
-        "summary": "Update the global visual theme (Tailwind/CSS variables and any hard-coded color usages) so the site color palette matches the newly uploaded logo’s blue–green colors, and apply consistently across key pages (Landing, Book Appointment, Staff).",
+        "id": "REQ-2",
+        "summary": "Apply the color scheme from the uploaded images throughout the public-facing sections: use cyan (#00BCD4), green (#4CAF50), and blue (#2196F3) gradients matching the clinic's branding materials",
         "status": "implemented",
         "plannedFiles": [
           "frontend/src/index.css",
+          "frontend/tailwind.config.js",
           "frontend/src/pages/LandingPage.tsx",
           "frontend/src/pages/BookAppointmentPage.tsx",
-          "frontend/src/pages/StaffAppointmentsPage.tsx",
-          "frontend/src/components/ClinicDetailsSection.tsx",
-          "frontend/src/components/SiteFooter.tsx",
-          "frontend/src/pages/BookingConfirmationPage.tsx"
+          "frontend/src/pages/BookingConfirmationPage.tsx",
+          "frontend/src/components/SiteFooter.tsx"
         ],
         "matchedFiles": [
           "frontend/src/index.css",
+          "frontend/tailwind.config.js",
           "frontend/src/pages/LandingPage.tsx",
           "frontend/src/pages/BookAppointmentPage.tsx",
-          "frontend/src/pages/StaffAppointmentsPage.tsx",
-          "frontend/src/components/ClinicDetailsSection.tsx",
-          "frontend/src/components/SiteFooter.tsx",
-          "frontend/src/pages/BookingConfirmationPage.tsx"
+          "frontend/src/pages/BookingConfirmationPage.tsx",
+          "frontend/src/components/SiteFooter.tsx"
         ]
+      },
+      {
+        "id": "REQ-3",
+        "summary": "Update the landing page to prominently display all clinic information visible in IMG-20260221-WA0006.jpg: doctor's name (Dr. K. Manicka Vinayagar M.B.B.S, M.D), credentials (Consultant Paediatrician - New Born and Child Specialist), registration number (Reg.No: 152853), services with icons (Newborn Care, Vaccination, Fever, Nebulization, Growth Monitoring), contact number (93637 16343), clinic timings (Mon to Sat 7 PM to 9 PM, Sundays on appointment), and address (No.1, 1st street, Balaji Nagar, Anakaputhur, Chennai - 600 070)",
+        "status": "implemented",
+        "plannedFiles": [
+          "frontend/src/pages/LandingPage.tsx",
+          "frontend/src/components/ClinicDetailsSection.tsx"
+        ],
+        "matchedFiles": [
+          "frontend/src/pages/LandingPage.tsx",
+          "frontend/src/components/ClinicDetailsSection.tsx"
+        ]
+      },
+      {
+        "id": "REQ-4",
+        "summary": "Display the Tamil tagline 'குழந்தை நலனே எங்கள் முதன்மை' (Child welfare is our priority) and English tagline 'Growing Healthy Futures' on the landing page as shown in the uploaded branding images",
+        "status": "implemented",
+        "plannedFiles": [
+          "frontend/src/pages/LandingPage.tsx"
+        ],
+        "matchedFiles": [
+          "frontend/src/pages/LandingPage.tsx"
+        ]
+      },
+      {
+        "id": "REQ-5",
+        "summary": "Preserve all existing staff portal functionality including appointment management, authentication, date filtering, search capabilities, and status updates while applying the branding updates only to public-facing pages",
+        "status": "missing",
+        "plannedFiles": [
+          "frontend/src/pages/StaffAppointmentsPage.tsx",
+          "frontend/src/components/LoginButton.tsx",
+          "frontend/src/components/ProfileSetupModal.tsx"
+        ],
+        "matchedFiles": []
       }
     ]
   },
   "changedFiles": [
+    "backend/blob-storage/Mixin.mo",
+    "backend/blob-storage/Storage.mo",
+    "backend/main.mo",
     "build-request.json",
+    "caffeine.lock.json",
     "feature_evidence.json",
     "frontend-file-summaries.txt",
     "frontend-implementation-plan.json",
-    "frontend/public/assets/generated/vijaya-children-clinic-logo.dim_512x512.png",
+    "frontend/public/assets/generated/service-fever.dim_120x120.png",
+    "frontend/public/assets/generated/service-growth.dim_120x120.png",
+    "frontend/public/assets/generated/service-nebulization.dim_120x120.png",
+    "frontend/public/assets/generated/service-newborn.dim_120x120.png",
+    "frontend/public/assets/generated/service-vaccination.dim_120x120.png",
+    "frontend/public/assets/generated/vijaya-logo.dim_200x200.png",
+    "frontend/src/backend.ts",
     "frontend/src/components/ClinicDetailsSection.tsx",
     "frontend/src/components/SiteFooter.tsx",
     "frontend/src/components/SiteHeader.tsx",
+    "frontend/src/declarations/backend.did.d.ts",
+    "frontend/src/declarations/backend.did.js",
     "frontend/src/index.css",
     "frontend/src/pages/BookAppointmentPage.tsx",
     "frontend/src/pages/BookingConfirmationPage.tsx",
     "frontend/src/pages/LandingPage.tsx",
-    "frontend/src/pages/StaffAppointmentsPage.tsx",
+    "frontend/tailwind.config.js",
     "project_state.json",
     "scratch/component-selection.json",
     "spec.md",
