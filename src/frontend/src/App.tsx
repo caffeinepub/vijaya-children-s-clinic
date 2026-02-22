@@ -5,9 +5,11 @@ import LandingPage from './pages/LandingPage';
 import BookAppointmentPage from './pages/BookAppointmentPage';
 import BookingConfirmationPage from './pages/BookingConfirmationPage';
 import StaffAppointmentsPage from './pages/StaffAppointmentsPage';
+import AdminLoginPage from './pages/AdminLoginPage';
+import AdminDashboardPage from './pages/AdminDashboardPage';
+import StaffManagementPage from './pages/StaffManagementPage';
 import SiteHeader from './components/SiteHeader';
 import SiteFooter from './components/SiteFooter';
-import ProfileSetupModal from './components/ProfileSetupModal';
 
 const queryClient = new QueryClient();
 
@@ -19,7 +21,6 @@ function RootLayout() {
         <Outlet />
       </main>
       <SiteFooter />
-      <ProfileSetupModal />
       <Toaster />
     </div>
   );
@@ -53,7 +54,33 @@ const staffRoute = createRoute({
   component: StaffAppointmentsPage,
 });
 
-const routeTree = rootRoute.addChildren([indexRoute, bookRoute, confirmationRoute, staffRoute]);
+const adminLoginRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: '/admin-login',
+  component: AdminLoginPage,
+});
+
+const adminDashboardRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: '/admin-dashboard',
+  component: AdminDashboardPage,
+});
+
+const staffManagementRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: '/staff-management',
+  component: StaffManagementPage,
+});
+
+const routeTree = rootRoute.addChildren([
+  indexRoute,
+  bookRoute,
+  confirmationRoute,
+  staffRoute,
+  adminLoginRoute,
+  adminDashboardRoute,
+  staffManagementRoute,
+]);
 
 const router = createRouter({ routeTree });
 

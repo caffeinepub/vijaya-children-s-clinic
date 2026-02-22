@@ -1,131 +1,75 @@
 {
   "kind": "build_request",
-  "title": "Update public front page with Vijaya Children's Clinic branding from uploaded images",
-  "projectName": "Vijaya Children's Clinic",
-  "priority": "normal",
+  "title": "Fix staff portal authentication error for vijaya credentials",
+  "priority": "high",
   "requirements": [
     {
       "id": "REQ-1",
-      "text": "Extract and use the Vijaya Children's Clinic logo from IMG-20260221-WA0006.jpg as the website logo throughout the application, replacing any existing placeholder logos",
-      "target": "frontend",
+      "text": "Fix the backend authenticateStaff method to properly validate the username 'vijaya' with password 'vijaya' and return a valid authentication token instead of returning an unauthorized error",
+      "target": "backend",
       "source": {
         "messageIds": [
-          "msg-6"
+          "msg-11"
         ],
         "quotes": [
-          "Change the logo of the website with the above image"
+          "The error showing is unauthorised entry with using the same credentials"
         ]
       },
       "acceptanceCriteria": [
-        "The clinic logo (cyan/green heart with figures design) is extracted from the uploaded image",
-        "The logo is displayed in the site header",
-        "The logo appears on the landing page hero section",
-        "The logo maintains proper aspect ratio and quality"
+        "The authenticateStaff method successfully authenticates user 'vijaya' with password 'vijaya'",
+        "A valid authentication token is returned upon successful login",
+        "No 'unauthorised entry' error is displayed when using correct credentials"
       ]
     },
     {
       "id": "REQ-2",
-      "text": "Apply the color scheme from the uploaded images throughout the public-facing sections: use cyan (#00BCD4), green (#4CAF50), and blue (#2196F3) gradients matching the clinic's branding materials",
-      "target": "frontend",
+      "text": "Verify that the staff user 'vijaya' exists in the backend storage with correct credentials and activated status set to true",
+      "target": "backend",
       "source": {
         "messageIds": [
-          "msg-6"
+          "msg-11"
         ],
         "quotes": [
-          "also the colour of the website"
+          "The error showing is unauthorised entry with using the same credentials"
         ]
       },
       "acceptanceCriteria": [
-        "Primary colors match the cyan/green/blue palette from the uploaded branding images",
-        "Gradients are applied to hero sections and backgrounds consistent with the clinic's visual identity",
-        "Color updates are limited to public-facing pages only",
-        "Staff portal retains its existing color scheme"
+        "Staff user 'vijaya' exists in backend storage",
+        "Password for 'vijaya' matches 'vijaya'",
+        "Account activation status is set to true"
       ]
     },
     {
       "id": "REQ-3",
-      "text": "Update the landing page to prominently display all clinic information visible in IMG-20260221-WA0006.jpg: doctor's name (Dr. K. Manicka Vinayagar M.B.B.S, M.D), credentials (Consultant Paediatrician - New Born and Child Specialist), registration number (Reg.No: 152853), services with icons (Newborn Care, Vaccination, Fever, Nebulization, Growth Monitoring), contact number (93637 16343), clinic timings (Mon to Sat 7 PM to 9 PM, Sundays on appointment), and address (No.1, 1st street, Balaji Nagar, Anakaputhur, Chennai - 600 070)",
+      "text": "Ensure the StaffLoginForm component correctly handles the authentication response and stores the token in localStorage via useStaffAuth hook",
       "target": "frontend",
       "source": {
         "messageIds": [
-          "msg-6",
-          "msg-10"
+          "msg-11"
         ],
         "quotes": [
-          "Based on this two images above, Use the details to complete the website",
-          "Keep the staff portal. Needed changes in the front page that is the public facing section."
+          "Couldn't login shows first time login prompt with internet identity bit not redirecting to the page"
         ]
       },
       "acceptanceCriteria": [
-        "Doctor's full credentials are displayed with proper formatting",
-        "All five services are shown with colorful circular icons matching the uploaded image design",
-        "Contact information is prominently displayed and easily accessible",
-        "Clinic timings are clearly visible",
-        "Complete address is displayed",
-        "Layout matches the professional medical clinic aesthetic from the branding images"
-      ]
-    },
-    {
-      "id": "REQ-4",
-      "text": "Display the Tamil tagline 'குழந்தை நலனே எங்கள் முதன்மை' (Child welfare is our priority) and English tagline 'Growing Healthy Futures' on the landing page as shown in the uploaded branding images",
-      "target": "frontend",
-      "source": {
-        "messageIds": [
-          "msg-6"
-        ],
-        "quotes": [
-          "Based on this two images above, Use the details to complete the website"
-        ]
-      },
-      "acceptanceCriteria": [
-        "Tamil tagline is displayed with proper Unicode rendering",
-        "English tagline 'Growing Healthy Futures' is prominently shown",
-        "Both taglines use appropriate typography matching the clinic's gentle, caring brand identity"
-      ]
-    },
-    {
-      "id": "REQ-5",
-      "text": "Preserve all existing staff portal functionality including appointment management, authentication, date filtering, search capabilities, and status updates while applying the branding updates only to public-facing pages",
-      "target": "both",
-      "source": {
-        "messageIds": [
-          "msg-10"
-        ],
-        "quotes": [
-          "Keep the staff portal. Needed changes in the front page that is the public facing section."
-        ]
-      },
-      "acceptanceCriteria": [
-        "Staff login and authentication continues to work without modification",
-        "Appointment list, filtering, and search remain functional",
-        "Appointment status updates work as before",
-        "Role-based access control is preserved",
-        "No backend changes are made to appointment or user profile logic"
+        "Authentication token is properly stored in localStorage after successful login",
+        "User is redirected to staff appointments page after successful authentication",
+        "No Internet Identity prompt is shown when using username/password login"
       ]
     }
   ],
   "constraints": [
-    "Do not modify backend logic or data models",
-    "Do not change the staff portal's existing functionality or authentication flow",
-    "Preserve all existing appointment management features",
-    "Apply branding updates only to public-facing sections (landing page, booking page, footer)"
+    "Do not modify the Internet Identity authentication system",
+    "Preserve existing staff management functionality",
+    "Maintain the 24-hour token expiry mechanism in localStorage"
   ],
   "nonGoals": [
-    "Adding new appointment management features",
-    "Modifying the backend Motoko actor",
-    "Changing the staff portal's user interface or color scheme",
-    "Adding new pages or sections beyond updating existing public pages",
-    "Implementing additional authentication methods"
+    "Adding Internet Identity to the staff login flow",
+    "Changing the username/password authentication method to another system",
+    "Creating new staff user accounts beyond fixing the 'vijaya' credentials"
   ],
   "imageRequirements": {
-    "required": [
-      "Vijaya Children's Clinic logo with cyan and green heart design containing two figures and stars, extracted from the uploaded branding image (vijaya-logo.dim_200x200.png)",
-      "Newborn care icon - circular illustration of a baby in cyan color on white background (service-newborn.dim_120x120.png)",
-      "Vaccination icon - circular illustration of a syringe with sparkles in orange color on white background (service-vaccination.dim_120x120.png)",
-      "Fever icon - circular illustration of a child with thermometer in green color on white background (service-fever.dim_120x120.png)",
-      "Nebulization icon - circular illustration of nebulizer equipment in cyan color on white background (service-nebulization.dim_120x120.png)",
-      "Growth monitoring icon - circular illustration of a child with growth chart in pink color on white background (service-growth.dim_120x120.png)"
-    ],
+    "required": [],
     "edits": []
   }
 }

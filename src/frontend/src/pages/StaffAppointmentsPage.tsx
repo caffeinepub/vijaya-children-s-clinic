@@ -1,74 +1,45 @@
 import { useState, useMemo, useEffect } from 'react';
-import { useInternetIdentity } from '../hooks/useInternetIdentity';
+import { useStaffAuth } from '../hooks/useStaffAuth';
 import {
   useListAppointments,
-  useGetCallerUserProfile,
-  useGetCallerUserRole,
   useUpdateAppointmentStatus,
 } from '../hooks/useQueries';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Badge } from '@/components/ui/badge';
-import { Loader2, Calendar, Clock, Phone, Mail, User, Baby, AlertCircle } from 'lucide-react';
-import LoginButton from '../components/LoginButton';
+import { Loader2, Calendar, Clock, Phone, Mail, User, Baby, AlertCircle, LogOut } from 'lucide-react';
+import StaffLoginForm from '../components/StaffLoginForm';
 import AppointmentDateFilter from '../components/AppointmentDateFilter';
 import AppointmentSearchBar from '../components/AppointmentSearchBar';
 import AppointmentStatusBadge from '../components/AppointmentStatusBadge';
 import AppointmentStatusDropdown from '../components/AppointmentStatusDropdown';
 import { filterAppointmentsByDate, type DateFilter } from '../utils/dateFilters';
 import { filterAppointmentsBySearch } from '../utils/searchFilter';
-import { UserRole, AppointmentStatus } from '../backend';
+import { AppointmentStatus } from '../backend';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 
 export default function StaffAppointmentsPage() {
-  const { identity, loginStatus } = useInternetIdentity();
-  const { data: appointments, isLoading: appointmentsLoading, error: appointmentsError, isFetched: appointmentsFetched } = useListAppointments();
-  const { data: userProfile, isLoading: profileLoading, isFetched: profileFetched } = useGetCallerUserProfile();
-  const { data: userRole, isLoading: roleLoading, isFetched: roleFetched } = useGetCallerUserRole();
+  const { isAuthenticated, logout, isLoggingIn } = useStaffAuth();
+  const { data: appointments, isLoading: appointmentsLoading, error: appointmentsError } = useListAppointments();
   const updateStatus = useUpdateAppointmentStatus();
 
   const [dateFilter, setDateFilter] = useState<DateFilter>({ type: 'all' });
   const [searchQuery, setSearchQuery] = useState('');
 
-  const isAuthenticated = !!identity;
-
   // Log authentication and data loading state
   useEffect(() => {
     console.log('[StaffAppointmentsPage] Component state:', {
       isAuthenticated,
-      loginStatus,
-      identityPresent: !!identity,
-      identityPrincipal: identity?.getPrincipal().toString(),
+      isLoggingIn,
       appointmentsLoading,
-      appointmentsFetched,
       appointmentsError: appointmentsError?.toString(),
       appointmentsCount: appointments?.length,
-      profileLoading,
-      profileFetched,
-      userProfile,
-      roleLoading,
-      roleFetched,
-      userRole,
       timestamp: new Date().toISOString(),
     });
-  }, [
-    isAuthenticated,
-    loginStatus,
-    identity,
-    appointmentsLoading,
-    appointmentsFetched,
-    appointmentsError,
-    appointments,
-    profileLoading,
-    profileFetched,
-    userProfile,
-    roleLoading,
-    roleFetched,
-    userRole,
-  ]);
+  }, [isAuthenticated, isLoggingIn, appointmentsLoading, appointmentsError, appointments]);
 
-  // Apply filters - must be called before any conditional returns
+  // Apply filters
   const filteredAppointments = useMemo(() => {
     if (!appointments) return [];
     
@@ -83,40 +54,20 @@ export default function StaffAppointmentsPage() {
     return filtered;
   }, [appointments, dateFilter, searchQuery]);
 
-  const isLoading = profileLoading || roleLoading || appointmentsLoading;
-
-  // Check if user has admin or user role
-  const hasAccess = userRole === UserRole.admin || userRole === UserRole.user;
-
+  // Show login form if not authenticated and not currently logging in
   if (!isAuthenticated) {
-    return (
-      <div className="container mx-auto px-4 py-12 max-w-2xl">
-        <Card className="border-2 bg-card/90 backdrop-blur">
-          <CardHeader className="text-center space-y-4">
-            <CardTitle className="text-3xl">Vijaya Children's Clinic - Staff Portal</CardTitle>
-            <CardDescription className="text-lg">
-              Please sign in to access the appointment management system for DR. K. MANICKAVINAYAGAR's clinic.
-            </CardDescription>
-          </CardHeader>
-          <CardContent className="flex justify-center py-6">
-            <LoginButton />
-          </CardContent>
-        </Card>
-      </div>
-    );
+    return <StaffLoginForm />;
   }
 
-  if (isLoading) {
+  // Show loading state while checking authentication or loading appointments
+  if (isLoggingIn || appointmentsLoading) {
     return (
       <div className="container mx-auto px-4 py-12">
         <div className="flex items-center justify-center min-h-[400px]">
           <div className="text-center space-y-4">
             <Loader2 className="w-12 h-12 animate-spin mx-auto text-primary" />
-            <p className="text-muted-foreground">Loading appointments...</p>
-            <p className="text-xs text-muted-foreground">
-              {appointmentsLoading && 'Fetching appointments...'}
-              {profileLoading && 'Loading profile...'}
-              {roleLoading && 'Checking permissions...'}
+            <p className="text-muted-foreground">
+              {isLoggingIn ? 'Authenticating...' : 'Loading appointments...'}
             </p>
           </div>
         </div>
@@ -124,30 +75,10 @@ export default function StaffAppointmentsPage() {
     );
   }
 
-  if (roleFetched && !hasAccess) {
-    return (
-      <div className="container mx-auto px-4 py-12 max-w-2xl">
-        <Card className="border-2 border-destructive bg-card/90 backdrop-blur">
-          <CardHeader>
-            <CardTitle className="text-destructive">Access Denied</CardTitle>
-            <CardDescription>
-              You do not have permission to view appointments. Only authorized clinic staff can access this page.
-              <br />
-              <span className="text-xs mt-2 block">Your role: {userRole || 'unknown'}</span>
-            </CardDescription>
-          </CardHeader>
-          <CardContent>
-            <LoginButton />
-          </CardContent>
-        </Card>
-      </div>
-    );
-  }
-
+  // Show error state
   if (appointmentsError) {
     const errorMessage = appointmentsError instanceof Error ? appointmentsError.message : String(appointmentsError);
     const isAuthError = errorMessage.includes('Unauthorized') || errorMessage.includes('permission');
-    const isNetworkError = errorMessage.includes('network') || errorMessage.includes('fetch');
 
     return (
       <div className="container mx-auto px-4 py-12 max-w-2xl">
@@ -158,17 +89,11 @@ export default function StaffAppointmentsPage() {
               Error Loading Appointments
             </CardTitle>
             <CardDescription>
-              {isAuthError && (
+              {isAuthError ? (
                 <>
-                  You don't have permission to view appointments. Please ensure you're logged in with an authorized staff account.
+                  You don't have permission to view appointments. Please log in again with valid staff credentials.
                 </>
-              )}
-              {isNetworkError && (
-                <>
-                  There was a network error loading the appointments. Please check your connection and try again.
-                </>
-              )}
-              {!isAuthError && !isNetworkError && (
+              ) : (
                 <>
                   There was an error loading the appointments. Please try refreshing the page or logging in again.
                 </>
@@ -184,7 +109,10 @@ export default function StaffAppointmentsPage() {
               </AlertDescription>
             </Alert>
             <div className="flex gap-2">
-              <LoginButton />
+              <Button variant="outline" onClick={logout}>
+                <LogOut className="mr-2 h-4 w-4" />
+                Log Out
+              </Button>
               <Button variant="outline" onClick={() => window.location.reload()}>
                 Refresh Page
               </Button>
@@ -221,10 +149,13 @@ export default function StaffAppointmentsPage() {
         <div>
           <h1 className="text-3xl md:text-4xl font-bold text-foreground mb-2">Appointment Requests</h1>
           <p className="text-lg text-muted-foreground">
-            {userProfile ? `Welcome, ${userProfile.name}` : "Vijaya Children's Clinic Staff Portal"}
+            Vijaya Children's Clinic Staff Portal
           </p>
         </div>
-        <LoginButton />
+        <Button variant="outline" onClick={logout}>
+          <LogOut className="mr-2 h-4 w-4" />
+          Log Out
+        </Button>
       </div>
 
       {/* Filters Section */}
@@ -314,12 +245,8 @@ export default function StaffAppointmentsPage() {
                             <div className="text-sm text-muted-foreground">{appointment.preferredTime}</div>
                           </div>
                         </TableCell>
-                        <TableCell>
-                          <div className="max-w-xs truncate text-sm">
-                            {appointment.reason || (
-                              <span className="text-muted-foreground italic">No reason provided</span>
-                            )}
-                          </div>
+                        <TableCell className="max-w-xs">
+                          <p className="text-sm line-clamp-2">{appointment.reason}</p>
                         </TableCell>
                         <TableCell className="text-sm text-muted-foreground">
                           {formatSubmissionTime(appointment.submissionTime)}
@@ -339,63 +266,64 @@ export default function StaffAppointmentsPage() {
             </Card>
           </div>
 
+          {/* Mobile view */}
           <div className="md:hidden space-y-4">
             {filteredAppointments.map((appointment, index) => {
               const originalIndex = appointments?.indexOf(appointment) ?? index;
               return (
                 <Card key={index} className="bg-card/90 backdrop-blur">
-                  <CardHeader>
-                    <div className="flex items-start justify-between gap-2 mb-2">
+                  <CardHeader className="pb-3">
+                    <div className="flex items-start justify-between gap-2">
+                      <div className="flex-1">
+                        <CardTitle className="text-lg">{appointment.parentName}</CardTitle>
+                        <CardDescription className="flex items-center gap-1 mt-1">
+                          <Baby className="w-3 h-3" />
+                          {appointment.childName}, {Number(appointment.childAge)} years
+                        </CardDescription>
+                      </div>
                       <AppointmentStatusBadge status={appointment.status} />
                     </div>
-                    <CardTitle className="text-lg flex items-center gap-2">
-                      <User className="w-5 h-5 text-primary" />
-                      {appointment.parentName}
-                    </CardTitle>
-                    <CardDescription className="flex items-center gap-2">
-                      <Baby className="w-4 h-4" />
-                      {appointment.childName} ({Number(appointment.childAge)} years)
-                    </CardDescription>
                   </CardHeader>
                   <CardContent className="space-y-3">
-                    <div className="flex items-center gap-2 text-sm">
-                      <Phone className="w-4 h-4 text-primary" />
-                      <a href={`tel:${appointment.phoneNumber}`} className="hover:underline">
-                        {appointment.phoneNumber}
-                      </a>
-                    </div>
-                    {appointment.email && (
-                      <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                        <Mail className="w-4 h-4" />
-                        <a href={`mailto:${appointment.email}`} className="hover:underline">
-                          {appointment.email}
+                    <div className="space-y-2">
+                      <div className="flex items-center gap-2 text-sm">
+                        <Phone className="w-4 h-4 text-muted-foreground" />
+                        <a href={`tel:${appointment.phoneNumber}`} className="hover:underline">
+                          {appointment.phoneNumber}
                         </a>
                       </div>
-                    )}
-                    <div className="flex items-center gap-2 text-sm">
-                      <Calendar className="w-4 h-4 text-primary" />
-                      <span className="font-medium">{formatDate(appointment.preferredDate)}</span>
+                      {appointment.email && (
+                        <div className="flex items-center gap-2 text-sm">
+                          <Mail className="w-4 h-4 text-muted-foreground" />
+                          <a href={`mailto:${appointment.email}`} className="hover:underline text-muted-foreground">
+                            {appointment.email}
+                          </a>
+                        </div>
+                      )}
                     </div>
-                    <div className="flex items-center gap-2 text-sm">
-                      <Clock className="w-4 h-4 text-primary" />
-                      <span>{appointment.preferredTime}</span>
-                    </div>
-                    {appointment.reason && (
-                      <div className="pt-2 border-t">
-                        <p className="text-sm text-muted-foreground mb-1">Reason:</p>
-                        <p className="text-sm">{appointment.reason}</p>
+                    <div className="space-y-2">
+                      <div className="flex items-center gap-2 text-sm">
+                        <Calendar className="w-4 h-4 text-muted-foreground" />
+                        <span className="font-medium">{formatDate(appointment.preferredDate)}</span>
                       </div>
-                    )}
+                      <div className="flex items-center gap-2 text-sm">
+                        <Clock className="w-4 h-4 text-muted-foreground" />
+                        <span>{appointment.preferredTime}</span>
+                      </div>
+                    </div>
                     <div className="pt-2 border-t">
-                      <p className="text-sm text-muted-foreground mb-2">Update Status:</p>
+                      <p className="text-sm text-muted-foreground mb-1">Reason for visit:</p>
+                      <p className="text-sm">{appointment.reason}</p>
+                    </div>
+                    <div className="text-xs text-muted-foreground">
+                      Submitted: {formatSubmissionTime(appointment.submissionTime)}
+                    </div>
+                    <div className="pt-2">
                       <AppointmentStatusDropdown
                         currentStatus={appointment.status}
                         appointmentIndex={originalIndex}
                         onStatusChange={handleStatusChange}
                       />
-                    </div>
-                    <div className="pt-2 border-t text-xs text-muted-foreground">
-                      Submitted: {formatSubmissionTime(appointment.submissionTime)}
                     </div>
                   </CardContent>
                 </Card>

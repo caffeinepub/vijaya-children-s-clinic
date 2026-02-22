@@ -1,8 +1,6 @@
-import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { useActor } from './useActor';
-import type { AppointmentRequest, UserProfile, UserRole, AppointmentStatus } from '../backend';
-import { toast } from 'sonner';
-import { useEffect } from 'react';
+import { AppointmentRequest, AppointmentStatus, UserProfile, UserRole } from '../backend';
 
 export function useCreateAppointment() {
   const { actor } = useActor();
@@ -25,61 +23,60 @@ export function useListAppointments() {
   const query = useQuery<AppointmentRequest[]>({
     queryKey: ['appointments'],
     queryFn: async () => {
-      console.log('[useListAppointments] Query function called', {
-        actorAvailable: !!actor,
-        timestamp: new Date().toISOString(),
-      });
-
+      console.log('[useListAppointments] Starting query, actor available:', !!actor);
       if (!actor) {
-        console.error('[useListAppointments] Actor not available in queryFn');
+        console.log('[useListAppointments] No actor available, throwing error');
         throw new Error('Actor not available');
       }
-
+      
       try {
-        console.log('[useListAppointments] Calling actor.listAppointments()...');
-        const appointments = await actor.listAppointments();
-        console.log('[useListAppointments] Successfully fetched appointments', {
-          count: appointments.length,
-          appointments: appointments,
-          timestamp: new Date().toISOString(),
-        });
-        return appointments;
-      } catch (error: any) {
-        console.error('[useListAppointments] Error fetching appointments:', {
-          error,
-          errorMessage: error?.message,
-          errorStack: error?.stack,
-          errorType: typeof error,
-          timestamp: new Date().toISOString(),
-        });
+        console.log('[useListAppointments] Calling listAppointments...');
+        const result = await actor.listAppointments();
+        console.log('[useListAppointments] Success! Received appointments:', result.length);
+        return result;
+      } catch (error) {
+        console.error('[useListAppointments] Error fetching appointments:', error);
         throw error;
       }
     },
     enabled: !!actor && !actorFetching,
-    retry: 1,
+    retry: (failureCount, error) => {
+      console.log('[useListAppointments] Retry attempt:', failureCount, 'Error:', error);
+      const errorMessage = error instanceof Error ? error.message : String(error);
+      if (errorMessage.includes('Unauthorized') || errorMessage.includes('permission')) {
+        console.log('[useListAppointments] Authorization error, not retrying');
+        return false;
+      }
+      return failureCount < 2;
+    },
     retryDelay: 1000,
   });
 
-  // Log query state changes
-  useEffect(() => {
-    console.log('[useListAppointments] Query state changed:', {
-      isLoading: query.isLoading,
-      isFetching: query.isFetching,
-      isError: query.isError,
-      error: query.error,
-      dataCount: query.data?.length,
-      enabled: !!actor && !actorFetching,
-      actorAvailable: !!actor,
-      actorFetching,
-      timestamp: new Date().toISOString(),
-    });
-  }, [query.isLoading, query.isFetching, query.isError, query.error, query.data, actor, actorFetching]);
+  console.log('[useListAppointments] Query state:', {
+    isLoading: query.isLoading,
+    isFetching: query.isFetching,
+    isError: query.isError,
+    error: query.error?.toString(),
+    dataLength: query.data?.length,
+    actorFetching,
+  });
 
-  return {
-    ...query,
-    isLoading: actorFetching || query.isLoading,
-    isFetched: !!actor && query.isFetched,
-  };
+  return query;
+}
+
+export function useUpdateAppointmentStatus() {
+  const { actor } = useActor();
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: async ({ index, status }: { index: bigint; status: AppointmentStatus }) => {
+      if (!actor) throw new Error('Actor not available');
+      return actor.updateAppointmentStatus(index, status);
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['appointments'] });
+    },
+  });
 }
 
 export function useGetCallerUserProfile() {
@@ -88,16 +85,8 @@ export function useGetCallerUserProfile() {
   const query = useQuery<UserProfile | null>({
     queryKey: ['currentUserProfile'],
     queryFn: async () => {
-      console.log('[useGetCallerUserProfile] Query function called');
       if (!actor) throw new Error('Actor not available');
-      try {
-        const profile = await actor.getCallerUserProfile();
-        console.log('[useGetCallerUserProfile] Profile fetched:', profile);
-        return profile;
-      } catch (error: any) {
-        console.error('[useGetCallerUserProfile] Error:', error?.message);
-        throw error;
-      }
+      return actor.getCallerUserProfile();
     },
     enabled: !!actor && !actorFetching,
     retry: false,
@@ -108,6 +97,19 @@ export function useGetCallerUserProfile() {
     isLoading: actorFetching || query.isLoading,
     isFetched: !!actor && query.isFetched,
   };
+}
+
+export function useGetCallerUserRole() {
+  const { actor, isFetching: actorFetching } = useActor();
+
+  return useQuery<UserRole>({
+    queryKey: ['currentUserRole'],
+    queryFn: async () => {
+      if (!actor) throw new Error('Actor not available');
+      return actor.getCallerUserRole();
+    },
+    enabled: !!actor && !actorFetching,
+  });
 }
 
 export function useSaveCallerUserProfile() {
@@ -121,75 +123,6 @@ export function useSaveCallerUserProfile() {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['currentUserProfile'] });
-      queryClient.invalidateQueries({ queryKey: ['currentUserRole'] });
-    },
-  });
-}
-
-export function useGetCallerUserRole() {
-  const { actor, isFetching: actorFetching } = useActor();
-
-  const query = useQuery<UserRole>({
-    queryKey: ['currentUserRole'],
-    queryFn: async () => {
-      console.log('[useGetCallerUserRole] Query function called');
-      if (!actor) throw new Error('Actor not available');
-      try {
-        const role = await actor.getCallerUserRole();
-        console.log('[useGetCallerUserRole] Role fetched:', role);
-        return role;
-      } catch (error: any) {
-        console.error('[useGetCallerUserRole] Error:', error?.message);
-        throw error;
-      }
-    },
-    enabled: !!actor && !actorFetching,
-    retry: false,
-  });
-
-  return {
-    ...query,
-    isLoading: actorFetching || query.isLoading,
-    isFetched: !!actor && query.isFetched,
-  };
-}
-
-export function useUpdateAppointmentStatus() {
-  const { actor } = useActor();
-  const queryClient = useQueryClient();
-
-  return useMutation({
-    mutationFn: async ({ index, status }: { index: bigint; status: AppointmentStatus }) => {
-      if (!actor) throw new Error('Actor not available');
-      return actor.updateAppointmentStatus(index, status);
-    },
-    onMutate: async ({ index, status }) => {
-      await queryClient.cancelQueries({ queryKey: ['appointments'] });
-      const previousAppointments = queryClient.getQueryData<AppointmentRequest[]>(['appointments']);
-
-      if (previousAppointments) {
-        const optimisticAppointments = [...previousAppointments];
-        const appointmentIndex = Number(index);
-        if (appointmentIndex < optimisticAppointments.length) {
-          optimisticAppointments[appointmentIndex] = {
-            ...optimisticAppointments[appointmentIndex],
-            status,
-          };
-          queryClient.setQueryData(['appointments'], optimisticAppointments);
-        }
-      }
-
-      return { previousAppointments };
-    },
-    onError: (err, variables, context) => {
-      if (context?.previousAppointments) {
-        queryClient.setQueryData(['appointments'], context.previousAppointments);
-      }
-      toast.error('Failed to update appointment status');
-    },
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['appointments'] });
-      toast.success('Appointment status updated successfully');
     },
   });
 }

@@ -1,92 +1,74 @@
-import { useState, useEffect } from 'react';
-import { useInternetIdentity } from '../hooks/useInternetIdentity';
-import { useGetCallerUserProfile, useSaveCallerUserProfile } from '../hooks/useQueries';
+import { useState } from 'react';
+import { useSaveCallerUserProfile } from '../hooks/useQueries';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
 import {
   Dialog,
   DialogContent,
   DialogDescription,
-  DialogFooter,
   DialogHeader,
   DialogTitle,
 } from '@/components/ui/dialog';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import { Button } from '@/components/ui/button';
-import { Loader2 } from 'lucide-react';
+import { Loader2, User } from 'lucide-react';
 
 export default function ProfileSetupModal() {
-  const { identity } = useInternetIdentity();
-  const { data: userProfile, isLoading: profileLoading, isFetched } = useGetCallerUserProfile();
-  const saveProfile = useSaveCallerUserProfile();
-
   const [name, setName] = useState('');
-  const [error, setError] = useState('');
-
-  const isAuthenticated = !!identity;
-  const showProfileSetup = isAuthenticated && !profileLoading && isFetched && userProfile === null;
-
-  useEffect(() => {
-    if (!showProfileSetup) {
-      setName('');
-      setError('');
-    }
-  }, [showProfileSetup]);
+  const saveProfile = useSaveCallerUserProfile();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-
-    if (!name.trim()) {
-      setError('Please enter your name');
-      return;
-    }
+    if (!name.trim()) return;
 
     try {
       await saveProfile.mutateAsync({ name: name.trim() });
-    } catch (err) {
-      console.error('Failed to save profile:', err);
-      setError('Failed to save profile. Please try again.');
+    } catch (error) {
+      console.error('Error saving profile:', error);
     }
   };
 
   return (
-    <Dialog open={showProfileSetup}>
-      <DialogContent className="sm:max-w-md bg-card/95 backdrop-blur" showCloseButton={false}>
-        <form onSubmit={handleSubmit}>
-          <DialogHeader>
-            <DialogTitle>Welcome to Vijaya Children's Clinic</DialogTitle>
-            <DialogDescription>
-              Please enter your name to complete your staff profile setup for DR. K. MANICKAVINAYAGAR's clinic.
-            </DialogDescription>
-          </DialogHeader>
-          <div className="py-4">
-            <div className="space-y-2">
-              <Label htmlFor="name">Your Name</Label>
-              <Input
-                id="name"
-                value={name}
-                onChange={(e) => {
-                  setName(e.target.value);
-                  if (error) setError('');
-                }}
-                placeholder="Enter your full name"
-                disabled={saveProfile.isPending}
-                autoFocus
-              />
-              {error && <p className="text-sm text-destructive">{error}</p>}
-            </div>
+    <Dialog open={true} onOpenChange={() => {}}>
+      <DialogContent className="sm:max-w-[425px]" onPointerDownOutside={(e) => e.preventDefault()}>
+        <DialogHeader>
+          <DialogTitle className="flex items-center gap-2">
+            <User className="h-5 w-5" />
+            Welcome to Vijaya Children's Clinic
+          </DialogTitle>
+          <DialogDescription>
+            Please enter your name to complete your admin profile setup.
+          </DialogDescription>
+        </DialogHeader>
+        <form onSubmit={handleSubmit} className="space-y-4 pt-4">
+          <div className="space-y-2">
+            <Label htmlFor="name">
+              Your Name <span className="text-destructive">*</span>
+            </Label>
+            <Input
+              id="name"
+              type="text"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              placeholder="Enter your full name"
+              disabled={saveProfile.isPending}
+              required
+              autoFocus
+            />
           </div>
-          <DialogFooter>
-            <Button type="submit" disabled={saveProfile.isPending} className="w-full">
-              {saveProfile.isPending ? (
-                <>
-                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                  Saving...
-                </>
-              ) : (
-                'Continue'
-              )}
-            </Button>
-          </DialogFooter>
+          <Button
+            type="submit"
+            className="w-full"
+            disabled={saveProfile.isPending || !name.trim()}
+          >
+            {saveProfile.isPending ? (
+              <>
+                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                Saving...
+              </>
+            ) : (
+              'Continue'
+            )}
+          </Button>
         </form>
       </DialogContent>
     </Dialog>

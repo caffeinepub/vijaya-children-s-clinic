@@ -14,6 +14,7 @@ export default function SiteHeader() {
     { label: 'Home', path: '/' },
     { label: 'Book Appointment', path: '/book' },
     { label: 'Staff', path: '/staff' },
+    { label: 'Admin Login', path: '/admin-login' },
   ];
 
   return (

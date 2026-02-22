@@ -24,6 +24,10 @@ export const UserRole = IDL.Variant({
   'user' : IDL.Null,
   'guest' : IDL.Null,
 });
+export const StaffCredentials = IDL.Record({
+  'userId' : IDL.Text,
+  'password' : IDL.Text,
+});
 export const AppointmentStatus = IDL.Variant({
   'cancelled' : IDL.Null,
   'pending' : IDL.Null,
@@ -41,6 +45,17 @@ export const AppointmentRequest = IDL.Record({
   'childName' : IDL.Text,
   'parentName' : IDL.Text,
   'reason' : IDL.Text,
+});
+export const ActivationStatus = IDL.Variant({
+  'activated' : IDL.Null,
+  'deleted' : IDL.Null,
+  'deactivated' : IDL.Null,
+});
+export const StaffUser = IDL.Record({
+  'status' : ActivationStatus,
+  'userId' : IDL.Text,
+  'password' : IDL.Text,
+  'email' : IDL.Opt(IDL.Text),
 });
 export const UserProfile = IDL.Record({ 'name' : IDL.Text });
 
@@ -73,9 +88,16 @@ export const idlService = IDL.Service({
   '_caffeineStorageUpdateGatewayPrincipals' : IDL.Func([], [], []),
   '_initializeAccessControlWithSecret' : IDL.Func([IDL.Text], [], []),
   'assignCallerUserRole' : IDL.Func([IDL.Principal, UserRole], [], []),
+  'authenticateStaff' : IDL.Func([StaffCredentials], [IDL.Bool], []),
   'createAppointment' : IDL.Func([AppointmentRequest], [], []),
+  'createStaffUser' : IDL.Func([StaffUser], [], []),
+  'deactivateStaffUser' : IDL.Func([IDL.Text], [], []),
+  'deleteStaffUser' : IDL.Func([IDL.Text], [], []),
+  'getAllActiveStaffUsers' : IDL.Func([], [IDL.Vec(StaffUser)], ['query']),
   'getCallerUserProfile' : IDL.Func([], [IDL.Opt(UserProfile)], ['query']),
   'getCallerUserRole' : IDL.Func([], [UserRole], ['query']),
+  'getDeletedStaffUsers' : IDL.Func([], [IDL.Vec(StaffUser)], ['query']),
+  'getInactiveStaffUsers' : IDL.Func([], [IDL.Vec(StaffUser)], ['query']),
   'getUserProfile' : IDL.Func(
       [IDL.Principal],
       [IDL.Opt(UserProfile)],
@@ -83,8 +105,10 @@ export const idlService = IDL.Service({
     ),
   'isCallerAdmin' : IDL.Func([], [IDL.Bool], ['query']),
   'listAppointments' : IDL.Func([], [IDL.Vec(AppointmentRequest)], ['query']),
+  'logoutStaff' : IDL.Func([], [], []),
   'saveCallerUserProfile' : IDL.Func([UserProfile], [], []),
   'updateAppointmentStatus' : IDL.Func([IDL.Nat, AppointmentStatus], [], []),
+  'updateStaffUser' : IDL.Func([IDL.Text, StaffUser], [], []),
 });
 
 export const idlInitArgs = [];
@@ -106,6 +130,10 @@ export const idlFactory = ({ IDL }) => {
     'user' : IDL.Null,
     'guest' : IDL.Null,
   });
+  const StaffCredentials = IDL.Record({
+    'userId' : IDL.Text,
+    'password' : IDL.Text,
+  });
   const AppointmentStatus = IDL.Variant({
     'cancelled' : IDL.Null,
     'pending' : IDL.Null,
@@ -123,6 +151,17 @@ export const idlFactory = ({ IDL }) => {
     'childName' : IDL.Text,
     'parentName' : IDL.Text,
     'reason' : IDL.Text,
+  });
+  const ActivationStatus = IDL.Variant({
+    'activated' : IDL.Null,
+    'deleted' : IDL.Null,
+    'deactivated' : IDL.Null,
+  });
+  const StaffUser = IDL.Record({
+    'status' : ActivationStatus,
+    'userId' : IDL.Text,
+    'password' : IDL.Text,
+    'email' : IDL.Opt(IDL.Text),
   });
   const UserProfile = IDL.Record({ 'name' : IDL.Text });
   
@@ -155,9 +194,16 @@ export const idlFactory = ({ IDL }) => {
     '_caffeineStorageUpdateGatewayPrincipals' : IDL.Func([], [], []),
     '_initializeAccessControlWithSecret' : IDL.Func([IDL.Text], [], []),
     'assignCallerUserRole' : IDL.Func([IDL.Principal, UserRole], [], []),
+    'authenticateStaff' : IDL.Func([StaffCredentials], [IDL.Bool], []),
     'createAppointment' : IDL.Func([AppointmentRequest], [], []),
+    'createStaffUser' : IDL.Func([StaffUser], [], []),
+    'deactivateStaffUser' : IDL.Func([IDL.Text], [], []),
+    'deleteStaffUser' : IDL.Func([IDL.Text], [], []),
+    'getAllActiveStaffUsers' : IDL.Func([], [IDL.Vec(StaffUser)], ['query']),
     'getCallerUserProfile' : IDL.Func([], [IDL.Opt(UserProfile)], ['query']),
     'getCallerUserRole' : IDL.Func([], [UserRole], ['query']),
+    'getDeletedStaffUsers' : IDL.Func([], [IDL.Vec(StaffUser)], ['query']),
+    'getInactiveStaffUsers' : IDL.Func([], [IDL.Vec(StaffUser)], ['query']),
     'getUserProfile' : IDL.Func(
         [IDL.Principal],
         [IDL.Opt(UserProfile)],
@@ -165,8 +211,10 @@ export const idlFactory = ({ IDL }) => {
       ),
     'isCallerAdmin' : IDL.Func([], [IDL.Bool], ['query']),
     'listAppointments' : IDL.Func([], [IDL.Vec(AppointmentRequest)], ['query']),
+    'logoutStaff' : IDL.Func([], [], []),
     'saveCallerUserProfile' : IDL.Func([UserProfile], [], []),
     'updateAppointmentStatus' : IDL.Func([IDL.Nat, AppointmentStatus], [], []),
+    'updateStaffUser' : IDL.Func([IDL.Text, StaffUser], [], []),
   });
 };
 

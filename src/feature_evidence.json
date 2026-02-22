@@ -2,57 +2,12 @@
   "kind": "feature_evidence_report",
   "features": [
     {
-      "featureId": "feature-extract-and-use-the-vijaya-children-s-clinic-logo-from-img-20260221-wa0006-jpg-as-the-website-logo-throughout-the-application-replacing-any-existing-placeholder-logos",
-      "featureTitle": "Extract and use the Vijaya Children's Clinic logo from IMG-20260221-WA0006.jpg as the website logo throughout the application, replacing any existing placeholder logos",
+      "featureId": "feature-ensure-the-staffloginform-component-correctly-handles-the-authentication-response-and-stores-the-token-in-localstorage-via-usestaffauth-hook",
+      "featureTitle": "Ensure the StaffLoginForm component correctly handles the authentication response and stores the token in localStorage via useStaffAuth hook",
       "files": [
-        "frontend/src/components/SiteHeader.tsx",
-        "frontend/src/pages/LandingPage.tsx"
-      ],
-      "components": [
-        "authorization@4.0.0",
-        "core-infrastructure@1.0.2",
-        "shadcn-ui@1.0.0",
-        "build-template-react@1.0.0",
-        "initial-app@1.0.0",
-        "github-export-icp-cli@1.0.0",
-        "blob-storage@4.0.0"
-      ],
-      "testIds": [
-        "REQ-1"
-      ],
-      "confidence": "high"
-    },
-    {
-      "featureId": "feature-apply-the-color-scheme-from-the-uploaded-images-throughout-the-public-facing-sections-use-cyan-00bcd4-green-4caf50-and-blue-2196f3-gradients-matching-the-clinic-s-branding-materials",
-      "featureTitle": "Apply the color scheme from the uploaded images throughout the public-facing sections: use cyan (#00BCD4), green (#4CAF50), and blue (#2196F3) gradients matching the clinic's branding materials",
-      "files": [
-        "frontend/src/components/SiteFooter.tsx",
-        "frontend/src/index.css",
-        "frontend/src/pages/BookAppointmentPage.tsx",
-        "frontend/src/pages/BookingConfirmationPage.tsx",
-        "frontend/src/pages/LandingPage.tsx",
-        "frontend/tailwind.config.js"
-      ],
-      "components": [
-        "authorization@4.0.0",
-        "core-infrastructure@1.0.2",
-        "shadcn-ui@1.0.0",
-        "build-template-react@1.0.0",
-        "initial-app@1.0.0",
-        "github-export-icp-cli@1.0.0",
-        "blob-storage@4.0.0"
-      ],
-      "testIds": [
-        "REQ-2"
-      ],
-      "confidence": "high"
-    },
-    {
-      "featureId": "feature-update-the-landing-page-to-prominently-display-all-clinic-information-visible-in-img-20260221-wa0006-jpg-doctor-s-name-dr-k-manicka-vinayagar-m-b-b-s-m-d-credentials-consultant-paediatrician-new-born-and-child-specialist-registration-number-reg-no-152853-services-with-icons-newborn-care-vaccination-fever-nebulization-growth-monitoring-contact-number-93637-16343-clinic-timings-mon-to-sat-7-pm-to-9-pm-sundays-on-appointment-and-address-no-1-1st-street-balaji-nagar-anakaputhur-chennai-600-070",
-      "featureTitle": "Update the landing page to prominently display all clinic information visible in IMG-20260221-WA0006.jpg: doctor's name (Dr. K. Manicka Vinayagar M.B.B.S, M.D), credentials (Consultant Paediatrician - New Born and Child Specialist), registration number (Reg.No: 152853), services with icons (Newborn Care, Vaccination, Fever, Nebulization, Growth Monitoring), contact number (93637 16343), clinic timings (Mon to Sat 7 PM to 9 PM, Sundays on appointment), and address (No.1, 1st street, Balaji Nagar, Anakaputhur, Chennai - 600 070)",
-      "files": [
-        "frontend/src/components/ClinicDetailsSection.tsx",
-        "frontend/src/pages/LandingPage.tsx"
+        "frontend/src/components/StaffLoginForm.tsx",
+        "frontend/src/hooks/useStaffAuth.ts",
+        "frontend/src/pages/StaffAppointmentsPage.tsx"
       ],
       "components": [
         "authorization@4.0.0",
@@ -65,26 +20,6 @@
       ],
       "testIds": [
         "REQ-3"
-      ],
-      "confidence": "high"
-    },
-    {
-      "featureId": "feature-display-the-tamil-tagline-child-welfare-is-our-priority-and-english-tagline-growing-healthy-futures-on-the-landing-page-as-shown-in-the-uploaded-branding-images",
-      "featureTitle": "Display the Tamil tagline 'குழந்தை நலனே எங்கள் முதன்மை' (Child welfare is our priority) and English tagline 'Growing Healthy Futures' on the landing page as shown in the uploaded branding images",
-      "files": [
-        "frontend/src/pages/LandingPage.tsx"
-      ],
-      "components": [
-        "authorization@4.0.0",
-        "core-infrastructure@1.0.2",
-        "shadcn-ui@1.0.0",
-        "build-template-react@1.0.0",
-        "initial-app@1.0.0",
-        "github-export-icp-cli@1.0.0",
-        "blob-storage@4.0.0"
-      ],
-      "testIds": [
-        "REQ-4"
       ],
       "confidence": "high"
     }

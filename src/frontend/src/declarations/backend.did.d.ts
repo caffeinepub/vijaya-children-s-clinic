@@ -10,6 +10,9 @@ import type { ActorMethod } from '@icp-sdk/core/agent';
 import type { IDL } from '@icp-sdk/core/candid';
 import type { Principal } from '@icp-sdk/core/principal';
 
+export type ActivationStatus = { 'activated' : null } |
+  { 'deleted' : null } |
+  { 'deactivated' : null };
 export interface AppointmentRequest {
   'status' : AppointmentStatus,
   'email' : [] | [string],
@@ -26,6 +29,13 @@ export type AppointmentStatus = { 'cancelled' : null } |
   { 'pending' : null } |
   { 'completed' : null } |
   { 'confirmed' : null };
+export interface StaffCredentials { 'userId' : string, 'password' : string }
+export interface StaffUser {
+  'status' : ActivationStatus,
+  'userId' : string,
+  'password' : string,
+  'email' : [] | [string],
+}
 export interface UserProfile { 'name' : string }
 export type UserRole = { 'admin' : null } |
   { 'user' : null } |
@@ -59,17 +69,26 @@ export interface _SERVICE {
   '_caffeineStorageUpdateGatewayPrincipals' : ActorMethod<[], undefined>,
   '_initializeAccessControlWithSecret' : ActorMethod<[string], undefined>,
   'assignCallerUserRole' : ActorMethod<[Principal, UserRole], undefined>,
+  'authenticateStaff' : ActorMethod<[StaffCredentials], boolean>,
   'createAppointment' : ActorMethod<[AppointmentRequest], undefined>,
+  'createStaffUser' : ActorMethod<[StaffUser], undefined>,
+  'deactivateStaffUser' : ActorMethod<[string], undefined>,
+  'deleteStaffUser' : ActorMethod<[string], undefined>,
+  'getAllActiveStaffUsers' : ActorMethod<[], Array<StaffUser>>,
   'getCallerUserProfile' : ActorMethod<[], [] | [UserProfile]>,
   'getCallerUserRole' : ActorMethod<[], UserRole>,
+  'getDeletedStaffUsers' : ActorMethod<[], Array<StaffUser>>,
+  'getInactiveStaffUsers' : ActorMethod<[], Array<StaffUser>>,
   'getUserProfile' : ActorMethod<[Principal], [] | [UserProfile]>,
   'isCallerAdmin' : ActorMethod<[], boolean>,
   'listAppointments' : ActorMethod<[], Array<AppointmentRequest>>,
+  'logoutStaff' : ActorMethod<[], undefined>,
   'saveCallerUserProfile' : ActorMethod<[UserProfile], undefined>,
   'updateAppointmentStatus' : ActorMethod<
     [bigint, AppointmentStatus],
     undefined
   >,
+  'updateStaffUser' : ActorMethod<[string, StaffUser], undefined>,
 }
 export declare const idlService: IDL.ServiceClass;
 export declare const idlInitArgs: IDL.Type[];

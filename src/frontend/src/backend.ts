@@ -89,6 +89,16 @@ export class ExternalBlob {
         return this;
     }
 }
+export interface StaffCredentials {
+    userId: string;
+    password: string;
+}
+export interface StaffUser {
+    status: ActivationStatus;
+    userId: string;
+    password: string;
+    email?: string;
+}
 export interface _CaffeineStorageRefillInformation {
     proposed_top_up_amount?: bigint;
 }
@@ -115,6 +125,11 @@ export interface _CaffeineStorageRefillResult {
     success?: boolean;
     topped_up_amount?: bigint;
 }
+export enum ActivationStatus {
+    activated = "activated",
+    deleted = "deleted",
+    deactivated = "deactivated"
+}
 export enum AppointmentStatus {
     cancelled = "cancelled",
     pending = "pending",
@@ -135,16 +150,25 @@ export interface backendInterface {
     _caffeineStorageUpdateGatewayPrincipals(): Promise<void>;
     _initializeAccessControlWithSecret(userSecret: string): Promise<void>;
     assignCallerUserRole(user: Principal, role: UserRole): Promise<void>;
+    authenticateStaff(arg0: StaffCredentials): Promise<boolean>;
     createAppointment(request: AppointmentRequest): Promise<void>;
+    createStaffUser(newUser: StaffUser): Promise<void>;
+    deactivateStaffUser(userId: string): Promise<void>;
+    deleteStaffUser(userId: string): Promise<void>;
+    getAllActiveStaffUsers(): Promise<Array<StaffUser>>;
     getCallerUserProfile(): Promise<UserProfile | null>;
     getCallerUserRole(): Promise<UserRole>;
+    getDeletedStaffUsers(): Promise<Array<StaffUser>>;
+    getInactiveStaffUsers(): Promise<Array<StaffUser>>;
     getUserProfile(user: Principal): Promise<UserProfile | null>;
     isCallerAdmin(): Promise<boolean>;
     listAppointments(): Promise<Array<AppointmentRequest>>;
+    logoutStaff(): Promise<void>;
     saveCallerUserProfile(profile: UserProfile): Promise<void>;
     updateAppointmentStatus(index: bigint, newStatus: AppointmentStatus): Promise<void>;
+    updateStaffUser(userId: string, updatedUser: StaffUser): Promise<void>;
 }
-import type { AppointmentRequest as _AppointmentRequest, AppointmentStatus as _AppointmentStatus, UserProfile as _UserProfile, UserRole as _UserRole, _CaffeineStorageRefillInformation as __CaffeineStorageRefillInformation, _CaffeineStorageRefillResult as __CaffeineStorageRefillResult } from "./declarations/backend.did.d.ts";
+import type { ActivationStatus as _ActivationStatus, AppointmentRequest as _AppointmentRequest, AppointmentStatus as _AppointmentStatus, StaffUser as _StaffUser, UserProfile as _UserProfile, UserRole as _UserRole, _CaffeineStorageRefillInformation as __CaffeineStorageRefillInformation, _CaffeineStorageRefillResult as __CaffeineStorageRefillResult } from "./declarations/backend.did.d.ts";
 export class Backend implements backendInterface {
     constructor(private actor: ActorSubclass<_SERVICE>, private _uploadFile: (file: ExternalBlob) => Promise<Uint8Array>, private _downloadFile: (file: Uint8Array) => Promise<ExternalBlob>, private processError?: (error: unknown) => never){}
     async _caffeineStorageBlobIsLive(arg0: Uint8Array): Promise<boolean> {
@@ -259,6 +283,20 @@ export class Backend implements backendInterface {
             return result;
         }
     }
+    async authenticateStaff(arg0: StaffCredentials): Promise<boolean> {
+        if (this.processError) {
+            try {
+                const result = await this.actor.authenticateStaff(arg0);
+                return result;
+            } catch (e) {
+                this.processError(e);
+                throw new Error("unreachable");
+            }
+        } else {
+            const result = await this.actor.authenticateStaff(arg0);
+            return result;
+        }
+    }
     async createAppointment(arg0: AppointmentRequest): Promise<void> {
         if (this.processError) {
             try {
@@ -273,46 +311,130 @@ export class Backend implements backendInterface {
             return result;
         }
     }
+    async createStaffUser(arg0: StaffUser): Promise<void> {
+        if (this.processError) {
+            try {
+                const result = await this.actor.createStaffUser(to_candid_StaffUser_n14(this._uploadFile, this._downloadFile, arg0));
+                return result;
+            } catch (e) {
+                this.processError(e);
+                throw new Error("unreachable");
+            }
+        } else {
+            const result = await this.actor.createStaffUser(to_candid_StaffUser_n14(this._uploadFile, this._downloadFile, arg0));
+            return result;
+        }
+    }
+    async deactivateStaffUser(arg0: string): Promise<void> {
+        if (this.processError) {
+            try {
+                const result = await this.actor.deactivateStaffUser(arg0);
+                return result;
+            } catch (e) {
+                this.processError(e);
+                throw new Error("unreachable");
+            }
+        } else {
+            const result = await this.actor.deactivateStaffUser(arg0);
+            return result;
+        }
+    }
+    async deleteStaffUser(arg0: string): Promise<void> {
+        if (this.processError) {
+            try {
+                const result = await this.actor.deleteStaffUser(arg0);
+                return result;
+            } catch (e) {
+                this.processError(e);
+                throw new Error("unreachable");
+            }
+        } else {
+            const result = await this.actor.deleteStaffUser(arg0);
+            return result;
+        }
+    }
+    async getAllActiveStaffUsers(): Promise<Array<StaffUser>> {
+        if (this.processError) {
+            try {
+                const result = await this.actor.getAllActiveStaffUsers();
+                return from_candid_vec_n18(this._uploadFile, this._downloadFile, result);
+            } catch (e) {
+                this.processError(e);
+                throw new Error("unreachable");
+            }
+        } else {
+            const result = await this.actor.getAllActiveStaffUsers();
+            return from_candid_vec_n18(this._uploadFile, this._downloadFile, result);
+        }
+    }
     async getCallerUserProfile(): Promise<UserProfile | null> {
         if (this.processError) {
             try {
                 const result = await this.actor.getCallerUserProfile();
-                return from_candid_opt_n14(this._uploadFile, this._downloadFile, result);
+                return from_candid_opt_n24(this._uploadFile, this._downloadFile, result);
             } catch (e) {
                 this.processError(e);
                 throw new Error("unreachable");
             }
         } else {
             const result = await this.actor.getCallerUserProfile();
-            return from_candid_opt_n14(this._uploadFile, this._downloadFile, result);
+            return from_candid_opt_n24(this._uploadFile, this._downloadFile, result);
         }
     }
     async getCallerUserRole(): Promise<UserRole> {
         if (this.processError) {
             try {
                 const result = await this.actor.getCallerUserRole();
-                return from_candid_UserRole_n15(this._uploadFile, this._downloadFile, result);
+                return from_candid_UserRole_n25(this._uploadFile, this._downloadFile, result);
             } catch (e) {
                 this.processError(e);
                 throw new Error("unreachable");
             }
         } else {
             const result = await this.actor.getCallerUserRole();
-            return from_candid_UserRole_n15(this._uploadFile, this._downloadFile, result);
+            return from_candid_UserRole_n25(this._uploadFile, this._downloadFile, result);
+        }
+    }
+    async getDeletedStaffUsers(): Promise<Array<StaffUser>> {
+        if (this.processError) {
+            try {
+                const result = await this.actor.getDeletedStaffUsers();
+                return from_candid_vec_n18(this._uploadFile, this._downloadFile, result);
+            } catch (e) {
+                this.processError(e);
+                throw new Error("unreachable");
+            }
+        } else {
+            const result = await this.actor.getDeletedStaffUsers();
+            return from_candid_vec_n18(this._uploadFile, this._downloadFile, result);
+        }
+    }
+    async getInactiveStaffUsers(): Promise<Array<StaffUser>> {
+        if (this.processError) {
+            try {
+                const result = await this.actor.getInactiveStaffUsers();
+                return from_candid_vec_n18(this._uploadFile, this._downloadFile, result);
+            } catch (e) {
+                this.processError(e);
+                throw new Error("unreachable");
+            }
+        } else {
+            const result = await this.actor.getInactiveStaffUsers();
+            return from_candid_vec_n18(this._uploadFile, this._downloadFile, result);
         }
     }
     async getUserProfile(arg0: Principal): Promise<UserProfile | null> {
         if (this.processError) {
             try {
                 const result = await this.actor.getUserProfile(arg0);
-                return from_candid_opt_n14(this._uploadFile, this._downloadFile, result);
+                return from_candid_opt_n24(this._uploadFile, this._downloadFile, result);
             } catch (e) {
                 this.processError(e);
                 throw new Error("unreachable");
             }
         } else {
             const result = await this.actor.getUserProfile(arg0);
-            return from_candid_opt_n14(this._uploadFile, this._downloadFile, result);
+            return from_candid_opt_n24(this._uploadFile, this._downloadFile, result);
         }
     }
     async isCallerAdmin(): Promise<boolean> {
@@ -333,14 +455,28 @@ export class Backend implements backendInterface {
         if (this.processError) {
             try {
                 const result = await this.actor.listAppointments();
-                return from_candid_vec_n17(this._uploadFile, this._downloadFile, result);
+                return from_candid_vec_n27(this._uploadFile, this._downloadFile, result);
             } catch (e) {
                 this.processError(e);
                 throw new Error("unreachable");
             }
         } else {
             const result = await this.actor.listAppointments();
-            return from_candid_vec_n17(this._uploadFile, this._downloadFile, result);
+            return from_candid_vec_n27(this._uploadFile, this._downloadFile, result);
+        }
+    }
+    async logoutStaff(): Promise<void> {
+        if (this.processError) {
+            try {
+                const result = await this.actor.logoutStaff();
+                return result;
+            } catch (e) {
+                this.processError(e);
+                throw new Error("unreachable");
+            }
+        } else {
+            const result = await this.actor.logoutStaff();
+            return result;
         }
     }
     async saveCallerUserProfile(arg0: UserProfile): Promise<void> {
@@ -371,23 +507,43 @@ export class Backend implements backendInterface {
             return result;
         }
     }
+    async updateStaffUser(arg0: string, arg1: StaffUser): Promise<void> {
+        if (this.processError) {
+            try {
+                const result = await this.actor.updateStaffUser(arg0, to_candid_StaffUser_n14(this._uploadFile, this._downloadFile, arg1));
+                return result;
+            } catch (e) {
+                this.processError(e);
+                throw new Error("unreachable");
+            }
+        } else {
+            const result = await this.actor.updateStaffUser(arg0, to_candid_StaffUser_n14(this._uploadFile, this._downloadFile, arg1));
+            return result;
+        }
+    }
 }
-function from_candid_AppointmentRequest_n18(_uploadFile: (file: ExternalBlob) => Promise<Uint8Array>, _downloadFile: (file: Uint8Array) => Promise<ExternalBlob>, value: _AppointmentRequest): AppointmentRequest {
-    return from_candid_record_n19(_uploadFile, _downloadFile, value);
+function from_candid_ActivationStatus_n21(_uploadFile: (file: ExternalBlob) => Promise<Uint8Array>, _downloadFile: (file: Uint8Array) => Promise<ExternalBlob>, value: _ActivationStatus): ActivationStatus {
+    return from_candid_variant_n22(_uploadFile, _downloadFile, value);
 }
-function from_candid_AppointmentStatus_n20(_uploadFile: (file: ExternalBlob) => Promise<Uint8Array>, _downloadFile: (file: Uint8Array) => Promise<ExternalBlob>, value: _AppointmentStatus): AppointmentStatus {
-    return from_candid_variant_n21(_uploadFile, _downloadFile, value);
+function from_candid_AppointmentRequest_n28(_uploadFile: (file: ExternalBlob) => Promise<Uint8Array>, _downloadFile: (file: Uint8Array) => Promise<ExternalBlob>, value: _AppointmentRequest): AppointmentRequest {
+    return from_candid_record_n29(_uploadFile, _downloadFile, value);
 }
-function from_candid_UserRole_n15(_uploadFile: (file: ExternalBlob) => Promise<Uint8Array>, _downloadFile: (file: Uint8Array) => Promise<ExternalBlob>, value: _UserRole): UserRole {
-    return from_candid_variant_n16(_uploadFile, _downloadFile, value);
+function from_candid_AppointmentStatus_n30(_uploadFile: (file: ExternalBlob) => Promise<Uint8Array>, _downloadFile: (file: Uint8Array) => Promise<ExternalBlob>, value: _AppointmentStatus): AppointmentStatus {
+    return from_candid_variant_n31(_uploadFile, _downloadFile, value);
+}
+function from_candid_StaffUser_n19(_uploadFile: (file: ExternalBlob) => Promise<Uint8Array>, _downloadFile: (file: Uint8Array) => Promise<ExternalBlob>, value: _StaffUser): StaffUser {
+    return from_candid_record_n20(_uploadFile, _downloadFile, value);
+}
+function from_candid_UserRole_n25(_uploadFile: (file: ExternalBlob) => Promise<Uint8Array>, _downloadFile: (file: Uint8Array) => Promise<ExternalBlob>, value: _UserRole): UserRole {
+    return from_candid_variant_n26(_uploadFile, _downloadFile, value);
 }
 function from_candid__CaffeineStorageRefillResult_n4(_uploadFile: (file: ExternalBlob) => Promise<Uint8Array>, _downloadFile: (file: Uint8Array) => Promise<ExternalBlob>, value: __CaffeineStorageRefillResult): _CaffeineStorageRefillResult {
     return from_candid_record_n5(_uploadFile, _downloadFile, value);
 }
-function from_candid_opt_n14(_uploadFile: (file: ExternalBlob) => Promise<Uint8Array>, _downloadFile: (file: Uint8Array) => Promise<ExternalBlob>, value: [] | [_UserProfile]): UserProfile | null {
+function from_candid_opt_n23(_uploadFile: (file: ExternalBlob) => Promise<Uint8Array>, _downloadFile: (file: Uint8Array) => Promise<ExternalBlob>, value: [] | [string]): string | null {
     return value.length === 0 ? null : value[0];
 }
-function from_candid_opt_n22(_uploadFile: (file: ExternalBlob) => Promise<Uint8Array>, _downloadFile: (file: Uint8Array) => Promise<ExternalBlob>, value: [] | [string]): string | null {
+function from_candid_opt_n24(_uploadFile: (file: ExternalBlob) => Promise<Uint8Array>, _downloadFile: (file: Uint8Array) => Promise<ExternalBlob>, value: [] | [_UserProfile]): UserProfile | null {
     return value.length === 0 ? null : value[0];
 }
 function from_candid_opt_n6(_uploadFile: (file: ExternalBlob) => Promise<Uint8Array>, _downloadFile: (file: Uint8Array) => Promise<ExternalBlob>, value: [] | [boolean]): boolean | null {
@@ -396,7 +552,25 @@ function from_candid_opt_n6(_uploadFile: (file: ExternalBlob) => Promise<Uint8Ar
 function from_candid_opt_n7(_uploadFile: (file: ExternalBlob) => Promise<Uint8Array>, _downloadFile: (file: Uint8Array) => Promise<ExternalBlob>, value: [] | [bigint]): bigint | null {
     return value.length === 0 ? null : value[0];
 }
-function from_candid_record_n19(_uploadFile: (file: ExternalBlob) => Promise<Uint8Array>, _downloadFile: (file: Uint8Array) => Promise<ExternalBlob>, value: {
+function from_candid_record_n20(_uploadFile: (file: ExternalBlob) => Promise<Uint8Array>, _downloadFile: (file: Uint8Array) => Promise<ExternalBlob>, value: {
+    status: _ActivationStatus;
+    userId: string;
+    password: string;
+    email: [] | [string];
+}): {
+    status: ActivationStatus;
+    userId: string;
+    password: string;
+    email?: string;
+} {
+    return {
+        status: from_candid_ActivationStatus_n21(_uploadFile, _downloadFile, value.status),
+        userId: value.userId,
+        password: value.password,
+        email: record_opt_to_undefined(from_candid_opt_n23(_uploadFile, _downloadFile, value.email))
+    };
+}
+function from_candid_record_n29(_uploadFile: (file: ExternalBlob) => Promise<Uint8Array>, _downloadFile: (file: Uint8Array) => Promise<ExternalBlob>, value: {
     status: _AppointmentStatus;
     email: [] | [string];
     childAge: bigint;
@@ -420,8 +594,8 @@ function from_candid_record_n19(_uploadFile: (file: ExternalBlob) => Promise<Uin
     reason: string;
 } {
     return {
-        status: from_candid_AppointmentStatus_n20(_uploadFile, _downloadFile, value.status),
-        email: record_opt_to_undefined(from_candid_opt_n22(_uploadFile, _downloadFile, value.email)),
+        status: from_candid_AppointmentStatus_n30(_uploadFile, _downloadFile, value.status),
+        email: record_opt_to_undefined(from_candid_opt_n23(_uploadFile, _downloadFile, value.email)),
         childAge: value.childAge,
         preferredDate: value.preferredDate,
         preferredTime: value.preferredTime,
@@ -444,7 +618,16 @@ function from_candid_record_n5(_uploadFile: (file: ExternalBlob) => Promise<Uint
         topped_up_amount: record_opt_to_undefined(from_candid_opt_n7(_uploadFile, _downloadFile, value.topped_up_amount))
     };
 }
-function from_candid_variant_n16(_uploadFile: (file: ExternalBlob) => Promise<Uint8Array>, _downloadFile: (file: Uint8Array) => Promise<ExternalBlob>, value: {
+function from_candid_variant_n22(_uploadFile: (file: ExternalBlob) => Promise<Uint8Array>, _downloadFile: (file: Uint8Array) => Promise<ExternalBlob>, value: {
+    activated: null;
+} | {
+    deleted: null;
+} | {
+    deactivated: null;
+}): ActivationStatus {
+    return "activated" in value ? ActivationStatus.activated : "deleted" in value ? ActivationStatus.deleted : "deactivated" in value ? ActivationStatus.deactivated : value;
+}
+function from_candid_variant_n26(_uploadFile: (file: ExternalBlob) => Promise<Uint8Array>, _downloadFile: (file: Uint8Array) => Promise<ExternalBlob>, value: {
     admin: null;
 } | {
     user: null;
@@ -453,7 +636,7 @@ function from_candid_variant_n16(_uploadFile: (file: ExternalBlob) => Promise<Ui
 }): UserRole {
     return "admin" in value ? UserRole.admin : "user" in value ? UserRole.user : "guest" in value ? UserRole.guest : value;
 }
-function from_candid_variant_n21(_uploadFile: (file: ExternalBlob) => Promise<Uint8Array>, _downloadFile: (file: Uint8Array) => Promise<ExternalBlob>, value: {
+function from_candid_variant_n31(_uploadFile: (file: ExternalBlob) => Promise<Uint8Array>, _downloadFile: (file: Uint8Array) => Promise<ExternalBlob>, value: {
     cancelled: null;
 } | {
     pending: null;
@@ -464,14 +647,23 @@ function from_candid_variant_n21(_uploadFile: (file: ExternalBlob) => Promise<Ui
 }): AppointmentStatus {
     return "cancelled" in value ? AppointmentStatus.cancelled : "pending" in value ? AppointmentStatus.pending : "completed" in value ? AppointmentStatus.completed : "confirmed" in value ? AppointmentStatus.confirmed : value;
 }
-function from_candid_vec_n17(_uploadFile: (file: ExternalBlob) => Promise<Uint8Array>, _downloadFile: (file: Uint8Array) => Promise<ExternalBlob>, value: Array<_AppointmentRequest>): Array<AppointmentRequest> {
-    return value.map((x)=>from_candid_AppointmentRequest_n18(_uploadFile, _downloadFile, x));
+function from_candid_vec_n18(_uploadFile: (file: ExternalBlob) => Promise<Uint8Array>, _downloadFile: (file: Uint8Array) => Promise<ExternalBlob>, value: Array<_StaffUser>): Array<StaffUser> {
+    return value.map((x)=>from_candid_StaffUser_n19(_uploadFile, _downloadFile, x));
+}
+function from_candid_vec_n27(_uploadFile: (file: ExternalBlob) => Promise<Uint8Array>, _downloadFile: (file: Uint8Array) => Promise<ExternalBlob>, value: Array<_AppointmentRequest>): Array<AppointmentRequest> {
+    return value.map((x)=>from_candid_AppointmentRequest_n28(_uploadFile, _downloadFile, x));
+}
+function to_candid_ActivationStatus_n16(_uploadFile: (file: ExternalBlob) => Promise<Uint8Array>, _downloadFile: (file: Uint8Array) => Promise<ExternalBlob>, value: ActivationStatus): _ActivationStatus {
+    return to_candid_variant_n17(_uploadFile, _downloadFile, value);
 }
 function to_candid_AppointmentRequest_n10(_uploadFile: (file: ExternalBlob) => Promise<Uint8Array>, _downloadFile: (file: Uint8Array) => Promise<ExternalBlob>, value: AppointmentRequest): _AppointmentRequest {
     return to_candid_record_n11(_uploadFile, _downloadFile, value);
 }
 function to_candid_AppointmentStatus_n12(_uploadFile: (file: ExternalBlob) => Promise<Uint8Array>, _downloadFile: (file: Uint8Array) => Promise<ExternalBlob>, value: AppointmentStatus): _AppointmentStatus {
     return to_candid_variant_n13(_uploadFile, _downloadFile, value);
+}
+function to_candid_StaffUser_n14(_uploadFile: (file: ExternalBlob) => Promise<Uint8Array>, _downloadFile: (file: Uint8Array) => Promise<ExternalBlob>, value: StaffUser): _StaffUser {
+    return to_candid_record_n15(_uploadFile, _downloadFile, value);
 }
 function to_candid_UserRole_n8(_uploadFile: (file: ExternalBlob) => Promise<Uint8Array>, _downloadFile: (file: Uint8Array) => Promise<ExternalBlob>, value: UserRole): _UserRole {
     return to_candid_variant_n9(_uploadFile, _downloadFile, value);
@@ -518,6 +710,24 @@ function to_candid_record_n11(_uploadFile: (file: ExternalBlob) => Promise<Uint8
         reason: value.reason
     };
 }
+function to_candid_record_n15(_uploadFile: (file: ExternalBlob) => Promise<Uint8Array>, _downloadFile: (file: Uint8Array) => Promise<ExternalBlob>, value: {
+    status: ActivationStatus;
+    userId: string;
+    password: string;
+    email?: string;
+}): {
+    status: _ActivationStatus;
+    userId: string;
+    password: string;
+    email: [] | [string];
+} {
+    return {
+        status: to_candid_ActivationStatus_n16(_uploadFile, _downloadFile, value.status),
+        userId: value.userId,
+        password: value.password,
+        email: value.email ? candid_some(value.email) : candid_none()
+    };
+}
 function to_candid_record_n3(_uploadFile: (file: ExternalBlob) => Promise<Uint8Array>, _downloadFile: (file: Uint8Array) => Promise<ExternalBlob>, value: {
     proposed_top_up_amount?: bigint;
 }): {
@@ -544,6 +754,21 @@ function to_candid_variant_n13(_uploadFile: (file: ExternalBlob) => Promise<Uint
         completed: null
     } : value == AppointmentStatus.confirmed ? {
         confirmed: null
+    } : value;
+}
+function to_candid_variant_n17(_uploadFile: (file: ExternalBlob) => Promise<Uint8Array>, _downloadFile: (file: Uint8Array) => Promise<ExternalBlob>, value: ActivationStatus): {
+    activated: null;
+} | {
+    deleted: null;
+} | {
+    deactivated: null;
+} {
+    return value == ActivationStatus.activated ? {
+        activated: null
+    } : value == ActivationStatus.deleted ? {
+        deleted: null
+    } : value == ActivationStatus.deactivated ? {
+        deactivated: null
     } : value;
 }
 function to_candid_variant_n9(_uploadFile: (file: ExternalBlob) => Promise<Uint8Array>, _downloadFile: (file: Uint8Array) => Promise<ExternalBlob>, value: UserRole): {

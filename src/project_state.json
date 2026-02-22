@@ -1,60 +1,49 @@
 {
   "schemaVersion": "1.0.0",
   "projectStateVersion": 3,
-  "summary": "Staff portal for appointment management with a public-facing website for Vijaya Children's Clinic featuring clinic branding, services, and contact information",
+  "summary": "Staff portal with username/password authentication system that needs bug fix for 'vijaya' login credentials showing unauthorized error",
   "architectural_notes": [
-    "Public front page displays Vijaya Children's Clinic branding with cyan/green gradient color scheme",
-    "Staff portal preserved with existing appointment management and authentication features",
-    "Dual interface: public informational website + private staff portal"
+    "Staff portal implements username/password authentication system"
   ],
-  "known_issues": [],
-  "isFixRequest": false,
-  "imageRequirements": "## Required Images\n- Vijaya Children's Clinic logo with cyan and green heart design containing two figures and stars, extracted from the uploaded branding image (vijaya-logo.dim_200x200.png)\n- Newborn care icon - circular illustration of a baby in cyan color on white background (service-newborn.dim_120x120.png)\n- Vaccination icon - circular illustration of a syringe with sparkles in orange color on white background (service-vaccination.dim_120x120.png)\n- Fever icon - circular illustration of a child with thermometer in green color on white background (service-fever.dim_120x120.png)\n- Nebulization icon - circular illustration of nebulizer equipment in cyan color on white background (service-nebulization.dim_120x120.png)\n- Growth monitoring icon - circular illustration of a child with growth chart in pink color on white background (service-growth.dim_120x120.png)",
+  "known_issues": [
+    "Login credentials 'vijaya'/'vijaya' return 'unauthorised entry' error in staff portal"
+  ],
+  "isFixRequest": true,
   "existing_features": [
     {
-      "id": "feature-extract-and-use-the-vijaya-children-s-clinic-logo-from-img-20260221-wa0006-jpg-as-the-website-logo-throughout-the-application-replacing-any-existing-placeholder-logos",
-      "title": "Extract and use the Vijaya Children's Clinic logo from IMG-20260221-WA0006.jpg as the website logo throughout the application, replacing any existing placeholder logos",
-      "reqIds": [
-        "REQ-1"
-      ],
-      "version": 1
-    },
-    {
-      "id": "feature-apply-the-color-scheme-from-the-uploaded-images-throughout-the-public-facing-sections-use-cyan-00bcd4-green-4caf50-and-blue-2196f3-gradients-matching-the-clinic-s-branding-materials",
-      "title": "Apply the color scheme from the uploaded images throughout the public-facing sections: use cyan (#00BCD4), green (#4CAF50), and blue (#2196F3) gradients matching the clinic's branding materials",
-      "reqIds": [
-        "REQ-2"
-      ],
-      "version": 1
-    },
-    {
-      "id": "feature-update-the-landing-page-to-prominently-display-all-clinic-information-visible-in-img-20260221-wa0006-jpg-doctor-s-name-dr-k-manicka-vinayagar-m-b-b-s-m-d-credentials-consultant-paediatrician-new-born-and-child-specialist-registration-number-reg-no-152853-services-with-icons-newborn-care-vaccination-fever-nebulization-growth-monitoring-contact-number-93637-16343-clinic-timings-mon-to-sat-7-pm-to-9-pm-sundays-on-appointment-and-address-no-1-1st-street-balaji-nagar-anakaputhur-chennai-600-070",
-      "title": "Update the landing page to prominently display all clinic information visible in IMG-20260221-WA0006.jpg: doctor's name (Dr. K. Manicka Vinayagar M.B.B.S, M.D), credentials (Consultant Paediatrician - New Born and Child Specialist), registration number (Reg.No: 152853), services with icons (Newborn Care, Vaccination, Fever, Nebulization, Growth Monitoring), contact number (93637 16343), clinic timings (Mon to Sat 7 PM to 9 PM, Sundays on appointment), and address (No.1, 1st street, Balaji Nagar, Anakaputhur, Chennai - 600 070)",
+      "id": "feature-ensure-the-staffloginform-component-correctly-handles-the-authentication-response-and-stores-the-token-in-localstorage-via-usestaffauth-hook",
+      "title": "Ensure the StaffLoginForm component correctly handles the authentication response and stores the token in localStorage via useStaffAuth hook",
       "reqIds": [
         "REQ-3"
-      ],
-      "version": 1
-    },
-    {
-      "id": "feature-display-the-tamil-tagline-child-welfare-is-our-priority-and-english-tagline-growing-healthy-futures-on-the-landing-page-as-shown-in-the-uploaded-branding-images",
-      "title": "Display the Tamil tagline 'குழந்தை நலனே எங்கள் முதன்மை' (Child welfare is our priority) and English tagline 'Growing Healthy Futures' on the landing page as shown in the uploaded branding images",
-      "reqIds": [
-        "REQ-4"
       ],
       "version": 1
     }
   ],
   "new_feature_requests": [
     {
-      "id": "AR-5",
-      "summary": "Preserve all existing staff portal functionality including appointment management, authentication, date filtering, search capabilities, and status updates while applying the branding updates only to public-facing pages",
+      "id": "AR-1",
+      "summary": "Fix authentication bug: 'vijaya'/'vijaya' credentials showing unauthorized entry error in staff portal",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-2",
+      "summary": "Fix the backend authenticateStaff method to properly validate the username 'vijaya' with password 'vijaya' and return a valid authentication token instead of returning an unauthorized error",
       "reqIds": [
-        "REQ-5"
+        "REQ-1"
+      ],
+      "status": "pending"
+    },
+    {
+      "id": "AR-3",
+      "summary": "Verify that the staff user 'vijaya' exists in the backend storage with correct credentials and activated status set to true",
+      "reqIds": [
+        "REQ-2"
       ],
       "status": "pending"
     }
   ],
-  "projectName": "Vijaya Children's Clinic Website",
+  "projectName": "Fix staff portal authentication error for vijaya credentials",
   "clarification_mode": "instant",
   "clarification_rounds": 0
 }
