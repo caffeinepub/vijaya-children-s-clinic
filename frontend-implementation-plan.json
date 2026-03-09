@@ -1,0 +1,84 @@
+{
+  "kind": "implementation_plan",
+  "version": "1.0",
+  "title": "Staff Authentication and Appointment Viewing System",
+  "requirements": [
+    {
+      "id": "REQ-1",
+      "summary": "Create staff login page with username and password fields for authentication using shared hardcoded credentials",
+      "acceptanceCriteria": [
+        "Staff login page displays username and password input fields",
+        "Login form validates credentials against hardcoded values",
+        "Error message displays when incorrect credentials are entered",
+        "Successful login redirects to appointments dashboard"
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/components/StaffLoginForm.tsx",
+          "operation": "modify",
+          "description": "Update StaffLoginForm component to integrate with the staff authentication flow from useStaffAuth hook. The form should call the authenticateStaff backend function through useStaffAuth, handle loading states during authentication, display validation errors for incorrect credentials, and redirect to the staff appointments dashboard on successful login. Use the existing form structure with user ID and password fields."
+        },
+        {
+          "path": "frontend/src/hooks/useStaffAuth.ts",
+          "operation": "modify",
+          "description": "Ensure the useStaffAuth hook correctly calls the backend authenticateStaff function with username and password credentials. The hook should manage authentication state in localStorage with 24-hour expiration, handle authentication errors gracefully, and provide loading states. Verify that the hook integrates with Internet Identity for session management as required by the authorization component."
+        },
+        {
+          "path": "frontend/src/pages/StaffAppointmentsPage.tsx",
+          "operation": "modify",
+          "description": "Add authentication guard at the component level to redirect unauthenticated users to the staff login page. Check staff authentication state using useStaffAuth hook before rendering the appointments dashboard. Display a loading state while checking authentication status. Ensure the page only renders appointment data when staff is authenticated."
+        }
+      ]
+    },
+    {
+      "id": "REQ-3",
+      "summary": "Create appointments dashboard page accessible only to authenticated staff members displaying all appointments",
+      "acceptanceCriteria": [
+        "Appointments dashboard page displays list of all appointments",
+        "Page is only accessible after successful staff login",
+        "Unauthenticated users are redirected to login page",
+        "Dashboard shows appointment details including patient information, date, time, and status"
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/pages/StaffAppointmentsPage.tsx",
+          "operation": "modify",
+          "description": "Enhance the StaffAppointmentsPage to verify authentication state using useStaffAuth before rendering. If not authenticated, redirect to the staff login route. Ensure the page fetches and displays all appointments using the listAppointments query from useQueries hook. Include existing functionality for date filtering, search, and status updates. Show loading states while fetching appointments and error states if the query fails."
+        },
+        {
+          "path": "frontend/src/App.tsx",
+          "operation": "modify",
+          "description": "Ensure the staff appointments route is properly registered and accessible after authentication. Verify that navigation from successful login redirects to the staff appointments page. Add route protection logic if needed to prevent direct URL access without authentication. Maintain existing routes for landing, booking, confirmation, and staff management pages."
+        }
+      ]
+    },
+    {
+      "id": "REQ-4",
+      "summary": "Implement session management to maintain staff authentication state across page reloads and navigation",
+      "acceptanceCriteria": [
+        "Staff remains logged in after page refresh",
+        "Authentication state persists across browser tabs",
+        "Staff can navigate between pages without re-authenticating",
+        "Session expires after a reasonable timeout period",
+        "Logout functionality clears session state"
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/hooks/useStaffAuth.ts",
+          "operation": "modify",
+          "description": "Implement session persistence using localStorage to store staff authentication state with a 24-hour expiration timestamp. On hook initialization, check localStorage for existing valid session and restore authentication state. Implement session validation that checks expiration on every hook call. Add logout functionality that clears both localStorage and any in-memory authentication state. Ensure session state is shared across browser tabs by listening to localStorage events."
+        },
+        {
+          "path": "frontend/src/components/SiteHeader.tsx",
+          "operation": "modify",
+          "description": "Add a logout button to the header that appears when staff is authenticated. Wire the logout button to call the logout function from useStaffAuth hook. After logout, clear any cached data and redirect to the home page or login page. Ensure the logout button is visible on staff-only pages and integrates with the existing navigation structure."
+        },
+        {
+          "path": "frontend/src/pages/StaffAppointmentsPage.tsx",
+          "operation": "modify",
+          "description": "Add session validation check on component mount and on window focus events to ensure staff session is still valid. If session has expired, redirect to login page and clear any cached appointment data. Integrate with useStaffAuth to check session validity before fetching appointments."
+        }
+      ]
+    }
+  ]
+}

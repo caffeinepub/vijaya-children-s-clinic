@@ -1,0 +1,79 @@
+{
+  "schemaVersion": "1.0.0",
+  "projectStateVersion": 3,
+  "summary": "Vijaya Children's Clinic staff portal with username/password authentication and appointment viewing",
+  "architectural_notes": [
+    "Single shared username/password for all staff members (hardcoded, no database required)",
+    "Staff see appointments dashboard after successful login"
+  ],
+  "known_issues": [],
+  "isFixRequest": true,
+  "existing_features": [
+    {
+      "id": "feature-create-a-staff-login-page-with-username-and-password-input-fields-where-all-staff-members-can-authenticate-using-a-single-shared-set-of-hardcoded-credentials",
+      "title": "Create a staff login page with username and password input fields where all staff members can authenticate using a single shared set of hardcoded credentials",
+      "reqIds": [
+        "REQ-1"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-create-an-appointments-dashboard-page-that-displays-all-appointments-and-is-only-accessible-to-authenticated-staff-members",
+      "title": "Create an appointments dashboard page that displays all appointments and is only accessible to authenticated staff members",
+      "reqIds": [
+        "REQ-3"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-implement-session-management-to-maintain-staff-authentication-state-across-page-reloads-and-navigation",
+      "title": "Implement session management to maintain staff authentication state across page reloads and navigation",
+      "reqIds": [
+        "REQ-4"
+      ],
+      "version": 1
+    }
+  ],
+  "new_feature_requests": [
+    {
+      "id": "AR-1",
+      "summary": "Staff login page with username/password fields",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-2",
+      "summary": "Backend authentication with single hardcoded credentials for all staff",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-3",
+      "summary": "Appointments dashboard for staff to view appointments after login",
+      "reqIds": [
+        "AR-1",
+        "AR-2"
+      ],
+      "status": "pending"
+    },
+    {
+      "id": "AR-4",
+      "summary": "Session management to keep staff logged in",
+      "reqIds": [
+        "AR-2"
+      ],
+      "status": "pending"
+    },
+    {
+      "id": "AR-6",
+      "summary": "Implement backend authentication endpoint that validates staff credentials against a single hardcoded username and password combination",
+      "reqIds": [
+        "REQ-2"
+      ],
+      "status": "pending"
+    }
+  ],
+  "projectName": "Vijaya Children's Clinic",
+  "clarification_mode": "instant",
+  "clarification_rounds": 0
+}

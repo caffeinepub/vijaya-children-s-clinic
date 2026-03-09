@@ -1,0 +1,69 @@
+{
+  "kind": "feature_evidence_report",
+  "features": [
+    {
+      "featureId": "feature-create-a-staff-login-page-with-username-and-password-input-fields-where-all-staff-members-can-authenticate-using-a-single-shared-set-of-hardcoded-credentials",
+      "featureTitle": "Create a staff login page with username and password input fields where all staff members can authenticate using a single shared set of hardcoded credentials",
+      "files": [
+        "frontend/src/components/StaffLoginForm.tsx",
+        "frontend/src/hooks/useStaffAuth.ts",
+        "frontend/src/pages/StaffAppointmentsPage.tsx"
+      ],
+      "components": [
+        "authorization@4.0.0",
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0",
+        "blob-storage@4.0.0"
+      ],
+      "testIds": [
+        "REQ-1"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-create-an-appointments-dashboard-page-that-displays-all-appointments-and-is-only-accessible-to-authenticated-staff-members",
+      "featureTitle": "Create an appointments dashboard page that displays all appointments and is only accessible to authenticated staff members",
+      "files": [
+        "frontend/src/pages/StaffAppointmentsPage.tsx"
+      ],
+      "components": [
+        "authorization@4.0.0",
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0",
+        "blob-storage@4.0.0"
+      ],
+      "testIds": [
+        "REQ-3"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-implement-session-management-to-maintain-staff-authentication-state-across-page-reloads-and-navigation",
+      "featureTitle": "Implement session management to maintain staff authentication state across page reloads and navigation",
+      "files": [
+        "frontend/src/components/SiteHeader.tsx",
+        "frontend/src/hooks/useStaffAuth.ts",
+        "frontend/src/pages/StaffAppointmentsPage.tsx"
+      ],
+      "components": [
+        "authorization@4.0.0",
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0",
+        "blob-storage@4.0.0"
+      ],
+      "testIds": [
+        "REQ-4"
+      ],
+      "confidence": "high"
+    }
+  ]
+}

@@ -1,0 +1,103 @@
+{
+  "kind": "build_request",
+  "title": "Build staff authentication and appointment viewing system",
+  "projectName": "Vijaya Children's Clinic",
+  "priority": "normal",
+  "requirements": [
+    {
+      "id": "REQ-1",
+      "text": "Create a staff login page with username and password input fields where all staff members can authenticate using a single shared set of hardcoded credentials",
+      "target": "both",
+      "source": {
+        "messageIds": [
+          "msg-8",
+          "msg-9"
+        ],
+        "quotes": [
+          "Authentication method is username and password",
+          "No need of any storage. Just only one password and user id for all staff members"
+        ]
+      },
+      "acceptanceCriteria": [
+        "Staff login page displays username and password input fields",
+        "Single hardcoded username and password stored in backend",
+        "Login form validates credentials against hardcoded values",
+        "Error message displays when incorrect credentials are entered",
+        "Successful login redirects to appointments dashboard"
+      ]
+    },
+    {
+      "id": "REQ-2",
+      "text": "Implement backend authentication endpoint that validates staff credentials against a single hardcoded username and password combination",
+      "target": "backend",
+      "source": {
+        "messageIds": [
+          "msg-9"
+        ],
+        "quotes": [
+          "No need of any storage. Just only one password and user id for all staff members"
+        ]
+      },
+      "acceptanceCriteria": [
+        "Backend function accepts username and password parameters",
+        "Credentials are compared against hardcoded values in Motoko code",
+        "Returns success response when credentials match",
+        "Returns error response when credentials do not match",
+        "No database or complex storage required"
+      ]
+    },
+    {
+      "id": "REQ-3",
+      "text": "Create an appointments dashboard page that displays all appointments and is only accessible to authenticated staff members",
+      "target": "frontend",
+      "source": {
+        "messageIds": [
+          "msg-9"
+        ],
+        "quotes": [
+          "After login they should see appointment"
+        ]
+      },
+      "acceptanceCriteria": [
+        "Appointments dashboard page displays list of all appointments",
+        "Page is only accessible after successful staff login",
+        "Unauthenticated users are redirected to login page",
+        "Dashboard shows appointment details including patient information, date, time, and status"
+      ]
+    },
+    {
+      "id": "REQ-4",
+      "text": "Implement session management to maintain staff authentication state across page reloads and navigation",
+      "target": "frontend",
+      "source": {
+        "messageIds": [
+          "msg-10"
+        ]
+      },
+      "acceptanceCriteria": [
+        "Staff remains logged in after page refresh",
+        "Authentication state persists across browser tabs",
+        "Staff can navigate between pages without re-authenticating",
+        "Session expires after a reasonable timeout period",
+        "Logout functionality clears session state"
+      ]
+    }
+  ],
+  "constraints": [
+    "Use single-actor Motoko architecture for backend",
+    "Do not create database or complex storage for credentials",
+    "Maintain existing React with TypeScript and Tailwind CSS frontend stack",
+    "Do not modify immutable paths: frontend/src/hooks/useInternetIdentity.ts, frontend/src/hooks/useActor.ts, frontend/src/main.tsx, frontend/src/components/ui"
+  ],
+  "nonGoals": [
+    "Multiple staff accounts with different credentials",
+    "Admin interface for managing staff accounts",
+    "Password reset or recovery functionality",
+    "Role-based access control with different permission levels",
+    "Integration with external authentication providers"
+  ],
+  "imageRequirements": {
+    "required": [],
+    "edits": []
+  }
+}

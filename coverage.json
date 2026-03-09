@@ -1,0 +1,80 @@
+{
+  "kind": "coverage_report",
+  "version": "1.0",
+  "generatedAt": "2026-02-22T14:02:58.300Z",
+  "sources": {
+    "buildRequest": true,
+    "implementationPlan": true
+  },
+  "requirements": {
+    "total": 4,
+    "implemented": 3,
+    "items": [
+      {
+        "id": "REQ-1",
+        "summary": "Create a staff login page with username and password input fields where all staff members can authenticate using a single shared set of hardcoded credentials",
+        "status": "implemented",
+        "plannedFiles": [
+          "frontend/src/components/StaffLoginForm.tsx",
+          "frontend/src/hooks/useStaffAuth.ts",
+          "frontend/src/pages/StaffAppointmentsPage.tsx"
+        ],
+        "matchedFiles": [
+          "frontend/src/components/StaffLoginForm.tsx",
+          "frontend/src/hooks/useStaffAuth.ts",
+          "frontend/src/pages/StaffAppointmentsPage.tsx"
+        ]
+      },
+      {
+        "id": "REQ-2",
+        "summary": "Implement backend authentication endpoint that validates staff credentials against a single hardcoded username and password combination",
+        "status": "unknown",
+        "plannedFiles": [],
+        "matchedFiles": []
+      },
+      {
+        "id": "REQ-3",
+        "summary": "Create an appointments dashboard page that displays all appointments and is only accessible to authenticated staff members",
+        "status": "implemented",
+        "plannedFiles": [
+          "frontend/src/pages/StaffAppointmentsPage.tsx",
+          "frontend/src/App.tsx"
+        ],
+        "matchedFiles": [
+          "frontend/src/pages/StaffAppointmentsPage.tsx"
+        ]
+      },
+      {
+        "id": "REQ-4",
+        "summary": "Implement session management to maintain staff authentication state across page reloads and navigation",
+        "status": "implemented",
+        "plannedFiles": [
+          "frontend/src/hooks/useStaffAuth.ts",
+          "frontend/src/components/SiteHeader.tsx",
+          "frontend/src/pages/StaffAppointmentsPage.tsx"
+        ],
+        "matchedFiles": [
+          "frontend/src/hooks/useStaffAuth.ts",
+          "frontend/src/components/SiteHeader.tsx",
+          "frontend/src/pages/StaffAppointmentsPage.tsx"
+        ]
+      }
+    ]
+  },
+  "changedFiles": [
+    "backend/main.mo",
+    "backend/migration.mo",
+    "build-request.json",
+    "feature_evidence.json",
+    "frontend-file-summaries.txt",
+    "frontend-implementation-plan.json",
+    "frontend/src/components/SiteHeader.tsx",
+    "frontend/src/components/StaffLoginForm.tsx",
+    "frontend/src/hooks/useStaffAuth.ts",
+    "frontend/src/pages/StaffAppointmentsPage.tsx",
+    "project_state.json",
+    "scratch/component-selection.json",
+    "spec.md",
+    "spec_vs_diff_report.json"
+  ]
+}
