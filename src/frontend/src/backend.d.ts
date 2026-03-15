@@ -38,10 +38,13 @@ export enum ActivationStatus {
     deactivated = "deactivated"
 }
 export enum AppointmentStatus {
+    review = "review",
     cancelled = "cancelled",
     pending = "pending",
     completed = "completed",
-    confirmed = "confirmed"
+    preponed = "preponed",
+    confirmed = "confirmed",
+    postponed = "postponed"
 }
 export enum UserRole {
     admin = "admin",

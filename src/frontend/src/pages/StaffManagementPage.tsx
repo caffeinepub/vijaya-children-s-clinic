@@ -1,19 +1,4 @@
-import { useState, useMemo } from 'react';
-import { useNavigate } from '@tanstack/react-router';
-import { useInternetIdentity } from '../hooks/useInternetIdentity';
-import { useGetCallerUserRole, useGetCallerUserProfile } from '../hooks/useQueries';
-import { useGetAllStaff, useDeleteStaff } from '../hooks/useStaffManagement';
-import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
-import { Input } from '@/components/ui/input';
-import { Badge } from '@/components/ui/badge';
-import { Loader2, Plus, Search, Edit, Trash2, LogOut, Shield, AlertCircle, ArrowLeft } from 'lucide-react';
-import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
-import { UserRole, ActivationStatus } from '../backend';
-import AddStaffModal from '../components/AddStaffModal';
-import EditStaffModal from '../components/EditStaffModal';
-import ProfileSetupModal from '../components/ProfileSetupModal';
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -23,17 +8,61 @@ import {
   AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogTitle,
-} from '@/components/ui/alert-dialog';
+} from "@/components/ui/alert-dialog";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
+import { useNavigate } from "@tanstack/react-router";
+import {
+  AlertCircle,
+  Edit,
+  Loader2,
+  LogOut,
+  Plus,
+  Search,
+  Shield,
+  Trash2,
+} from "lucide-react";
+import { useMemo, useState } from "react";
+import { ActivationStatus, UserRole } from "../backend";
+import AddStaffModal from "../components/AddStaffModal";
+import EditStaffModal from "../components/EditStaffModal";
+import ProfileSetupModal from "../components/ProfileSetupModal";
+import { useInternetIdentity } from "../hooks/useInternetIdentity";
+import {
+  useGetCallerUserProfile,
+  useGetCallerUserRole,
+} from "../hooks/useQueries";
+import { useDeleteStaff, useGetAllStaff } from "../hooks/useStaffManagement";
 
 export default function StaffManagementPage() {
   const { clear, identity } = useInternetIdentity();
   const navigate = useNavigate();
-  const { data: userProfile, isLoading: profileLoading, isFetched: profileFetched } = useGetCallerUserProfile();
+  const {
+    data: userProfile,
+    isLoading: profileLoading,
+    isFetched: profileFetched,
+  } = useGetCallerUserProfile();
   const { data: userRole, isLoading: roleLoading } = useGetCallerUserRole();
   const { data: staffList, isLoading: staffLoading } = useGetAllStaff();
   const deleteStaff = useDeleteStaff();
 
-  const [searchQuery, setSearchQuery] = useState('');
+  const [searchQuery, setSearchQuery] = useState("");
   const [showAddModal, setShowAddModal] = useState(false);
   const [editingStaff, setEditingStaff] = useState<string | null>(null);
   const [deletingStaff, setDeletingStaff] = useState<string | null>(null);
@@ -43,10 +72,14 @@ export default function StaffManagementPage() {
 
   const handleLogout = async () => {
     await clear();
-    navigate({ to: '/admin-login' });
+    navigate({ to: "/" });
   };
 
-  const showProfileSetup = isAuthenticated && !profileLoading && profileFetched && userProfile === null;
+  const showProfileSetup =
+    isAuthenticated &&
+    !profileLoading &&
+    profileFetched &&
+    userProfile === null;
 
   // Filter staff by search query
   const filteredStaff = useMemo(() => {
@@ -57,18 +90,18 @@ export default function StaffManagementPage() {
     return staffList.filter(
       (staff) =>
         staff.userId.toLowerCase().includes(query) ||
-        staff.email?.toLowerCase().includes(query)
+        staff.email?.toLowerCase().includes(query),
     );
   }, [staffList, searchQuery]);
 
   const handleDelete = async () => {
     if (!deletingStaff) return;
-    
+
     try {
       await deleteStaff.mutateAsync(deletingStaff);
       setDeletingStaff(null);
     } catch (error) {
-      console.error('Error deleting staff:', error);
+      console.error("Error deleting staff:", error);
     }
   };
 
@@ -104,14 +137,12 @@ export default function StaffManagementPage() {
             <Alert variant="destructive">
               <AlertTitle>Unauthorized Access</AlertTitle>
               <AlertDescription>
-                This area is restricted to administrators only. Please log in with an administrator account.
+                This area is restricted to administrators only. Please log in
+                with an administrator account.
               </AlertDescription>
             </Alert>
             <div className="flex gap-2">
-              <Button variant="outline" onClick={() => navigate({ to: '/admin-login' })}>
-                Admin Login
-              </Button>
-              <Button variant="outline" onClick={() => navigate({ to: '/' })}>
+              <Button variant="outline" onClick={() => navigate({ to: "/" })}>
                 Return Home
               </Button>
             </div>
@@ -121,22 +152,20 @@ export default function StaffManagementPage() {
     );
   }
 
-  const staffToEdit = editingStaff ? staffList?.find((s) => s.userId === editingStaff) : null;
-  const staffToDelete = deletingStaff ? staffList?.find((s) => s.userId === deletingStaff) : null;
+  const staffToEdit = editingStaff
+    ? staffList?.find((s) => s.userId === editingStaff)
+    : null;
+  const staffToDelete = deletingStaff
+    ? staffList?.find((s) => s.userId === deletingStaff)
+    : null;
 
   return (
     <>
       {showProfileSetup && <ProfileSetupModal />}
-      
+
       <div className="container mx-auto px-4 py-12 max-w-7xl">
         <div className="mb-8 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
           <div>
-            <div className="flex items-center gap-2 mb-2">
-              <Button variant="ghost" size="sm" onClick={() => navigate({ to: '/admin-dashboard' })}>
-                <ArrowLeft className="h-4 w-4 mr-1" />
-                Back
-              </Button>
-            </div>
             <h1 className="text-3xl md:text-4xl font-bold text-foreground mb-2">
               Staff Management
             </h1>
@@ -156,10 +185,14 @@ export default function StaffManagementPage() {
               <div>
                 <CardTitle className="text-2xl">Staff Accounts</CardTitle>
                 <CardDescription>
-                  {filteredStaff.length} {filteredStaff.length === 1 ? 'account' : 'accounts'} found
+                  {filteredStaff.length}{" "}
+                  {filteredStaff.length === 1 ? "account" : "accounts"} found
                 </CardDescription>
               </div>
-              <Button onClick={() => setShowAddModal(true)} className="bg-gradient-to-r from-vijaya-cyan-500 to-vijaya-blue-500 hover:from-vijaya-cyan-600 hover:to-vijaya-blue-600">
+              <Button
+                onClick={() => setShowAddModal(true)}
+                className="bg-gradient-to-r from-vijaya-cyan-500 to-vijaya-blue-500 hover:from-vijaya-cyan-600 hover:to-vijaya-blue-600"
+              >
                 <Plus className="mr-2 h-4 w-4" />
                 Add Staff
               </Button>
@@ -182,10 +215,16 @@ export default function StaffManagementPage() {
               <div className="text-center py-12">
                 <AlertCircle className="w-12 h-12 mx-auto text-muted-foreground mb-4" />
                 <p className="text-lg font-medium text-muted-foreground">
-                  {searchQuery ? 'No staff found matching your search' : 'No staff accounts yet'}
+                  {searchQuery
+                    ? "No staff found matching your search"
+                    : "No staff accounts yet"}
                 </p>
                 {!searchQuery && (
-                  <Button onClick={() => setShowAddModal(true)} variant="outline" className="mt-4">
+                  <Button
+                    onClick={() => setShowAddModal(true)}
+                    variant="outline"
+                    className="mt-4"
+                  >
                     <Plus className="mr-2 h-4 w-4" />
                     Add First Staff Account
                   </Button>
@@ -205,10 +244,24 @@ export default function StaffManagementPage() {
                   <TableBody>
                     {filteredStaff.map((staff) => (
                       <TableRow key={staff.userId}>
-                        <TableCell className="font-medium">{staff.userId}</TableCell>
-                        <TableCell>{staff.email || <span className="text-muted-foreground italic">No email</span>}</TableCell>
+                        <TableCell className="font-medium">
+                          {staff.userId}
+                        </TableCell>
                         <TableCell>
-                          <Badge variant={staff.status === ActivationStatus.activated ? 'default' : 'secondary'}>
+                          {staff.email || (
+                            <span className="text-muted-foreground italic">
+                              No email
+                            </span>
+                          )}
+                        </TableCell>
+                        <TableCell>
+                          <Badge
+                            variant={
+                              staff.status === ActivationStatus.activated
+                                ? "default"
+                                : "secondary"
+                            }
+                          >
                             {staff.status}
                           </Badge>
                         </TableCell>
@@ -250,7 +303,7 @@ export default function StaffManagementPage() {
       )}
 
       {/* Edit Staff Modal */}
-      {editingStaff && staffToEdit && (
+      {staffToEdit && (
         <EditStaffModal
           open={!!editingStaff}
           onClose={() => setEditingStaff(null)}
@@ -259,20 +312,24 @@ export default function StaffManagementPage() {
       )}
 
       {/* Delete Confirmation Dialog */}
-      <AlertDialog open={!!deletingStaff} onOpenChange={(open) => !open && setDeletingStaff(null)}>
+      <AlertDialog
+        open={!!deletingStaff}
+        onOpenChange={(open) => !open && setDeletingStaff(null)}
+      >
         <AlertDialogContent>
           <AlertDialogHeader>
             <AlertDialogTitle>Delete Staff Account</AlertDialogTitle>
             <AlertDialogDescription>
-              Are you sure you want to delete the staff account for <strong>{staffToDelete?.userId}</strong>? This action will mark the account as deleted and revoke all access.
+              Are you sure you want to delete the staff account for{" "}
+              <strong>{staffToDelete?.userId}</strong>? This action cannot be
+              undone and will revoke all access for this user.
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
             <AlertDialogCancel>Cancel</AlertDialogCancel>
             <AlertDialogAction
               onClick={handleDelete}
-              disabled={deleteStaff.isPending}
-              className="bg-destructive hover:bg-destructive/90"
+              className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
             >
               {deleteStaff.isPending ? (
                 <>
@@ -280,7 +337,7 @@ export default function StaffManagementPage() {
                   Deleting...
                 </>
               ) : (
-                'Delete'
+                "Delete"
               )}
             </AlertDialogAction>
           </AlertDialogFooter>

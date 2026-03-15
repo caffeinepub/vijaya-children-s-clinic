@@ -1,8 +1,4 @@
-import { useState, useEffect } from 'react';
-import { useUpdateStaff } from '../hooks/useStaffManagement';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
+import { Button } from "@/components/ui/button";
 import {
   Dialog,
   DialogContent,
@@ -10,16 +6,20 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-} from '@/components/ui/dialog';
+} from "@/components/ui/dialog";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from '@/components/ui/select';
-import { Loader2, Save } from 'lucide-react';
-import { StaffUser, ActivationStatus } from '../backend';
+} from "@/components/ui/select";
+import { Loader2, Save } from "lucide-react";
+import { useEffect, useState } from "react";
+import { ActivationStatus, type StaffUser } from "../backend";
+import { useUpdateStaff } from "../hooks/useStaffManagement";
 
 interface EditStaffModalProps {
   open: boolean;
@@ -27,16 +27,20 @@ interface EditStaffModalProps {
   staff: StaffUser;
 }
 
-export default function EditStaffModal({ open, onClose, staff }: EditStaffModalProps) {
-  const [password, setPassword] = useState('');
-  const [email, setEmail] = useState(staff.email || '');
+export default function EditStaffModal({
+  open,
+  onClose,
+  staff,
+}: EditStaffModalProps) {
+  const [password, setPassword] = useState("");
+  const [email, setEmail] = useState(staff.email || "");
   const [status, setStatus] = useState<ActivationStatus>(staff.status);
   const updateStaff = useUpdateStaff();
 
   // Reset form when staff changes
   useEffect(() => {
-    setPassword('');
-    setEmail(staff.email || '');
+    setPassword("");
+    setEmail(staff.email || "");
     setStatus(staff.status);
   }, [staff]);
 
@@ -55,17 +59,17 @@ export default function EditStaffModal({ open, onClose, staff }: EditStaffModalP
       });
 
       // Reset form and close modal
-      setPassword('');
+      setPassword("");
       onClose();
     } catch (error) {
       // Error is handled by the mutation
-      console.error('Error updating staff:', error);
+      console.error("Error updating staff:", error);
     }
   };
 
   const handleClose = () => {
     if (!updateStaff.isPending) {
-      setPassword('');
+      setPassword("");
       onClose();
     }
   };
@@ -93,7 +97,9 @@ export default function EditStaffModal({ open, onClose, staff }: EditStaffModalP
                 disabled
                 className="bg-muted"
               />
-              <p className="text-xs text-muted-foreground">User ID cannot be changed</p>
+              <p className="text-xs text-muted-foreground">
+                User ID cannot be changed
+              </p>
             </div>
             <div className="space-y-2">
               <Label htmlFor="edit-password">New Password (Optional)</Label>
@@ -128,8 +134,12 @@ export default function EditStaffModal({ open, onClose, staff }: EditStaffModalP
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value={ActivationStatus.activated}>Activated</SelectItem>
-                  <SelectItem value={ActivationStatus.deactivated}>Deactivated</SelectItem>
+                  <SelectItem value={ActivationStatus.activated}>
+                    Activated
+                  </SelectItem>
+                  <SelectItem value={ActivationStatus.deactivated}>
+                    Deactivated
+                  </SelectItem>
                 </SelectContent>
               </Select>
             </div>

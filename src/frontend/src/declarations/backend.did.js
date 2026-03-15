@@ -29,10 +29,13 @@ export const StaffCredentials = IDL.Record({
   'password' : IDL.Text,
 });
 export const AppointmentStatus = IDL.Variant({
+  'review' : IDL.Null,
   'cancelled' : IDL.Null,
   'pending' : IDL.Null,
   'completed' : IDL.Null,
+  'preponed' : IDL.Null,
   'confirmed' : IDL.Null,
+  'postponed' : IDL.Null,
 });
 export const AppointmentRequest = IDL.Record({
   'status' : AppointmentStatus,
@@ -135,10 +138,13 @@ export const idlFactory = ({ IDL }) => {
     'password' : IDL.Text,
   });
   const AppointmentStatus = IDL.Variant({
+    'review' : IDL.Null,
     'cancelled' : IDL.Null,
     'pending' : IDL.Null,
     'completed' : IDL.Null,
+    'preponed' : IDL.Null,
     'confirmed' : IDL.Null,
+    'postponed' : IDL.Null,
   });
   const AppointmentRequest = IDL.Record({
     'status' : AppointmentStatus,

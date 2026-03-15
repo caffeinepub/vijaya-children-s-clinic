@@ -21,6 +21,9 @@ actor {
     #confirmed;
     #completed;
     #cancelled;
+    #review;
+    #postponed;
+    #preponed;
   };
 
   public type AppointmentRequest = {
@@ -58,17 +61,28 @@ actor {
     status : ActivationStatus;
   };
 
+  public type StaffSession = {
+    principal : Principal;
+    userId : Text;
+    timestamp : Int;
+  };
+
   let userProfiles = Map.empty<Principal, UserProfile>();
   let staffUserMap = Map.empty<Text, StaffUser>();
 
-  // Track authenticated staff sessions by Principal
-  let authenticatedStaff = Map.empty<Principal, Text>();
+  // Track authenticated staff sessions in a Map<Principal, StaffSession>
+  let authenticatedStaff = Map.empty<Principal, StaffSession>();
 
   var appointments = List.empty<AppointmentRequest>();
 
   // Helper function to check if caller is authenticated staff
   func isAuthenticatedStaff(caller : Principal) : Bool {
     authenticatedStaff.containsKey(caller);
+  };
+
+  // Helper function to check if credentials are valid
+  func areCredentialsValid({ userId; password } : StaffCredentials) : Bool {
+    userId == "vijaya" and password == "vijaya";
   };
 
   public query ({ caller }) func getCallerUserProfile() : async ?UserProfile {
@@ -97,26 +111,21 @@ actor {
     appointments.add(request);
   };
 
-  // Staff authentication - allows non-anonymous callers to authenticate with username/password
+  // Staff authentication - allows any caller (including anonymous) to authenticate with hardcoded credentials
   public shared ({ caller }) func authenticateStaff({ userId; password } : StaffCredentials) : async Bool {
-    // Anonymous principals cannot authenticate as staff
-    if (caller.isAnonymous()) {
+    // Validate credentials
+    if (not areCredentialsValid({ userId; password })) {
       return false;
     };
 
-    // Verify credentials
-    switch (staffUserMap.get(userId)) {
-      case (null) { false };
-      case (?user) {
-        if (user.password == password and user.status == #activated) {
-          // Store authenticated session
-          authenticatedStaff.add(caller, userId);
-          true;
-        } else {
-          false;
-        };
-      };
+    // Create a new staff session and store in the map
+    let session : StaffSession = {
+      principal = caller;
+      userId;
+      timestamp = 0;
     };
+    authenticatedStaff.add(caller, session);
+    true;
   };
 
   // Staff logout
@@ -124,17 +133,17 @@ actor {
     authenticatedStaff.remove(caller);
   };
 
-  // Staff-only function - view appointments
+  // Staff-only function - view appointments (authenticated staff OR admin)
   public query ({ caller }) func listAppointments() : async [AppointmentRequest] {
-    if (not isAuthenticatedStaff(caller)) {
+    if (not isAuthenticatedStaff(caller) and not AccessControl.isAdmin(accessControlState, caller)) {
       Runtime.trap("Unauthorized: Only authenticated staff members can view appointments");
     };
     appointments.toArray();
   };
 
-  // Staff-only function - update appointment status
+  // Staff-only function - update appointment status (authenticated staff OR admin)
   public shared ({ caller }) func updateAppointmentStatus(index : Nat, newStatus : AppointmentStatus) : async () {
-    if (not isAuthenticatedStaff(caller)) {
+    if (not isAuthenticatedStaff(caller) and not AccessControl.isAdmin(accessControlState, caller)) {
       Runtime.trap("Unauthorized: Only authenticated staff members can update appointment status");
     };
 
@@ -190,7 +199,7 @@ actor {
 
         // Remove any active sessions for this user
         for ((principal, staffUserId) in authenticatedStaff.entries()) {
-          if (staffUserId == userId) {
+          if (staffUserId.userId == userId) {
             authenticatedStaff.remove(principal);
           };
         };
@@ -213,7 +222,7 @@ actor {
 
         // Remove any active sessions for this user
         for ((principal, staffUserId) in authenticatedStaff.entries()) {
-          if (staffUserId == userId) {
+          if (staffUserId.userId == userId) {
             authenticatedStaff.remove(principal);
           };
         };
@@ -227,9 +236,7 @@ actor {
       Runtime.trap("Unauthorized: Only admins can view staff users");
     };
 
-    let iter = staffUserMap.values();
-    let activeUsers = iter.filter(func(user) { user.status == #activated });
-    activeUsers.toArray();
+    staffUserMap.values().toArray().filter(func(user) { user.status == #activated });
   };
 
   // Admin-only function - view inactive staff
@@ -238,9 +245,7 @@ actor {
       Runtime.trap("Unauthorized: Only admins can view staff users");
     };
 
-    let iter = staffUserMap.values();
-    let inactiveUsers = iter.filter(func(user) { user.status == #deactivated });
-    inactiveUsers.toArray();
+    staffUserMap.values().toArray().filter(func(user) { user.status == #deactivated });
   };
 
   // Admin-only function - view deleted staff
@@ -249,8 +254,6 @@ actor {
       Runtime.trap("Unauthorized: Only admins can view staff users");
     };
 
-    let iter = staffUserMap.values();
-    let deletedUsers = iter.filter(func(user) { user.status == #deleted });
-    deletedUsers.toArray();
+    staffUserMap.values().toArray().filter(func(user) { user.status == #deleted });
   };
 };

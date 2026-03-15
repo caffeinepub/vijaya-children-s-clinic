@@ -1,6 +1,6 @@
-import type { AppointmentRequest } from '../backend';
+import type { AppointmentRequest } from "../backend";
 
-export type DateFilterType = 'all' | 'today' | 'week' | 'month' | 'custom';
+export type DateFilterType = "all" | "today" | "week" | "month" | "custom";
 
 export interface DateFilter {
   type: DateFilterType;
@@ -20,17 +20,44 @@ export function isSameDay(date1: Date, date2: Date): boolean {
   );
 }
 
-export function isWithinRange(date: Date, startDate: Date, endDate: Date): boolean {
-  const dateOnly = new Date(date.getFullYear(), date.getMonth(), date.getDate());
-  const startOnly = new Date(startDate.getFullYear(), startDate.getMonth(), startDate.getDate());
-  const endOnly = new Date(endDate.getFullYear(), endDate.getMonth(), endDate.getDate());
+export function isWithinRange(
+  date: Date,
+  startDate: Date,
+  endDate: Date,
+): boolean {
+  const dateOnly = new Date(
+    date.getFullYear(),
+    date.getMonth(),
+    date.getDate(),
+  );
+  const startOnly = new Date(
+    startDate.getFullYear(),
+    startDate.getMonth(),
+    startDate.getDate(),
+  );
+  const endOnly = new Date(
+    endDate.getFullYear(),
+    endDate.getMonth(),
+    endDate.getDate(),
+  );
   return dateOnly >= startOnly && dateOnly <= endOnly;
 }
 
 export function getTodayRange(): { start: Date; end: Date } {
   const today = new Date();
-  const start = new Date(today.getFullYear(), today.getMonth(), today.getDate());
-  const end = new Date(today.getFullYear(), today.getMonth(), today.getDate(), 23, 59, 59);
+  const start = new Date(
+    today.getFullYear(),
+    today.getMonth(),
+    today.getDate(),
+  );
+  const end = new Date(
+    today.getFullYear(),
+    today.getMonth(),
+    today.getDate(),
+    23,
+    59,
+    59,
+  );
   return { start, end };
 }
 
@@ -40,26 +67,33 @@ export function getWeekRange(): { start: Date; end: Date } {
   const start = new Date(today);
   start.setDate(today.getDate() - dayOfWeek);
   start.setHours(0, 0, 0, 0);
-  
+
   const end = new Date(start);
   end.setDate(start.getDate() + 6);
   end.setHours(23, 59, 59, 999);
-  
+
   return { start, end };
 }
 
 export function getMonthRange(): { start: Date; end: Date } {
   const today = new Date();
   const start = new Date(today.getFullYear(), today.getMonth(), 1);
-  const end = new Date(today.getFullYear(), today.getMonth() + 1, 0, 23, 59, 59);
+  const end = new Date(
+    today.getFullYear(),
+    today.getMonth() + 1,
+    0,
+    23,
+    59,
+    59,
+  );
   return { start, end };
 }
 
 export function filterAppointmentsByDate(
   appointments: AppointmentRequest[],
-  filter: DateFilter
+  filter: DateFilter,
 ): AppointmentRequest[] {
-  if (filter.type === 'all') {
+  if (filter.type === "all") {
     return appointments;
   }
 
@@ -67,21 +101,25 @@ export function filterAppointmentsByDate(
     const appointmentDate = bigintToDate(appointment.preferredDate);
 
     switch (filter.type) {
-      case 'today': {
+      case "today": {
         const { start } = getTodayRange();
         return isSameDay(appointmentDate, start);
       }
-      case 'week': {
+      case "week": {
         const { start, end } = getWeekRange();
         return isWithinRange(appointmentDate, start, end);
       }
-      case 'month': {
+      case "month": {
         const { start, end } = getMonthRange();
         return isWithinRange(appointmentDate, start, end);
       }
-      case 'custom': {
+      case "custom": {
         if (filter.startDate && filter.endDate) {
-          return isWithinRange(appointmentDate, filter.startDate, filter.endDate);
+          return isWithinRange(
+            appointmentDate,
+            filter.startDate,
+            filter.endDate,
+          );
         }
         return true;
       }

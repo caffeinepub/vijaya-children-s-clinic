@@ -131,10 +131,13 @@ export enum ActivationStatus {
     deactivated = "deactivated"
 }
 export enum AppointmentStatus {
+    review = "review",
     cancelled = "cancelled",
     pending = "pending",
     completed = "completed",
-    confirmed = "confirmed"
+    preponed = "preponed",
+    confirmed = "confirmed",
+    postponed = "postponed"
 }
 export enum UserRole {
     admin = "admin",
@@ -637,15 +640,21 @@ function from_candid_variant_n26(_uploadFile: (file: ExternalBlob) => Promise<Ui
     return "admin" in value ? UserRole.admin : "user" in value ? UserRole.user : "guest" in value ? UserRole.guest : value;
 }
 function from_candid_variant_n31(_uploadFile: (file: ExternalBlob) => Promise<Uint8Array>, _downloadFile: (file: Uint8Array) => Promise<ExternalBlob>, value: {
+    review: null;
+} | {
     cancelled: null;
 } | {
     pending: null;
 } | {
     completed: null;
 } | {
+    preponed: null;
+} | {
     confirmed: null;
+} | {
+    postponed: null;
 }): AppointmentStatus {
-    return "cancelled" in value ? AppointmentStatus.cancelled : "pending" in value ? AppointmentStatus.pending : "completed" in value ? AppointmentStatus.completed : "confirmed" in value ? AppointmentStatus.confirmed : value;
+    return "review" in value ? AppointmentStatus.review : "cancelled" in value ? AppointmentStatus.cancelled : "pending" in value ? AppointmentStatus.pending : "completed" in value ? AppointmentStatus.completed : "preponed" in value ? AppointmentStatus.preponed : "confirmed" in value ? AppointmentStatus.confirmed : "postponed" in value ? AppointmentStatus.postponed : value;
 }
 function from_candid_vec_n18(_uploadFile: (file: ExternalBlob) => Promise<Uint8Array>, _downloadFile: (file: Uint8Array) => Promise<ExternalBlob>, value: Array<_StaffUser>): Array<StaffUser> {
     return value.map((x)=>from_candid_StaffUser_n19(_uploadFile, _downloadFile, x));
@@ -738,22 +747,34 @@ function to_candid_record_n3(_uploadFile: (file: ExternalBlob) => Promise<Uint8A
     };
 }
 function to_candid_variant_n13(_uploadFile: (file: ExternalBlob) => Promise<Uint8Array>, _downloadFile: (file: Uint8Array) => Promise<ExternalBlob>, value: AppointmentStatus): {
+    review: null;
+} | {
     cancelled: null;
 } | {
     pending: null;
 } | {
     completed: null;
 } | {
+    preponed: null;
+} | {
     confirmed: null;
+} | {
+    postponed: null;
 } {
-    return value == AppointmentStatus.cancelled ? {
+    return value == AppointmentStatus.review ? {
+        review: null
+    } : value == AppointmentStatus.cancelled ? {
         cancelled: null
     } : value == AppointmentStatus.pending ? {
         pending: null
     } : value == AppointmentStatus.completed ? {
         completed: null
+    } : value == AppointmentStatus.preponed ? {
+        preponed: null
     } : value == AppointmentStatus.confirmed ? {
         confirmed: null
+    } : value == AppointmentStatus.postponed ? {
+        postponed: null
     } : value;
 }
 function to_candid_variant_n17(_uploadFile: (file: ExternalBlob) => Promise<Uint8Array>, _downloadFile: (file: Uint8Array) => Promise<ExternalBlob>, value: ActivationStatus): {

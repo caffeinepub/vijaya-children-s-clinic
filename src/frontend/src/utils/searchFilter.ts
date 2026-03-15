@@ -1,8 +1,8 @@
-import type { AppointmentRequest } from '../backend';
+import type { AppointmentRequest } from "../backend";
 
 export function filterAppointmentsBySearch(
   appointments: AppointmentRequest[],
-  searchQuery: string
+  searchQuery: string,
 ): AppointmentRequest[] {
   if (!searchQuery.trim()) {
     return appointments;

@@ -4,8 +4,8 @@ import {
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from '@/components/ui/select';
-import { AppointmentStatus } from '../backend';
+} from "@/components/ui/select";
+import { AppointmentStatus } from "../backend";
 
 interface AppointmentStatusDropdownProps {
   currentStatus: AppointmentStatus;
@@ -19,16 +19,21 @@ export default function AppointmentStatusDropdown({
   onStatusChange,
 }: AppointmentStatusDropdownProps) {
   const statusOptions = [
-    { value: AppointmentStatus.pending, label: 'Pending' },
-    { value: AppointmentStatus.confirmed, label: 'Confirmed' },
-    { value: AppointmentStatus.completed, label: 'Completed' },
-    { value: AppointmentStatus.cancelled, label: 'Cancelled' },
+    { value: AppointmentStatus.pending, label: "Pending" },
+    { value: AppointmentStatus.confirmed, label: "Confirmed" },
+    { value: AppointmentStatus.completed, label: "Completed" },
+    { value: AppointmentStatus.cancelled, label: "Cancelled" },
+    { value: AppointmentStatus.review, label: "Review" },
+    { value: AppointmentStatus.postponed, label: "Postponed" },
+    { value: AppointmentStatus.preponed, label: "Preponed" },
   ];
 
   return (
     <Select
       value={currentStatus}
-      onValueChange={(value) => onStatusChange(appointmentIndex, value as AppointmentStatus)}
+      onValueChange={(value) =>
+        onStatusChange(appointmentIndex, value as AppointmentStatus)
+      }
     >
       <SelectTrigger className="w-full sm:w-[160px]">
         <SelectValue />

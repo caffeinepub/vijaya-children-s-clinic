@@ -25,10 +25,13 @@ export interface AppointmentRequest {
   'parentName' : string,
   'reason' : string,
 }
-export type AppointmentStatus = { 'cancelled' : null } |
+export type AppointmentStatus = { 'review' : null } |
+  { 'cancelled' : null } |
   { 'pending' : null } |
   { 'completed' : null } |
-  { 'confirmed' : null };
+  { 'preponed' : null } |
+  { 'confirmed' : null } |
+  { 'postponed' : null };
 export interface StaffCredentials { 'userId' : string, 'password' : string }
 export interface StaffUser {
   'status' : ActivationStatus,

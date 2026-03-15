@@ -1,15 +1,18 @@
-import { createRouter, createRoute, createRootRoute, RouterProvider, Outlet } from '@tanstack/react-router';
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { Toaster } from '@/components/ui/sonner';
-import LandingPage from './pages/LandingPage';
-import BookAppointmentPage from './pages/BookAppointmentPage';
-import BookingConfirmationPage from './pages/BookingConfirmationPage';
-import StaffAppointmentsPage from './pages/StaffAppointmentsPage';
-import AdminLoginPage from './pages/AdminLoginPage';
-import AdminDashboardPage from './pages/AdminDashboardPage';
-import StaffManagementPage from './pages/StaffManagementPage';
-import SiteHeader from './components/SiteHeader';
-import SiteFooter from './components/SiteFooter';
+import { Toaster } from "@/components/ui/sonner";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import {
+  Outlet,
+  RouterProvider,
+  createRootRoute,
+  createRoute,
+  createRouter,
+} from "@tanstack/react-router";
+import SiteFooter from "./components/SiteFooter";
+import SiteHeader from "./components/SiteHeader";
+import BookAppointmentPage from "./pages/BookAppointmentPage";
+import BookingConfirmationPage from "./pages/BookingConfirmationPage";
+import LandingPage from "./pages/LandingPage";
+import StaffAppointmentsPage from "./pages/StaffAppointmentsPage";
 
 const queryClient = new QueryClient();
 
@@ -32,44 +35,26 @@ const rootRoute = createRootRoute({
 
 const indexRoute = createRoute({
   getParentRoute: () => rootRoute,
-  path: '/',
+  path: "/",
   component: LandingPage,
 });
 
 const bookRoute = createRoute({
   getParentRoute: () => rootRoute,
-  path: '/book',
+  path: "/book",
   component: BookAppointmentPage,
 });
 
 const confirmationRoute = createRoute({
   getParentRoute: () => rootRoute,
-  path: '/confirmation',
+  path: "/confirmation",
   component: BookingConfirmationPage,
 });
 
 const staffRoute = createRoute({
   getParentRoute: () => rootRoute,
-  path: '/staff',
+  path: "/staff",
   component: StaffAppointmentsPage,
-});
-
-const adminLoginRoute = createRoute({
-  getParentRoute: () => rootRoute,
-  path: '/admin-login',
-  component: AdminLoginPage,
-});
-
-const adminDashboardRoute = createRoute({
-  getParentRoute: () => rootRoute,
-  path: '/admin-dashboard',
-  component: AdminDashboardPage,
-});
-
-const staffManagementRoute = createRoute({
-  getParentRoute: () => rootRoute,
-  path: '/staff-management',
-  component: StaffManagementPage,
 });
 
 const routeTree = rootRoute.addChildren([
@@ -77,14 +62,11 @@ const routeTree = rootRoute.addChildren([
   bookRoute,
   confirmationRoute,
   staffRoute,
-  adminLoginRoute,
-  adminDashboardRoute,
-  staffManagementRoute,
 ]);
 
 const router = createRouter({ routeTree });
 
-declare module '@tanstack/react-router' {
+declare module "@tanstack/react-router" {
   interface Register {
     router: typeof router;
   }

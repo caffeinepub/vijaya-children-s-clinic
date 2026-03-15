@@ -1,13 +1,13 @@
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Phone, Clock, MapPin, Stethoscope } from 'lucide-react';
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Clock, MapPin, Phone, Stethoscope } from "lucide-react";
 
 export default function ClinicDetailsSection() {
   const services = [
-    'Newborn Care',
-    'Vaccination',
-    'Fever',
-    'Nebulization',
-    'Growth Monitoring',
+    "Newborn Care",
+    "Vaccination",
+    "Fever",
+    "Nebulization",
+    "Growth Monitoring",
   ];
 
   return (
@@ -33,10 +33,12 @@ export default function ClinicDetailsSection() {
             </CardHeader>
             <CardContent className="space-y-3">
               <ul className="space-y-2">
-                {services.map((service, index) => (
-                  <li key={index} className="flex items-start">
+                {services.map((service) => (
+                  <li key={service} className="flex items-start">
                     <span className="text-secondary mr-2 font-bold">✓</span>
-                    <span className="text-foreground font-medium">{service}</span>
+                    <span className="text-foreground font-medium">
+                      {service}
+                    </span>
                   </li>
                 ))}
               </ul>
@@ -56,7 +58,9 @@ export default function ClinicDetailsSection() {
                 <div className="flex items-start gap-3">
                   <Phone className="w-5 h-5 text-secondary mt-0.5 flex-shrink-0" />
                   <div>
-                    <p className="text-sm text-muted-foreground">For Appointment</p>
+                    <p className="text-sm text-muted-foreground">
+                      For Appointment
+                    </p>
                     <a
                       href="tel:9363716343"
                       className="text-lg font-semibold text-primary hover:underline"
@@ -69,9 +73,15 @@ export default function ClinicDetailsSection() {
                 <div className="flex items-start gap-3">
                   <Clock className="w-5 h-5 text-secondary mt-0.5 flex-shrink-0" />
                   <div>
-                    <p className="text-sm text-muted-foreground">Clinic Timings</p>
-                    <p className="font-semibold text-foreground">Mon to Sat | 7 PM to 9 PM</p>
-                    <p className="text-sm text-muted-foreground">Sundays on appointment</p>
+                    <p className="text-sm text-muted-foreground">
+                      Clinic Timings
+                    </p>
+                    <p className="font-semibold text-foreground">
+                      Mon to Sat | 7 PM to 9 PM
+                    </p>
+                    <p className="text-sm text-muted-foreground">
+                      Sundays on appointment
+                    </p>
                   </div>
                 </div>
 
@@ -80,7 +90,8 @@ export default function ClinicDetailsSection() {
                   <div>
                     <p className="text-sm text-muted-foreground">Address</p>
                     <p className="text-foreground">
-                      No.1, 1st street, Balaji Nagar,<br />
+                      No.1, 1st street, Balaji Nagar,
+                      <br />
                       Anakaputhur, Chennai - 600 070
                     </p>
                   </div>

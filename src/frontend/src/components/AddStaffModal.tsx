@@ -1,8 +1,4 @@
-import { useState } from 'react';
-import { useCreateStaff } from '../hooks/useStaffManagement';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
+import { Button } from "@/components/ui/button";
 import {
   Dialog,
   DialogContent,
@@ -10,9 +6,13 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-} from '@/components/ui/dialog';
-import { Loader2, UserPlus } from 'lucide-react';
-import { ActivationStatus } from '../backend';
+} from "@/components/ui/dialog";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Loader2, UserPlus } from "lucide-react";
+import { useState } from "react";
+import { ActivationStatus } from "../backend";
+import { useCreateStaff } from "../hooks/useStaffManagement";
 
 interface AddStaffModalProps {
   open: boolean;
@@ -20,9 +20,9 @@ interface AddStaffModalProps {
 }
 
 export default function AddStaffModal({ open, onClose }: AddStaffModalProps) {
-  const [userId, setUserId] = useState('');
-  const [password, setPassword] = useState('');
-  const [email, setEmail] = useState('');
+  const [userId, setUserId] = useState("");
+  const [password, setPassword] = useState("");
+  const [email, setEmail] = useState("");
   const createStaff = useCreateStaff();
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -41,21 +41,21 @@ export default function AddStaffModal({ open, onClose }: AddStaffModalProps) {
       });
 
       // Reset form and close modal
-      setUserId('');
-      setPassword('');
-      setEmail('');
+      setUserId("");
+      setPassword("");
+      setEmail("");
       onClose();
     } catch (error) {
       // Error is handled by the mutation
-      console.error('Error creating staff:', error);
+      console.error("Error creating staff:", error);
     }
   };
 
   const handleClose = () => {
     if (!createStaff.isPending) {
-      setUserId('');
-      setPassword('');
-      setEmail('');
+      setUserId("");
+      setPassword("");
+      setEmail("");
       onClose();
     }
   };
@@ -125,7 +125,9 @@ export default function AddStaffModal({ open, onClose }: AddStaffModalProps) {
             </Button>
             <Button
               type="submit"
-              disabled={createStaff.isPending || !userId.trim() || !password.trim()}
+              disabled={
+                createStaff.isPending || !userId.trim() || !password.trim()
+              }
               className="bg-gradient-to-r from-vijaya-cyan-500 to-vijaya-blue-500 hover:from-vijaya-cyan-600 hover:to-vijaya-blue-600"
             >
               {createStaff.isPending ? (

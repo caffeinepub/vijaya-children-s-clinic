@@ -1,8 +1,8 @@
-import { useNavigate } from '@tanstack/react-router';
-import { Button } from '@/components/ui/button';
-import { Card, CardContent } from '@/components/ui/card';
-import ClinicDetailsSection from '@/components/ClinicDetailsSection';
-import { Calendar, Clock, Heart, Shield } from 'lucide-react';
+import ClinicDetailsSection from "@/components/ClinicDetailsSection";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent } from "@/components/ui/card";
+import { useNavigate } from "@tanstack/react-router";
+import { Calendar, Clock, Heart, Shield } from "lucide-react";
 
 export default function LandingPage() {
   const navigate = useNavigate();
@@ -10,46 +10,50 @@ export default function LandingPage() {
   const features = [
     {
       icon: Calendar,
-      title: 'Easy Scheduling',
-      description: 'Book appointments at your convenience with our simple online system.',
+      title: "Easy Scheduling",
+      description:
+        "Book appointments at your convenience with our simple online system.",
     },
     {
       icon: Clock,
-      title: 'Flexible Timings',
-      description: 'Mon to Sat | 7 PM to 9 PM - Evening hours for your convenience.',
+      title: "Flexible Timings",
+      description:
+        "Mon to Sat | 7 PM to 9 PM - Evening hours for your convenience.",
     },
     {
       icon: Heart,
-      title: 'Caring Environment',
-      description: 'A warm, child-friendly clinic dedicated to your little one\'s health.',
+      title: "Caring Environment",
+      description:
+        "A warm, child-friendly clinic dedicated to your little one's health.",
     },
     {
       icon: Shield,
-      title: 'Expert Care',
-      description: 'Professional pediatric care from a qualified specialist you can trust.',
+      title: "Expert Care",
+      description:
+        "Professional pediatric care from a qualified specialist you can trust.",
     },
   ];
 
   const services = [
     {
-      name: 'Newborn Care',
-      icon: '/assets/generated/service-newborn.dim_120x120.png',
+      name: "Newborn Care",
+      icon: "/assets/generated/service-newborn.dim_120x120.png",
     },
     {
-      name: 'Vaccination',
-      icon: '/assets/generated/service-vaccination.dim_120x120.png',
+      name: "Vaccination",
+      icon: "/assets/generated/service-vaccination.dim_120x120.png",
     },
     {
-      name: 'Fever',
-      icon: '/assets/generated/service-fever.dim_120x120.png',
+      name: "Fever",
+      icon: "/assets/generated/service-fever.dim_120x120.png",
     },
     {
-      name: 'Nebulization',
-      icon: '/assets/generated/service-nebulization.dim_120x120.png',
+      name: "Nebulization",
+      icon: "/assets/generated/service-nebulization.dim_120x120.png",
     },
     {
-      name: 'Growth Monitoring',
-      icon: '/assets/generated/service-growth.dim_120x120.png',
+      name: "Growth Monitoring",
+      icon: "/assets/generated/service-growth.dim_120x120.png",
     },
   ];
 
@@ -83,15 +87,13 @@ export default function LandingPage() {
                 <p className="text-base text-foreground font-medium">
                   Consultant Paediatrician - New Born and Child Specialist
                 </p>
-                <p className="text-sm text-muted-foreground">
-                  Reg.No: 152853
-                </p>
+                <p className="text-sm text-muted-foreground">Reg.No: 152853</p>
               </div>
               <div className="flex flex-col sm:flex-row gap-4 pt-4">
                 <Button
                   size="lg"
                   className="text-lg px-8 py-6 shadow-lg hover:shadow-xl transition-all bg-primary hover:bg-primary/90"
-                  onClick={() => navigate({ to: '/book' })}
+                  onClick={() => navigate({ to: "/book" })}
                 >
                   Book Appointment
                 </Button>
@@ -99,7 +101,7 @@ export default function LandingPage() {
                   size="lg"
                   variant="outline"
                   className="text-lg px-8 py-6 border-2 border-primary text-primary hover:bg-primary/10"
-                  onClick={() => navigate({ to: '/staff' })}
+                  onClick={() => navigate({ to: "/staff" })}
                 >
                   Staff Portal
                 </Button>
@@ -124,12 +126,16 @@ export default function LandingPage() {
               Our Services
             </h2>
             <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-              Comprehensive pediatric care for your child's health and development
+              Comprehensive pediatric care for your child's health and
+              development
             </p>
           </div>
           <div className="flex flex-wrap justify-center gap-8 max-w-4xl mx-auto">
-            {services.map((service, index) => (
-              <div key={index} className="flex flex-col items-center space-y-3 w-32">
+            {services.map((service) => (
+              <div
+                key={service.name}
+                className="flex flex-col items-center space-y-3 w-32"
+              >
                 <div className="w-24 h-24 rounded-full bg-gradient-to-br from-vijaya-blue-100 to-vijaya-green-100 p-1 shadow-lg">
                   <div className="w-full h-full rounded-full bg-white flex items-center justify-center overflow-hidden">
                     <img
@@ -156,17 +162,23 @@ export default function LandingPage() {
               Why Choose Us
             </h2>
             <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-              We're committed to providing the best care for your children in a warm and welcoming environment.
+              We're committed to providing the best care for your children in a
+              warm and welcoming environment.
             </p>
           </div>
           <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            {features.map((feature, index) => (
-              <Card key={index} className="border-2 hover:shadow-lg transition-shadow bg-card/90 backdrop-blur">
+            {features.map((feature) => (
+              <Card
+                key={feature.title}
+                className="border-2 hover:shadow-lg transition-shadow bg-card/90 backdrop-blur"
+              >
                 <CardContent className="pt-6 text-center space-y-4">
                   <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-gradient-to-br from-vijaya-blue-100 to-vijaya-cyan-100">
                     <feature.icon className="w-8 h-8 text-primary" />
                   </div>
-                  <h3 className="text-xl font-semibold text-foreground">{feature.title}</h3>
+                  <h3 className="text-xl font-semibold text-foreground">
+                    {feature.title}
+                  </h3>
                   <p className="text-muted-foreground">{feature.description}</p>
                 </CardContent>
               </Card>
@@ -185,16 +197,17 @@ export default function LandingPage() {
             Ready to Schedule Your Visit?
           </h2>
           <p className="text-lg text-primary/80 mb-8 max-w-2xl mx-auto">
-            Take the first step towards your child's health and wellness. Call us at{' '}
+            Take the first step towards your child's health and wellness. Call
+            us at{" "}
             <a href="tel:9363716343" className="font-semibold hover:underline">
               93637 16343
-            </a>{' '}
+            </a>{" "}
             or book online now.
           </p>
           <Button
             size="lg"
             className="text-lg px-10 py-6 shadow-lg hover:shadow-xl transition-all bg-primary hover:bg-primary/90"
-            onClick={() => navigate({ to: '/book' })}
+            onClick={() => navigate({ to: "/book" })}
           >
             Book Your Appointment Now
           </Button>

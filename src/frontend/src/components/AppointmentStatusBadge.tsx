@@ -1,23 +1,31 @@
-import { Badge } from '@/components/ui/badge';
-import { AppointmentStatus } from '../backend';
+import { Badge } from "@/components/ui/badge";
+import { AppointmentStatus } from "../backend";
 
 interface AppointmentStatusBadgeProps {
   status: AppointmentStatus;
 }
 
-export default function AppointmentStatusBadge({ status }: AppointmentStatusBadgeProps) {
+export default function AppointmentStatusBadge({
+  status,
+}: AppointmentStatusBadgeProps) {
   const getStatusColor = (status: AppointmentStatus) => {
     switch (status) {
       case AppointmentStatus.pending:
-        return 'bg-yellow-500/10 text-yellow-700 dark:text-yellow-400 border-yellow-500/20';
+        return "bg-yellow-500/10 text-yellow-700 dark:text-yellow-400 border-yellow-500/20";
       case AppointmentStatus.confirmed:
-        return 'bg-blue-500/10 text-blue-700 dark:text-blue-400 border-blue-500/20';
+        return "bg-blue-500/10 text-blue-700 dark:text-blue-400 border-blue-500/20";
       case AppointmentStatus.completed:
-        return 'bg-green-500/10 text-green-700 dark:text-green-400 border-green-500/20';
+        return "bg-green-500/10 text-green-700 dark:text-green-400 border-green-500/20";
       case AppointmentStatus.cancelled:
-        return 'bg-gray-500/10 text-gray-700 dark:text-gray-400 border-gray-500/20';
+        return "bg-gray-500/10 text-gray-700 dark:text-gray-400 border-gray-500/20";
+      case AppointmentStatus.review:
+        return "bg-purple-500/10 text-purple-700 dark:text-purple-400 border-purple-500/20";
+      case AppointmentStatus.postponed:
+        return "bg-orange-500/10 text-orange-700 dark:text-orange-400 border-orange-500/20";
+      case AppointmentStatus.preponed:
+        return "bg-teal-500/10 text-teal-700 dark:text-teal-400 border-teal-500/20";
       default:
-        return '';
+        return "";
     }
   };
 

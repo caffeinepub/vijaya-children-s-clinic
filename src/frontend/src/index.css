@@ -3,159 +3,169 @@
 @tailwind utilities;
 
 @layer base {
-    :root {
-        --radius: 0.75rem;
-        
-        /* Vijaya Children's Clinic color palette - cyan, green, blue from branding */
-        --background: 0.99 0 0;
-        --foreground: 0.2 0 0;
-        
-        --card: 1 0.01 220 / 0.95;
-        --card-foreground: 0.2 0 0;
-        
-        --popover: 1 0.01 220 / 0.95;
-        --popover-foreground: 0.2 0 0;
-        
-        /* Primary: Rich blue (#2196F3) */
-        --primary: 0.60 0.20 250;
-        --primary-foreground: 0.99 0 0;
-        
-        /* Secondary: Vibrant green (#4CAF50) */
-        --secondary: 0.70 0.18 145;
-        --secondary-foreground: 0.15 0.02 145;
-        
-        --muted: 0.96 0.02 220;
-        --muted-foreground: 0.5 0.02 220;
-        
-        /* Accent: Bright cyan (#00BCD4) */
-        --accent: 0.72 0.16 200;
-        --accent-foreground: 0.99 0 0;
-        
-        --destructive: 0.577 0.245 27.325;
-        --destructive-foreground: 0.99 0 0;
-        
-        --border: 0.92 0.02 220;
-        --input: 0.92 0.02 220;
-        --ring: 0.60 0.20 250;
-        
-        /* Vijaya cyan scale (#00BCD4) */
-        --vijaya-cyan-50: 0.96 0.04 200;
-        --vijaya-cyan-100: 0.90 0.08 200;
-        --vijaya-cyan-200: 0.82 0.12 200;
-        --vijaya-cyan-500: 0.72 0.16 200;
-        --vijaya-cyan-600: 0.65 0.18 200;
-        --vijaya-cyan-700: 0.55 0.16 200;
-        --vijaya-cyan-900: 0.40 0.12 200;
-        
-        /* Vijaya green scale (#4CAF50) */
-        --vijaya-green-50: 0.96 0.06 145;
-        --vijaya-green-100: 0.90 0.10 145;
-        --vijaya-green-200: 0.82 0.14 145;
-        --vijaya-green-500: 0.70 0.18 145;
-        --vijaya-green-600: 0.62 0.20 145;
-        --vijaya-green-700: 0.52 0.18 145;
-        --vijaya-green-900: 0.38 0.14 145;
-        
-        /* Vijaya blue scale (#2196F3) */
-        --vijaya-blue-50: 0.96 0.04 250;
-        --vijaya-blue-100: 0.90 0.08 250;
-        --vijaya-blue-200: 0.82 0.12 250;
-        --vijaya-blue-500: 0.60 0.20 250;
-        --vijaya-blue-600: 0.52 0.22 250;
-        --vijaya-blue-700: 0.42 0.20 250;
-        --vijaya-blue-900: 0.30 0.16 250;
-    }
+  :root {
+    --radius: 0.75rem;
 
-    .dark {
-        --background: 0.18 0.02 240;
-        --foreground: 0.96 0.01 220;
-        
-        --card: 0.22 0.02 240 / 0.95;
-        --card-foreground: 0.96 0.01 220;
-        
-        --popover: 0.20 0.02 240 / 0.95;
-        --popover-foreground: 0.96 0.01 220;
-        
-        /* Primary: Lighter blue for dark mode */
-        --primary: 0.68 0.18 250;
-        --primary-foreground: 0.15 0.02 250;
-        
-        --secondary: 0.75 0.16 145;
-        --secondary-foreground: 0.15 0.02 145;
-        
-        --muted: 0.28 0.03 240;
-        --muted-foreground: 0.65 0.03 220;
-        
-        --accent: 0.75 0.14 200;
-        --accent-foreground: 0.15 0.02 200;
-        
-        --destructive: 0.65 0.20 25;
-        --destructive-foreground: 0.96 0.01 220;
-        
-        --border: 0.30 0.03 240;
-        --input: 0.30 0.03 240;
-        --ring: 0.68 0.18 250;
-        
-        /* Dark mode cyan scale */
-        --vijaya-cyan-50: 0.25 0.04 200;
-        --vijaya-cyan-100: 0.32 0.06 200;
-        --vijaya-cyan-200: 0.42 0.08 200;
-        --vijaya-cyan-500: 0.65 0.14 200;
-        --vijaya-cyan-600: 0.72 0.16 200;
-        --vijaya-cyan-700: 0.78 0.16 200;
-        --vijaya-cyan-900: 0.85 0.14 200;
-        
-        /* Dark mode green scale */
-        --vijaya-green-50: 0.28 0.06 145;
-        --vijaya-green-100: 0.35 0.08 145;
-        --vijaya-green-200: 0.45 0.10 145;
-        --vijaya-green-500: 0.68 0.16 145;
-        --vijaya-green-600: 0.75 0.18 145;
-        --vijaya-green-700: 0.82 0.18 145;
-        --vijaya-green-900: 0.88 0.16 145;
-        
-        /* Dark mode blue scale */
-        --vijaya-blue-50: 0.25 0.04 250;
-        --vijaya-blue-100: 0.32 0.06 250;
-        --vijaya-blue-200: 0.42 0.08 250;
-        --vijaya-blue-500: 0.62 0.18 250;
-        --vijaya-blue-600: 0.70 0.20 250;
-        --vijaya-blue-700: 0.78 0.20 250;
-        --vijaya-blue-900: 0.85 0.18 250;
-    }
+    /* Vijaya Children's Clinic color palette - cyan, green, blue from branding */
+    --background: 0.99 0 0;
+    --foreground: 0.2 0 0;
 
-    * {
-        @apply border-border;
-    }
-    
-    body {
-        @apply bg-background text-foreground;
-        font-feature-settings: "rlig" 1, "calt" 1;
-        background-image: url('/assets/generated/vijaya-banner-background.dim_1920x1080.png');
-        background-size: cover;
-        background-position: center;
-        background-attachment: fixed;
-        background-repeat: no-repeat;
-    }
-    
-    body::before {
-        content: '';
-        position: fixed;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        background: oklch(var(--background) / 0.85);
-        z-index: -1;
-    }
+    --card: 1 0.01 220 / 0.95;
+    --card-foreground: 0.2 0 0;
+
+    --popover: 1 0.01 220 / 0.95;
+    --popover-foreground: 0.2 0 0;
+
+    /* Primary: Rich blue (#2196F3) */
+    --primary: 0.6 0.2 250;
+    --primary-foreground: 0.99 0 0;
+
+    /* Secondary: Vibrant green (#4CAF50) */
+    --secondary: 0.7 0.18 145;
+    --secondary-foreground: 0.15 0.02 145;
+
+    --muted: 0.96 0.02 220;
+    --muted-foreground: 0.5 0.02 220;
+
+    /* Accent: Bright cyan (#00BCD4) */
+    --accent: 0.72 0.16 200;
+    --accent-foreground: 0.99 0 0;
+
+    --destructive: 0.577 0.245 27.325;
+    --destructive-foreground: 0.99 0 0;
+
+    --border: 0.92 0.02 220;
+    --input: 0.92 0.02 220;
+    --ring: 0.6 0.2 250;
+
+    /* Vijaya cyan scale (#00BCD4) */
+    --vijaya-cyan-50: 0.96 0.04 200;
+    --vijaya-cyan-100: 0.9 0.08 200;
+    --vijaya-cyan-200: 0.82 0.12 200;
+    --vijaya-cyan-500: 0.72 0.16 200;
+    --vijaya-cyan-600: 0.65 0.18 200;
+    --vijaya-cyan-700: 0.55 0.16 200;
+    --vijaya-cyan-900: 0.4 0.12 200;
+
+    /* Vijaya green scale (#4CAF50) */
+    --vijaya-green-50: 0.96 0.06 145;
+    --vijaya-green-100: 0.9 0.1 145;
+    --vijaya-green-200: 0.82 0.14 145;
+    --vijaya-green-500: 0.7 0.18 145;
+    --vijaya-green-600: 0.62 0.2 145;
+    --vijaya-green-700: 0.52 0.18 145;
+    --vijaya-green-900: 0.38 0.14 145;
+
+    /* Vijaya blue scale (#2196F3) */
+    --vijaya-blue-50: 0.96 0.04 250;
+    --vijaya-blue-100: 0.9 0.08 250;
+    --vijaya-blue-200: 0.82 0.12 250;
+    --vijaya-blue-500: 0.6 0.2 250;
+    --vijaya-blue-600: 0.52 0.22 250;
+    --vijaya-blue-700: 0.42 0.2 250;
+    --vijaya-blue-900: 0.3 0.16 250;
+  }
+
+  .dark {
+    --background: 0.18 0.02 240;
+    --foreground: 0.96 0.01 220;
+
+    --card: 0.22 0.02 240 / 0.95;
+    --card-foreground: 0.96 0.01 220;
+
+    --popover: 0.2 0.02 240 / 0.95;
+    --popover-foreground: 0.96 0.01 220;
+
+    /* Primary: Lighter blue for dark mode */
+    --primary: 0.68 0.18 250;
+    --primary-foreground: 0.15 0.02 250;
+
+    --secondary: 0.75 0.16 145;
+    --secondary-foreground: 0.15 0.02 145;
+
+    --muted: 0.28 0.03 240;
+    --muted-foreground: 0.65 0.03 220;
+
+    --accent: 0.75 0.14 200;
+    --accent-foreground: 0.15 0.02 200;
+
+    --destructive: 0.65 0.2 25;
+    --destructive-foreground: 0.96 0.01 220;
+
+    --border: 0.3 0.03 240;
+    --input: 0.3 0.03 240;
+    --ring: 0.68 0.18 250;
+
+    /* Dark mode cyan scale */
+    --vijaya-cyan-50: 0.25 0.04 200;
+    --vijaya-cyan-100: 0.32 0.06 200;
+    --vijaya-cyan-200: 0.42 0.08 200;
+    --vijaya-cyan-500: 0.65 0.14 200;
+    --vijaya-cyan-600: 0.72 0.16 200;
+    --vijaya-cyan-700: 0.78 0.16 200;
+    --vijaya-cyan-900: 0.85 0.14 200;
+
+    /* Dark mode green scale */
+    --vijaya-green-50: 0.28 0.06 145;
+    --vijaya-green-100: 0.35 0.08 145;
+    --vijaya-green-200: 0.45 0.1 145;
+    --vijaya-green-500: 0.68 0.16 145;
+    --vijaya-green-600: 0.75 0.18 145;
+    --vijaya-green-700: 0.82 0.18 145;
+    --vijaya-green-900: 0.88 0.16 145;
+
+    /* Dark mode blue scale */
+    --vijaya-blue-50: 0.25 0.04 250;
+    --vijaya-blue-100: 0.32 0.06 250;
+    --vijaya-blue-200: 0.42 0.08 250;
+    --vijaya-blue-500: 0.62 0.18 250;
+    --vijaya-blue-600: 0.7 0.2 250;
+    --vijaya-blue-700: 0.78 0.2 250;
+    --vijaya-blue-900: 0.85 0.18 250;
+  }
+
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+    font-feature-settings: "rlig" 1, "calt" 1;
+    background-image: url("/assets/generated/vijaya-banner-background.dim_1920x1080.png");
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    background-repeat: no-repeat;
+  }
+
+  body::before {
+    content: "";
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: oklch(var(--background) / 0.85);
+    z-index: -1;
+  }
 }
 
 @layer utilities {
-    .vijaya-gradient {
-        background: linear-gradient(135deg, oklch(var(--vijaya-blue-100)), oklch(var(--vijaya-cyan-100)), oklch(var(--vijaya-green-100)));
-    }
-    
-    .vijaya-gradient-reverse {
-        background: linear-gradient(135deg, oklch(var(--vijaya-green-100)), oklch(var(--vijaya-cyan-100)), oklch(var(--vijaya-blue-100)));
-    }
+  .vijaya-gradient {
+    background: linear-gradient(
+      135deg,
+      oklch(var(--vijaya-blue-100)),
+      oklch(var(--vijaya-cyan-100)),
+      oklch(var(--vijaya-green-100))
+    );
+  }
+
+  .vijaya-gradient-reverse {
+    background: linear-gradient(
+      135deg,
+      oklch(var(--vijaya-green-100)),
+      oklch(var(--vijaya-cyan-100)),
+      oklch(var(--vijaya-blue-100))
+    );
+  }
 }

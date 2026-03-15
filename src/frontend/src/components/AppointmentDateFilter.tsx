@@ -1,20 +1,27 @@
-import { useState } from 'react';
-import { Button } from '@/components/ui/button';
-import { Calendar } from '@/components/ui/calendar';
-import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
-import { Calendar as CalendarIcon, X } from 'lucide-react';
-import { DateRange } from 'react-day-picker';
-import type { DateFilter } from '../utils/dateFilters';
+import { Button } from "@/components/ui/button";
+import { Calendar } from "@/components/ui/calendar";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
+import { Calendar as CalendarIcon, X } from "lucide-react";
+import { useState } from "react";
+import type { DateRange } from "react-day-picker";
+import type { DateFilter } from "../utils/dateFilters";
 
 interface AppointmentDateFilterProps {
   currentFilter: DateFilter;
   onFilterChange: (filter: DateFilter) => void;
 }
 
-export default function AppointmentDateFilter({ currentFilter, onFilterChange }: AppointmentDateFilterProps) {
+export default function AppointmentDateFilter({
+  currentFilter,
+  onFilterChange,
+}: AppointmentDateFilterProps) {
   const [dateRange, setDateRange] = useState<DateRange | undefined>(undefined);
 
-  const handlePresetFilter = (type: 'today' | 'week' | 'month') => {
+  const handlePresetFilter = (type: "today" | "week" | "month") => {
     onFilterChange({ type });
   };
 
@@ -22,7 +29,7 @@ export default function AppointmentDateFilter({ currentFilter, onFilterChange }:
     setDateRange(range);
     if (range?.from && range?.to) {
       onFilterChange({
-        type: 'custom',
+        type: "custom",
         startDate: range.from,
         endDate: range.to,
       });
@@ -31,32 +38,32 @@ export default function AppointmentDateFilter({ currentFilter, onFilterChange }:
 
   const handleClearFilters = () => {
     setDateRange(undefined);
-    onFilterChange({ type: 'all' });
+    onFilterChange({ type: "all" });
   };
 
-  const isActive = currentFilter.type !== 'all';
+  const isActive = currentFilter.type !== "all";
 
   return (
     <div className="flex flex-wrap items-center gap-2">
       <div className="flex items-center gap-2">
         <Button
-          variant={currentFilter.type === 'today' ? 'default' : 'outline'}
+          variant={currentFilter.type === "today" ? "default" : "outline"}
           size="sm"
-          onClick={() => handlePresetFilter('today')}
+          onClick={() => handlePresetFilter("today")}
         >
           Today
         </Button>
         <Button
-          variant={currentFilter.type === 'week' ? 'default' : 'outline'}
+          variant={currentFilter.type === "week" ? "default" : "outline"}
           size="sm"
-          onClick={() => handlePresetFilter('week')}
+          onClick={() => handlePresetFilter("week")}
         >
           This Week
         </Button>
         <Button
-          variant={currentFilter.type === 'month' ? 'default' : 'outline'}
+          variant={currentFilter.type === "month" ? "default" : "outline"}
           size="sm"
-          onClick={() => handlePresetFilter('month')}
+          onClick={() => handlePresetFilter("month")}
         >
           This Month
         </Button>
@@ -64,7 +71,10 @@ export default function AppointmentDateFilter({ currentFilter, onFilterChange }:
 
       <Popover>
         <PopoverTrigger asChild>
-          <Button variant={currentFilter.type === 'custom' ? 'default' : 'outline'} size="sm">
+          <Button
+            variant={currentFilter.type === "custom" ? "default" : "outline"}
+            size="sm"
+          >
             <CalendarIcon className="w-4 h-4 mr-2" />
             Custom Range
           </Button>
