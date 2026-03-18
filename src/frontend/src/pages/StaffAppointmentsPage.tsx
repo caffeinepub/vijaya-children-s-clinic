@@ -27,7 +27,7 @@ import {
   Phone,
   User,
 } from "lucide-react";
-import { useEffect, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 import type { AppointmentStatus } from "../backend";
 import AppointmentDateFilter from "../components/AppointmentDateFilter";
 import AppointmentSearchBar from "../components/AppointmentSearchBar";
@@ -46,7 +46,8 @@ import {
 import { filterAppointmentsBySearch } from "../utils/searchFilter";
 
 export default function StaffAppointmentsPage() {
-  const { isAuthenticated, logout, isLoggingIn } = useStaffAuth();
+  // Single auth instance — passed down to login form as props
+  const { isAuthenticated, login, isLoggingIn, error, logout } = useStaffAuth();
   const {
     data: appointments,
     isLoading: appointmentsLoading,
@@ -57,49 +58,12 @@ export default function StaffAppointmentsPage() {
   const [dateFilter, setDateFilter] = useState<DateFilter>({ type: "all" });
   const [searchQuery, setSearchQuery] = useState("");
 
-  // Validate session on component mount and window focus
-  useEffect(() => {
-    if (isAuthenticated) {
-      const validateSession = () => {
-        const storedAuth = localStorage.getItem("vijaya_clinic_staff_auth");
-        if (storedAuth) {
-          try {
-            const authState = JSON.parse(storedAuth);
-            const isValid =
-              Date.now() - authState.timestamp < 24 * 60 * 60 * 1000;
-
-            if (!isValid) {
-              // Session expired
-              logout();
-            }
-          } catch {
-            logout();
-          }
-        } else {
-          // No session found
-          logout();
-        }
-      };
-
-      const handleFocus = () => validateSession();
-      window.addEventListener("focus", handleFocus);
-
-      return () => window.removeEventListener("focus", handleFocus);
-    }
-  }, [isAuthenticated, logout]);
-
   // Apply filters
   const filteredAppointments = useMemo(() => {
     if (!appointments) return [];
-
     let filtered = [...appointments];
-
-    // Apply date filter
     filtered = filterAppointmentsByDate(filtered, dateFilter);
-
-    // Apply search filter
     filtered = filterAppointmentsBySearch(filtered, searchQuery);
-
     return filtered;
   }, [appointments, dateFilter, searchQuery]);
 
@@ -107,21 +71,21 @@ export default function StaffAppointmentsPage() {
     await logout();
   };
 
-  // Show login form if not authenticated
+  // Show login form if not authenticated — pass auth props to avoid dual-instance bug
   if (!isAuthenticated) {
-    return <StaffLoginForm />;
+    return (
+      <StaffLoginForm login={login} isLoggingIn={isLoggingIn} error={error} />
+    );
   }
 
-  // Show loading state while checking authentication or loading appointments
-  if (isLoggingIn || appointmentsLoading) {
+  // Show loading state while loading appointments
+  if (appointmentsLoading) {
     return (
       <div className="container mx-auto px-4 py-12">
         <div className="flex items-center justify-center min-h-[400px]">
           <div className="text-center space-y-4">
             <Loader2 className="w-12 h-12 animate-spin mx-auto text-primary" />
-            <p className="text-muted-foreground">
-              {isLoggingIn ? "Authenticating..." : "Loading appointments..."}
-            </p>
+            <p className="text-muted-foreground">Loading appointments...</p>
           </div>
         </div>
       </div>
@@ -205,7 +169,11 @@ export default function StaffAppointmentsPage() {
             Manage appointments for Vijaya Children's Clinic
           </p>
         </div>
-        <Button variant="outline" onClick={handleLogout}>
+        <Button
+          data-ocid="staff.secondary_button"
+          variant="outline"
+          onClick={handleLogout}
+        >
           <LogOut className="mr-2 h-4 w-4" />
           Log Out
         </Button>
@@ -243,7 +211,10 @@ export default function StaffAppointmentsPage() {
         </CardHeader>
         <CardContent>
           {filteredAppointments.length === 0 ? (
-            <div className="text-center py-12">
+            <div
+              data-ocid="staff.appointments.empty_state"
+              className="text-center py-12"
+            >
               <Calendar className="w-16 h-16 mx-auto text-muted-foreground mb-4" />
               <p className="text-lg font-medium text-muted-foreground mb-2">
                 No appointments found
@@ -256,7 +227,7 @@ export default function StaffAppointmentsPage() {
             </div>
           ) : (
             <div className="overflow-x-auto">
-              <Table>
+              <Table data-ocid="staff.appointments.table">
                 <TableHeader>
                   <TableRow>
                     <TableHead className="w-[50px]">#</TableHead>
@@ -270,7 +241,6 @@ export default function StaffAppointmentsPage() {
                 </TableHeader>
                 <TableBody>
                   {filteredAppointments.map((appointment, index) => {
-                    // Find the original index in the full appointments array
                     const originalIndex =
                       appointments?.findIndex(
                         (a) =>
@@ -281,8 +251,9 @@ export default function StaffAppointmentsPage() {
                           a.preferredTime === appointment.preferredTime,
                       ) ?? index;
 
+                    // preferredDate is stored as nanoseconds — divide by 1_000_000n to get milliseconds
                     const appointmentDate = new Date(
-                      Number(appointment.preferredDate),
+                      Number(appointment.preferredDate / 1_000_000n),
                     );
 
                     return (

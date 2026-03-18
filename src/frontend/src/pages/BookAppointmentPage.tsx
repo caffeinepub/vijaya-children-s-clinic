@@ -14,6 +14,7 @@ import { useNavigate } from "@tanstack/react-router";
 import { Loader2, Phone } from "lucide-react";
 import { useState } from "react";
 import { AppointmentStatus } from "../backend";
+import { useActor } from "../hooks/useActor";
 import { useCreateAppointment } from "../hooks/useQueries";
 
 const TIME_SLOTS = [
@@ -31,6 +32,7 @@ const TIME_SLOTS = [
 export default function BookAppointmentPage() {
   const navigate = useNavigate();
   const createAppointment = useCreateAppointment();
+  const { actor, isFetching: actorLoading } = useActor();
 
   const [formData, setFormData] = useState({
     parentName: "",
@@ -87,10 +89,10 @@ export default function BookAppointmentPage() {
         childAge: BigInt(formData.childAge),
         phoneNumber: formData.phoneNumber,
         email: formData.email || undefined,
-        preferredDate: BigInt(selectedDate!.getTime() * 1_000_000),
+        preferredDate: BigInt(selectedDate!.getTime()) * 1_000_000n,
         preferredTime: selectedTime,
         reason: formData.reason,
-        submissionTime: BigInt(Date.now() * 1_000_000),
+        submissionTime: BigInt(Date.now()) * 1_000_000n,
         status: AppointmentStatus.pending,
       });
 
@@ -100,6 +102,9 @@ export default function BookAppointmentPage() {
       setErrors({ submit: "Failed to submit appointment. Please try again." });
     }
   };
+
+  const isSubmitDisabled =
+    createAppointment.isPending || !actor || actorLoading;
 
   return (
     <div className="container mx-auto px-4 py-12 max-w-4xl">
@@ -145,6 +150,7 @@ export default function BookAppointmentPage() {
                   </Label>
                   <Input
                     id="parentName"
+                    data-ocid="appointment.input"
                     value={formData.parentName}
                     onChange={(e) =>
                       handleInputChange("parentName", e.target.value)
@@ -325,20 +331,29 @@ export default function BookAppointmentPage() {
           {/* Submit Button */}
           <div className="flex flex-col gap-3">
             {errors.submit && (
-              <div className="bg-destructive/10 border border-destructive text-destructive px-4 py-3 rounded-md">
+              <div
+                data-ocid="appointment.error_state"
+                className="bg-destructive/10 border border-destructive text-destructive px-4 py-3 rounded-md"
+              >
                 {errors.submit}
               </div>
             )}
             <Button
               type="submit"
               size="lg"
+              data-ocid="appointment.submit_button"
               className="w-full text-lg py-6 bg-primary hover:bg-primary/90"
-              disabled={createAppointment.isPending}
+              disabled={isSubmitDisabled}
             >
               {createAppointment.isPending ? (
                 <>
                   <Loader2 className="mr-2 h-5 w-5 animate-spin" />
                   Submitting...
+                </>
+              ) : actorLoading || !actor ? (
+                <>
+                  <Loader2 className="mr-2 h-5 w-5 animate-spin" />
+                  Loading...
                 </>
               ) : (
                 "Submit Appointment Request"

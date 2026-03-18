@@ -11,22 +11,25 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { AlertCircle, Eye, EyeOff, Loader2 } from "lucide-react";
 import { useState } from "react";
-import { useStaffAuth } from "../hooks/useStaffAuth";
 
-export default function StaffLoginForm() {
+interface StaffLoginFormProps {
+  login: (userId: string, password: string) => Promise<boolean>;
+  isLoggingIn: boolean;
+  error: string | null;
+}
+
+export default function StaffLoginForm({
+  login,
+  isLoggingIn,
+  error,
+}: StaffLoginFormProps) {
   const [userId, setUserId] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
-  const { login, isLoggingIn, error } = useStaffAuth();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    const success = await login(userId, password);
-    if (success) {
-      // Clear form on successful login
-      setUserId("");
-      setPassword("");
-    }
+    await login(userId, password);
   };
 
   return (
